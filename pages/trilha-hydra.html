@@ -1,0 +1,134 @@
+<!-- TRILHA HYDRA — Brute Force -->
+<div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
+
+    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
+        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
+        <span class="badge badge-intermediate"><span data-lang-pt>⭐⭐ Intermediário</span><span data-lang-en>⭐⭐ Intermediate</span></span>
+    </div>
+    <div style="margin-bottom: var(--space-10);">
+        <h1 style="margin-bottom: var(--space-3);"><i class="fa-solid fa-key" style="color: var(--accent-warning);"></i> <span data-lang-pt>Trilha Brute Force Online (Hydra)</span><span data-lang-en>Online Brute Force Trail (Hydra)</span></h1>
+        <p class="text-muted" style="font-size: var(--fs-md); max-width: 650px;">
+            <span data-lang-pt>Quando não temos vulnerabilidades lógicas para explorar, testamos a força das credenciais de serviços expostos. O THC-Hydra é a ferramenta mais rápida do mercado para ataques de brute force online contra mais de 50 protocolos.</span>
+            <span data-lang-en>When logical vulnerabilities are absent, we test credential strength of exposed services. THC-Hydra is the fastest online brute force tool supporting over 50 network protocols.</span>
+        </p>
+        <div style="margin-top: var(--space-4); max-width: 400px;">
+            <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
+                <span class="progress-label text-sm" style="color: var(--accent-warning);">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="hydra" style="width: 0%; background: var(--accent-warning);"></div></div>
+        </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
+        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-warning);"></i> <span data-lang-pt>Configuração do Alvo</span><span data-lang-en>Target Configuration</span></h3>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>IP Alvo</span><span data-lang-en>Target IP</span></label>
+                <input type="text" id="target" value="192.168.1.100" data-cmd-input>
+            </div>
+            <div class="input-group">
+                <label><span data-lang-pt>Nome de Usuário</span><span data-lang-en>Username</span></label>
+                <input type="text" id="user" value="admin" data-cmd-input>
+                <span class="input-hint"><span data-lang-pt>Login para tentar quebrar (ex: admin, root)</span><span data-lang-en>Login to target (e.g., admin, root)</span></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Dicionário de Senhas</span><span data-lang-en>Password Wordlist</span></label>
+                <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+            </div>
+        </div>
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-warning);">Fase 1</div>
+        <h2><i class="fa-solid fa-fingerprint"></i> <span data-lang-pt>Confirmar o Serviço Ativo</span><span data-lang-en>Confirm Active Service</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Ataques de brute force online geram muito ruído de rede e logs no sistema. Só realizamos o ataque após confirmar que o serviço (ex: SSH na porta 22, FTP na 21) está ativo usando o Nmap.</span>
+            <span data-lang-en>Online brute force attacks generate network noise and log entries. We only launch the attack after verifying the targeted service (e.g., SSH on port 22, FTP on 21) is active using Nmap.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Confirmar porta SSH</span><span data-lang-en>Verify SSH Port</span></div>
+            <div class="command-box">
+                <code data-cmd="nmap -p 22 {target}">nmap -p 22 192.168.1.100</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="1"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Porta do serviço ativa e confirmada</span><span data-lang-en>Service port confirmed open</span></span></label>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-warning);">Fase 2</div>
+        <h2><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Brute Force SSH (Usuário Fixo)</span><span data-lang-en>Brute Force SSH (Single User)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Se suspeitamos de um usuário específico (ex: <code>root</code>), usamos a flag <code>-l</code> (minúsculo) para fixar o login e <code>-P</code> (maiúsculo) para a lista de senhas.</span>
+            <span data-lang-en>If we target a specific user (e.g., <code>root</code>), we use the <code>-l</code> flag (lowercase) to fix the login, and <code>-P</code> (uppercase) for the password wordlist.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-hammer"></i> Hydra SSH</div>
+            <div class="command-box">
+                <code data-cmd="hydra -l {user} -P {wordlist} ssh://{target} -t 4 -V">hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://192.168.1.100 -t 4 -V</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-warning">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span><span data-lang-pt><strong>Desempenho:</strong> Use o parâmetro <code>-t</code> para controlar o número de threads (conexões simultâneas). Para SSH, evite passar de 4 para não derrubar o serviço ou ser bloqueado imediatamente.</span><span data-lang-en><strong>Performance:</strong> Use <code>-t</code> to limit tasks (concurrent connections). For SSH, avoid going above 4 to prevent service crashes or immediate locking.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="2"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Ataque iniciado e usuário fixado</span><span data-lang-en>Attack launched with single user</span></span></label>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-warning);">Fase 3</div>
+        <h2><i class="fa-solid fa-folder-open"></i> <span data-lang-pt>Ataque FTP (Multi-Usuários)</span><span data-lang-en>FTP Attack (Multi-Users)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Se não sabemos o nome do usuário, passamos uma lista (wordlist) de logins usando a flag <code>-L</code> (maiúsculo). Serviços como FTP lidam melhor com mais threads.</span>
+            <span data-lang-en>If we do not know the user names, we supply a wordlist of usernames using the <code>-L</code> flag (uppercase). Protocols like FTP handle higher concurrency well.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-network-wired"></i> Hydra FTP</div>
+            <div class="command-box">
+                <code data-cmd="hydra -L users.txt -P {wordlist} ftp://{target} -t 16 -vV">hydra -L users.txt -P /usr/share/wordlists/rockyou.txt ftp://192.168.1.100 -t 16 -vV</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="3"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Ataque FTP com múltiplos logins executado</span><span data-lang-en>FTP multi-user attack executed</span></span></label>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-warning);">Fase 4</div>
+        <h2><i class="fa-solid fa-shield-halved"></i> <span data-lang-pt>Mitigação e Segurança</span><span data-lang-en>Mitigation & Hardening</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Ataques de brute force online são fáceis de mitigar. Melhores práticas defensivas incluem desativar autenticação por senhas (usando chaves criptográficas SSH no lugar), alterar portas padrão e instalar ferramentas de bloqueio automático como <strong>Fail2ban</strong>.</span>
+            <span data-lang-en>Online brute force attacks are easy to mitigate. Best hardening practices include disabling password login (using SSH keypairs instead), changing default ports, and installing automated lockout software like <strong>Fail2ban</strong>.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-lock"></i> <span data-lang-pt>Exemplo de Configuração SSH (/etc/ssh/sshd_config)</span><span data-lang-en>SSH Configuration Example (/etc/ssh/sshd_config)</span></div>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code>PasswordAuthentication no</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="4"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Conceitos de mitigação compreendidos</span><span data-lang-en>Mitigation concepts understood</span></span></label>
+    </div>
+
+    <!-- Completion -->
+    <div class="card-flat reveal" style="text-align: center; padding: var(--space-10);">
+        <i class="fa-solid fa-trophy" style="font-size: 3rem; color: var(--accent-warning); margin-bottom: var(--space-4); display: block;"></i>
+        <h2><span data-lang-pt>Trilha Brute Force Completa!</span><span data-lang-en>Brute Force Trail Complete!</span></h2>
+        <p class="text-muted" style="margin-top: var(--space-2); margin-bottom: var(--space-6);">
+            <span data-lang-pt>Fantástico! Agora dominaremos o Metasploit, o canivete suíço de exploração de vulnerabilidades.</span>
+            <span data-lang-en>Fantastic! Let's master Metasploit next, the Swiss-Army knife of exploit frameworks.</span>
+        </p>
+        <div class="flex justify-center gap-4 flex-wrap">
+            <a href="#/metasploit" class="btn btn-primary"><i class="fa-solid fa-arrow-right"></i> <span data-lang-pt>Trilha Metasploit</span><span data-lang-en>Metasploit Trail</span></a>
+            <a href="#/home" class="btn btn-ghost"><i class="fa-solid fa-house"></i> <span data-lang-pt>Início</span><span data-lang-en>Home</span></a>
+        </div>
+    </div>
+</div>

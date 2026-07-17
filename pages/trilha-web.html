@@ -1,0 +1,130 @@
+<!-- TRILHA WEB AUDITING — Gobuster & SQLmap -->
+<div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
+
+    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
+        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
+        <span class="badge badge-intermediate"><span data-lang-pt>⭐⭐ Intermediário</span><span data-lang-en>⭐⭐ Intermediate</span></span>
+    </div>
+    <div style="margin-bottom: var(--space-10);">
+        <h1 style="margin-bottom: var(--space-3);"><i class="fa-solid fa-globe" style="color: var(--accent-pink);"></i> <span data-lang-pt>Trilha Web Auditing (Gobuster & SQLmap)</span><span data-lang-en>Web Auditing Trail (Gobuster & SQLmap)</span></h1>
+        <p class="text-muted" style="font-size: var(--fs-md); max-width: 650px;">
+            <span data-lang-pt>Aplicações web são os principais vetores de entrada em corporações. Nesta trilha, aprenderemos a mapear caminhos ocultos em um servidor e a extrair o banco de dados via vulnerabilidade de SQL Injection.</span>
+            <span data-lang-en>Web applications are major entry vectors in enterprise networks. In this trail, we'll learn to map hidden paths on a server and extract database contents via SQL Injection vulnerabilities.</span>
+        </p>
+        <div style="margin-top: var(--space-4); max-width: 400px;">
+            <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
+                <span class="progress-label text-sm" style="color: var(--accent-pink);">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="web" style="width: 0%; background: var(--accent-pink);"></div></div>
+        </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
+        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-pink);"></i> <span data-lang-pt>Configuração Web</span><span data-lang-en>Web Setup</span></h3>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>URL Alvo</span><span data-lang-en>Target URL</span></label>
+                <input type="text" id="targetUrl" value="http://192.168.1.100/index.php?id=1" data-cmd-input>
+                <span class="input-hint"><span data-lang-pt>URL para testar SQL Injection (precisa do parâmetro vulnerável)</span><span data-lang-en>URL to test SQL Injection (requires query parameter)</span></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Wordlist de Diretórios</span><span data-lang-en>Directory Wordlist</span></label>
+                <input type="text" id="wordlist" value="/usr/share/wordlists/dirb/common.txt" data-cmd-input>
+            </div>
+        </div>
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-pink);">Fase 1</div>
+        <h2><i class="fa-solid fa-folder-tree"></i> <span data-lang-pt>Mapear Diretórios (Gobuster)</span><span data-lang-en>Directory Discovery (Gobuster)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Desenvolvedores frequentemente deixam arquivos ou painéis administrativos ocultos. Usamos o <code>gobuster</code> com uma wordlist para testar milhares de caminhos web comuns e localizar páginas de login ou diretórios ocultos.</span>
+            <span data-lang-en>Developers often leave hidden files or administrative portals. We use <code>gobuster</code> with a wordlist to test thousands of common web paths and locate hidden login pages or directories.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comando de Reconhecimento</span><span data-lang-en>Scan Command</span></div>
+            <div class="command-box">
+                <code data-cmd="gobuster dir -u {targetUrl} -w {wordlist}">gobuster dir -u http://192.168.1.100/index.php?id=1 -w /usr/share/wordlists/dirb/common.txt</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="1"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Diretórios e páginas ocultas localizados</span><span data-lang-en>Hidden directories and pages located</span></span></label>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-pink);">Fase 2</div>
+        <h2><i class="fa-solid fa-vial"></i> <span data-lang-pt>Detectando Vulnerabilidade SQLi</span><span data-lang-en>Detecting SQLi Vulnerability</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Se um formulário ou parâmetro de URL não filtra a entrada do usuário, comandos SQL podem ser injetados. Primeiro, testamos se o parâmetro (ex: <code>?id=1</code>) é vulnerável inserindo caracteres de aspas simples (<code>'</code>). Se a página der erro interno de SQL, a falha existe!</span>
+            <span data-lang-en>If an input form or URL parameter does not filter user input, SQL commands can be injected. First, we test if the parameter (e.g., <code>?id=1</code>) is vulnerable by inserting single quotes (<code>'</code>). If the page returns a database error, the vulnerability exists!</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-magnifying-glass"></i> <span data-lang-pt>Confirmar Vulnerabilidade com SQLmap</span><span data-lang-en>Confirm Vulnerability with SQLmap</span></div>
+            <div class="command-box">
+                <code data-cmd="sqlmap -u &quot;{targetUrl}&quot; --batch">sqlmap -u "http://192.168.1.100/index.php?id=1" --batch</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-info">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span><span data-lang-pt>O parâmetro <code>--batch</code> responde automaticamente com as opções padrão, facilitando a automação rápida do escaneamento do SQLmap.</span><span data-lang-en>The <code>--batch</code> flag automatically accepts the default options, making fast automation of SQLmap scans easier.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="2"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>SQL Injection confirmada pelo SQLmap</span><span data-lang-en>SQL Injection confirmed by SQLmap</span></span></label>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-pink);">Fase 3</div>
+        <h2><i class="fa-solid fa-database"></i> <span data-lang-pt>Mapeando os Bancos de Dados</span><span data-lang-en>Mapping Databases</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Com a falha confirmada, pedimos ao SQLmap para listar os bancos de dados acessíveis usando o parâmetro <code>--dbs</code>.</span>
+            <span data-lang-en>With the vulnerability confirmed, we ask SQLmap to list all accessible databases using the <code>--dbs</code> flag.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-server"></i> <span data-lang-pt>Mapear Bancos</span><span data-lang-en>Map Databases</span></div>
+            <div class="command-box">
+                <code data-cmd="sqlmap -u &quot;{targetUrl}&quot; --dbs --batch">sqlmap -u "http://192.168.1.100/index.php?id=1" --dbs --batch</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="3"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Bancos de dados listados</span><span data-lang-en>Databases listed</span></span></label>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-pink);">Fase 4</div>
+        <h2><i class="fa-solid fa-key"></i> <span data-lang-pt>Dump de Credenciais</span><span data-lang-en>Dumping Credentials</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Após identificar o banco correto (ex: <code>security</code> ou <code>wordpress</code>), localizamos tabelas sensíveis de usuários e realizamos o dump das credenciais (usando <code>--dump</code>). O SQLmap tentará decifrar os hashes de senhas locais.</span>
+            <span data-lang-en>After identifying the correct database (e.g., <code>security</code> or <code>wordpress</code>), we target sensitive user tables and dump the credentials (using <code>--dump</code>). SQLmap will also attempt to crack hashed passwords.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-download"></i> Dump Users</div>
+            <div class="command-box">
+                <code data-cmd="sqlmap -u &quot;{targetUrl}&quot; -D security -T users --dump --batch">sqlmap -u "http://192.168.1.100/index.php?id=1" -D security -T users --dump --batch</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="4"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Senhas e credenciais extraídas</span><span data-lang-en>Passwords and credentials dumped</span></span></label>
+    </div>
+
+    <!-- Completion -->
+    <div class="card-flat reveal" style="text-align: center; padding: var(--space-10);">
+        <i class="fa-solid fa-trophy" style="font-size: 3rem; color: var(--accent-pink); margin-bottom: var(--space-4); display: block;"></i>
+        <h2><span data-lang-pt>Trilha Web Auditing Completa!</span><span data-lang-en>Web Auditing Trail Complete!</span></h2>
+        <p class="text-muted" style="margin-top: var(--space-2); margin-bottom: var(--space-6);">
+            <span data-lang-pt>Excelente! Se a extração de hashes foi um sucesso, agora aprenderemos a realizar ataques de brute force online contra logins do sistema.</span>
+            <span data-lang-en>Excellent! If hash extraction was a success, let's learn how to perform online brute force attacks against system logins next.</span>
+        </p>
+        <div class="flex justify-center gap-4 flex-wrap">
+            <a href="#/hydra" class="btn btn-primary"><i class="fa-solid fa-arrow-right"></i> <span data-lang-pt>Trilha Brute Force</span><span data-lang-en>Brute Force Trail</span></a>
+            <a href="#/home" class="btn btn-ghost"><i class="fa-solid fa-house"></i> <span data-lang-pt>Início</span><span data-lang-en>Home</span></a>
+        </div>
+    </div>
+</div>

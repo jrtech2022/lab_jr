@@ -1,0 +1,445 @@
+<!-- KNOWLEDGE BASE — Conceitos fundamentais -->
+<div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
+
+    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
+        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
+    </div>
+
+    <div style="margin-bottom: var(--space-10);">
+        <h1 style="margin-bottom: var(--space-3);"><i class="fa-solid fa-book" style="color: var(--accent-secondary);"></i> <span data-lang-pt>Base de Conhecimento</span><span data-lang-en>Knowledge Base</span></h1>
+        <p class="text-muted" style="font-size: var(--fs-md); max-width: 650px;">
+            <span data-lang-pt>Conceitos fundamentais de redes, segurança web, exploits, Active Directory e metodologias de invasão necessárias antes de realizar pentests.</span>
+            <span data-lang-en>Fundamental concepts of networking, web security, exploits, Active Directory, and hacking methodologies needed before pentesting.</span>
+        </p>
+    </div>
+
+    <div class="accordion-group">
+
+        <!-- 802.11 -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-wifi" style="color: var(--accent-primary);"></i>
+                    <span><span data-lang-pt>O que é o padrão 802.11?</span><span data-lang-en>What is the 802.11 standard?</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p><strong>IEEE 802.11</strong> é a família de padrões que define as comunicações em redes locais sem fio (WLAN). Cada letra representa uma geração:</p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6);">
+                        <li><strong>802.11a</strong> (1999) — 5 GHz, até 54 Mbps</li>
+                        <li><strong>802.11b</strong> (1999) — 2.4 GHz, até 11 Mbps</li>
+                        <li><strong>802.11g</strong> (2003) — 2.4 GHz, até 54 Mbps</li>
+                        <li><strong>802.11n</strong> / Wi-Fi 4 (2009) — Dual-band, até 600 Mbps, MIMO</li>
+                        <li><strong>802.11ac</strong> / Wi-Fi 5 (2014) — 5 GHz, até 6.9 Gbps, MU-MIMO</li>
+                        <li><strong>802.11ax</strong> / Wi-Fi 6/6E (2020) — Dual/Tri-band, OFDMA, até 9.6 Gbps</li>
+                    </ul>
+                    <p>Para pentest, trabalhamos principalmente com os frames de gerenciamento (management), controle (control) e dados (data) do protocolo 802.11.</p>
+                </span>
+                <span data-lang-en>
+                    <p><strong>IEEE 802.11</strong> is the family of standards defining wireless local area network (WLAN) communications. Each letter represents a generation:</p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6);">
+                        <li><strong>802.11a</strong> (1999) — 5 GHz, up to 54 Mbps</li>
+                        <li><strong>802.11b</strong> (1999) — 2.4 GHz, up to 11 Mbps</li>
+                        <li><strong>802.11g</strong> (2003) — 2.4 GHz, up to 54 Mbps</li>
+                        <li><strong>802.11n</strong> / Wi-Fi 4 (2009) — Dual-band, up to 600 Mbps, MIMO</li>
+                        <li><strong>802.11ac</strong> / Wi-Fi 5 (2014) — 5 GHz, up to 6.9 Gbps, MU-MIMO</li>
+                        <li><strong>802.11ax</strong> / Wi-Fi 6/6E (2020) — Dual/Tri-band, OFDMA, up to 9.6 Gbps</li>
+                    </ul>
+                    <p>For pentesting, we mainly work with 802.11 management, control and data frames.</p>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- WEP vs WPA -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-lock" style="color: var(--accent-warning);"></i>
+                    <span><span data-lang-pt>WEP vs WPA vs WPA2 vs WPA3</span><span data-lang-en>WEP vs WPA vs WPA2 vs WPA3</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p><strong>WEP</strong> (1997) — Totalmente quebrado. Usa RC4 com IVs de 24 bits. Crackeável em minutos com <code>aircrack-ng</code>. <em>Nunca use.</em></p>
+                    <p style="margin-top: var(--space-3);"><strong>WPA</strong> (2003) — Medida temporária. Usa TKIP (ainda baseado em RC4). Vulnerável a ataques de fragmentação.</p>
+                    <p style="margin-top: var(--space-3);"><strong>WPA2</strong> (2004) — Padrão atual mais comum. Usa <strong>AES-CCMP</strong>. Vulnerável a captura de handshake + brute force offline e ataque PMKID.</p>
+                    <p style="margin-top: var(--space-3);"><strong>WPA3</strong> (2018) — Mais seguro. Usa <strong>SAE (Simultaneous Authentication of Equals)</strong> em vez de PSK. Resistente a ataques de dicionário offline. Ainda possui vulnerabilidades como Dragonblood.</p>
+                </span>
+                <span data-lang-en>
+                    <p><strong>WEP</strong> (1997) — Completely broken. Uses RC4 with 24-bit IVs. Crackable in minutes with <code>aircrack-ng</code>. <em>Never use.</em></p>
+                    <p style="margin-top: var(--space-3);"><strong>WPA</strong> (2003) — Temporary fix. Uses TKIP (still based on RC4). Vulnerable to fragmentation attacks.</p>
+                    <p style="margin-top: var(--space-3);"><strong>WPA2</strong> (2004) — Most common current standard. Uses <strong>AES-CCMP</strong>. Vulnerable to handshake capture + offline brute force and PMKID attack.</p>
+                    <p style="margin-top: var(--space-3);"><strong>WPA3</strong> (2018) — Most secure. Uses <strong>SAE (Simultaneous Authentication of Equals)</strong> instead of PSK. Resistant to offline dictionary attacks. Still has vulnerabilities like Dragonblood.</p>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- Handshake -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-handshake" style="color: var(--accent-primary);"></i>
+                    <span><span data-lang-pt>O Handshake de 4 Vias (EAPOL)</span><span data-lang-en>The 4-Way Handshake (EAPOL)</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p>O handshake de 4 vias é o processo de autenticação entre cliente e AP no WPA2:</p>
+                    <ol style="margin: var(--space-3) 0; padding-left: var(--space-6); line-height: 2;">
+                        <li><strong>MSG 1:</strong> AP envia ANonce (número aleatório) ao cliente</li>
+                        <li><strong>MSG 2:</strong> Cliente gera PTK usando ANonce + SNonce + PMK e envia SNonce + MIC ao AP</li>
+                        <li><strong>MSG 3:</strong> AP verifica MIC, gera GTK e envia ao cliente</li>
+                        <li><strong>MSG 4:</strong> Cliente confirma e a conexão é estabelecida</li>
+                    </ol>
+                    <p><strong>Por que capturamos isso?</strong> A MSG 2 contém o MIC (Message Integrity Code) que é derivado da senha. Com o handshake, podemos testar senhas offline comparando o MIC calculado com o capturado.</p>
+                </span>
+                <span data-lang-en>
+                    <p>The 4-way handshake is the authentication process between client and AP in WPA2:</p>
+                    <ol style="margin: var(--space-3) 0; padding-left: var(--space-6); line-height: 2;">
+                        <li><strong>MSG 1:</strong> AP sends ANonce (random number) to client</li>
+                        <li><strong>MSG 2:</strong> Client generates PTK using ANonce + SNonce + PMK and sends SNonce + MIC to AP</li>
+                        <li><strong>MSG 3:</strong> AP verifies MIC, generates GTK and sends to client</li>
+                        <li><strong>MSG 4:</strong> Client confirms and connection is established</li>
+                    </ol>
+                    <p><strong>Why do we capture this?</strong> MSG 2 contains the MIC (Message Integrity Code) derived from the password. With the handshake, we can test passwords offline by comparing the calculated MIC with the captured one.</p>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- PMKID -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-bolt" style="color: var(--accent-purple);"></i>
+                    <span><span data-lang-pt>O que é PMKID? Por que não precisa de cliente?</span><span data-lang-en>What is PMKID? Why no client needed?</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p><strong>PMKID</strong> = Pairwise Master Key Identifier. É um valor calculado pelo roteador usando:</p>
+                    <div class="command-box" style="margin: var(--space-3) 0; border-left-color: var(--accent-purple);"><code>PMKID = HMAC-SHA1-128(PMK, "PMK Name" || MAC_AP || MAC_STA)</code></div>
+                    <p>Em 2018, Jens "atom" Steube descobriu que muitos roteadores enviam o PMKID no <strong>primeiro frame de associação</strong> (RSN IE), antes mesmo do handshake completo. Isso significa que:</p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6);">
+                        <li>Não precisamos de nenhum cliente conectado</li>
+                        <li>Não precisamos capturar o handshake de 4 vias</li>
+                        <li>Basta enviar uma solicitação de associação ao AP</li>
+                        <li>A captura leva apenas 1-5 minutos</li>
+                    </ul>
+                </span>
+                <span data-lang-en>
+                    <p><strong>PMKID</strong> = Pairwise Master Key Identifier. It's a value calculated by the router using:</p>
+                    <div class="command-box" style="margin: var(--space-3) 0; border-left-color: var(--accent-purple);"><code>PMKID = HMAC-SHA1-128(PMK, "PMK Name" || MAC_AP || MAC_STA)</code></div>
+                    <p>In 2018, Jens "atom" Steube discovered that many routers send the PMKID in the <strong>first association frame</strong> (RSN IE), before the complete handshake. This means:</p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6);">
+                        <li>No connected client needed</li>
+                        <li>No 4-way handshake capture needed</li>
+                        <li>Just send an association request to the AP</li>
+                        <li>Capture takes only 1-5 minutes</li>
+                    </ul>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- Terminology -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-tags" style="color: var(--accent-secondary);"></i>
+                    <span><span data-lang-pt>BSSID vs ESSID vs STATION</span><span data-lang-en>BSSID vs ESSID vs STATION</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p><strong>BSSID</strong> (Basic Service Set Identifier) — O endereço MAC do ponto de acesso (roteador). Identifica unicamente cada AP na rede. Ex: <code>00:11:22:33:44:55</code></p>
+                    <p style="margin-top: var(--space-3);"><strong>ESSID</strong> (Extended Service Set Identifier) — O nome da rede Wi-Fi que aparece quando você busca redes. Ex: "MinhaRede_5G". Pode ser oculto.</p>
+                    <p style="margin-top: var(--space-3);"><strong>STATION</strong> — Qualquer dispositivo cliente conectado ao AP (celulares, notebooks, IoT). Cada STATION tem seu próprio MAC address.</p>
+                </span>
+                <span data-lang-en>
+                    <p><strong>BSSID</strong> (Basic Service Set Identifier) — The access point's (router) MAC address. Uniquely identifies each AP. Ex: <code>00:11:22:33:44:55</code></p>
+                    <p style="margin-top: var(--space-3);"><strong>ESSID</strong> (Extended Service Set Identifier) — The Wi-Fi network name that appears when you scan. Ex: "MyNetwork_5G". Can be hidden.</p>
+                    <p style="margin-top: var(--space-3);"><strong>STATION</strong> — Any client device connected to the AP (phones, laptops, IoT). Each STATION has its own MAC address.</p>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- Monitor Mode -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-tower-broadcast" style="color: var(--accent-primary);"></i>
+                    <span><span data-lang-pt>Modo Monitor vs Modo Gerenciado</span><span data-lang-en>Monitor Mode vs Managed Mode</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p><strong>Modo Gerenciado (Managed)</strong> — Modo padrão. A placa só processa pacotes destinados ao seu endereço MAC ou broadcast. É o modo normal para navegar na internet.</p>
+                    <p style="margin-top: var(--space-3);"><strong>Modo Monitor</strong> — A placa captura TODOS os frames 802.11 no ar, independente do destino. Essencial para sniffing e injeção de pacotes. Nem todas as placas suportam — chipsets recomendados: <strong>Atheros AR9271</strong>, <strong>Ralink RT3070</strong>, <strong>Realtek RTL8812AU</strong>.</p>
+                </span>
+                <span data-lang-en>
+                    <p><strong>Managed Mode</strong> — Default mode. The card only processes packets addressed to its MAC or broadcast. Normal mode for internet browsing.</p>
+                    <p style="margin-top: var(--space-3);"><strong>Monitor Mode</strong> — The card captures ALL 802.11 frames in the air, regardless of destination. Essential for sniffing and packet injection. Not all cards support it — recommended chipsets: <strong>Atheros AR9271</strong>, <strong>Ralink RT3070</strong>, <strong>Realtek RTL8812AU</strong>.</p>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- Frame Types -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-layer-group" style="color: var(--accent-warning);"></i>
+                    <span><span data-lang-pt>Tipos de Frames 802.11</span><span data-lang-en>802.11 Frame Types</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p><strong>Management Frames</strong> — Gerenciam conexões: Beacon (AP anuncia existência), Probe (cliente busca redes), Authentication, Association, <strong>Deauthentication</strong> (usado no ataque deauth!).</p>
+                    <p style="margin-top: var(--space-3);"><strong>Control Frames</strong> — Controlam acesso ao meio: ACK, RTS/CTS. Não carregam dados.</p>
+                    <p style="margin-top: var(--space-3);"><strong>Data Frames</strong> — Transportam dados reais dos usuários (HTTP, DNS, etc.). São os frames criptografados em WPA2.</p>
+                </span>
+                <span data-lang-en>
+                    <p><strong>Management Frames</strong> — Manage connections: Beacon (AP announces existence), Probe (client searches for networks), Authentication, Association, <strong>Deauthentication</strong> (used in deauth attack!).</p>
+                    <p style="margin-top: var(--space-3);"><strong>Control Frames</strong> — Control medium access: ACK, RTS/CTS. Don't carry data.</p>
+                    <p style="margin-top: var(--space-3);"><strong>Data Frames</strong> — Transport actual user data (HTTP, DNS, etc.). These are the encrypted frames in WPA2.</p>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- Wordlists -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-file-lines" style="color: var(--accent-purple);"></i>
+                    <span><span data-lang-pt>Wordlists e Estratégias de Cracking</span><span data-lang-en>Wordlists and Cracking Strategies</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p><strong>Wordlists populares:</strong></p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6);">
+                        <li><code>rockyou.txt</code> — 14 milhões de senhas reais vazadas (Kali: <code>/usr/share/wordlists/</code>)</li>
+                        <li><code>SecLists</code> — Coleção enorme de wordlists especializadas (GitHub)</li>
+                        <li><code>crunch</code> — Gere wordlists customizadas por padrão</li>
+                    </ul>
+                    <p style="margin-top: var(--space-3);"><strong>Estratégias:</strong></p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6);">
+                        <li><strong>Dicionário puro:</strong> Testa cada palavra da lista</li>
+                        <li><strong>Regras (Hashcat):</strong> Modifica cada palavra (adiciona números, troca letras)</li>
+                        <li><strong>Máscara:</strong> Brute force com padrão definido (?d?d?d?d = 4 dígitos)</li>
+                        <li><strong>Híbrido:</strong> Combina dicionário + máscara (palavra + 4 dígitos)</li>
+                    </ul>
+                </span>
+                <span data-lang-en>
+                    <p><strong>Popular wordlists:</strong></p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6);">
+                        <li><code>rockyou.txt</code> — 14 million real leaked passwords (Kali: <code>/usr/share/wordlists/</code>)</li>
+                        <li><code>SecLists</code> — Huge collection of specialized wordlists (GitHub)</li>
+                        <li><code>crunch</code> — Generate custom wordlists by pattern</li>
+                    </ul>
+                    <p style="margin-top: var(--space-3);"><strong>Strategies:</strong></p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6);">
+                        <li><strong>Pure dictionary:</strong> Tests each word from the list</li>
+                        <li><strong>Rules (Hashcat):</strong> Modifies each word (adds numbers, swaps letters)</li>
+                        <li><strong>Mask:</strong> Brute force with defined pattern (?d?d?d?d = 4 digits)</li>
+                        <li><strong>Hybrid:</strong> Combines dictionary + mask (word + 4 digits)</li>
+                    </ul>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- Ports -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-plug" style="color: var(--accent-secondary);"></i>
+                    <span><span data-lang-pt>Portas de Rede Comuns e Serviços</span><span data-lang-en>Common Network Ports and Services</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p>Durante a varredura (scanning), as portas abertas indicam quais serviços estão escutando conexões. As mais comuns incluem:</p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6);">
+                        <li><strong>FTP (Porta 21):</strong> Transferência de arquivos. Comum encontrar login anônimo ativado.</li>
+                        <li><strong>SSH (Porta 22):</strong> Acesso remoto seguro à console Linux. Alvo principal de brute force.</li>
+                        <li><strong>HTTP/HTTPS (Portas 80/443):</strong> Servidores web. Alvo de Gobuster, SQLmap, XSS e Burp Suite.</li>
+                        <li><strong>SMB (Porta 445):</strong> Compartilhamento de arquivos Windows. Muito visado por exploits (ex: EternalBlue).</li>
+                        <li><strong>RDP (Porta 3389):</strong> Acesso remoto de área de trabalho do Windows.</li>
+                    </ul>
+                </span>
+                <span data-lang-en>
+                    <p>During scanning, open ports reveal which network services are listening. The most common include:</p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6);">
+                        <li><strong>FTP (Port 21):</strong> File transfer. Often configured with anonymous login enabled.</li>
+                        <li><strong>SSH (Port 22):</strong> Secure shell for Linux remote console. Primary target for brute forcing.</li>
+                        <li><strong>HTTP/HTTPS (Ports 80/443):</strong> Web servers. Target for Gobuster, SQLmap, XSS, and Burp.</li>
+                        <li><strong>SMB (Port 445):</strong> Windows file sharing. High-value target for remote exploits (e.g., EternalBlue).</li>
+                        <li><strong>RDP (Port 3389):</strong> Windows Remote Desktop Protocol.</li>
+                    </ul>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- SQL Injection -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-database" style="color: var(--accent-pink);"></i>
+                    <span><span data-lang-pt>O que é SQL Injection (SQLi)?</span><span data-lang-en>What is SQL Injection (SQLi)?</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p><strong>SQL Injection (SQLi)</strong> é uma vulnerabilidade onde comandos SQL maliciosos são inseridos em campos de entrada de dados de uma aplicação web e repassados diretamente para o banco de dados sem validação.</p>
+                    <p style="margin-top: var(--space-3);"><strong>Como previnir:</strong> A melhor defesa é o uso de <strong>Prepared Statements</strong> (consultas parametrizadas) e ORMs modernos, garantindo que a entrada do usuário seja tratada como dado e nunca como instrução executável SQL.</p>
+                </span>
+                <span data-lang-en>
+                    <p><strong>SQL Injection (SQLi)</strong> is a critical vulnerability where malicious SQL statements are injected into entry fields of web applications and executed directly by the database engine without validation.</p>
+                    <p style="margin-top: var(--space-3);"><strong>How to prevent:</strong> The best defense is using <strong>Prepared Statements</strong> (parameterized queries) and modern ORMs, ensuring user input is treated as raw data rather than executable code.</p>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- Shells -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-terminal" style="color: var(--accent-danger);"></i>
+                    <span><span data-lang-pt>Reverse Shell vs Bind Shell</span><span data-lang-en>Reverse Shell vs Bind Shell</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p>Ao explorar um sistema vulnerável, queremos obter controle do terminal do alvo. Há duas formas principais:</p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6);">
+                        <li><strong>Reverse Shell (Shell Reverso):</strong> O alvo conecta <em>de volta</em> para a máquina do invasor. Ideal para contornar firewalls locais que bloqueiam conexões de entrada.</li>
+                        <li><strong>Bind Shell:</strong> O exploit abre uma nova porta de escuta no alvo, e o invasor se conecta diretamente nela. Pode ser bloqueado por firewalls se a porta aberta for incomum.</li>
+                    </ul>
+                </span>
+                <span data-lang-en>
+                    <p>When exploiting a vulnerable host, we seek access to the target command line. There are two main methods:</p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6);">
+                        <li><strong>Reverse Shell:</strong> The target connects <em>back</em> to the attacker's machine. Highly effective for bypassing firewall rules blocking inbound connections.</li>
+                        <li><strong>Bind Shell:</strong> The exploit opens a new listener port directly on the target host. Attackers connect directly to it. Often blocked by network firewalls.</li>
+                    </ul>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- Active Directory -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-users" style="color: var(--accent-purple);"></i>
+                    <span><span data-lang-pt>Segurança em Active Directory (AD)</span><span data-lang-en>Active Directory (AD) Security</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p>O <strong>Active Directory (AD)</strong> gerencia a infraestrutura de identidades do Windows no ambiente empresarial. Pentests corporativos focam fortemente em AD devido a ataques de movimentação lateral e escalada de privilégios.</p>
+                    <p style="margin-top: var(--space-3);"><strong>Ataques Comuns:</strong> Kerberoasting (coleta de hashes de serviço), Pass-the-Hash (uso do hash NTLM direto para autenticar sem decifrar a senha) e envenenamento LLMNR (captura de hashes na rede com o Responder).</p>
+                </span>
+                <span data-lang-en>
+                    <p><strong>Active Directory (AD)</strong> manages identity and access controls in enterprise Windows networks. Corporate pentests focus heavily on AD security to identify lateral movement routes and privilege escalation paths.</p>
+                    <p style="margin-top: var(--space-3);"><strong>Common AD Attacks:</strong> Kerberoasting (collecting service ticket hashes), Pass-the-Hash (using captured NTLM hashes directly to authenticate without cracking), and LLMNR poisoning (intercepting network hashes using Responder).</p>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- Wireshark Decryption -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-microscope" style="color: var(--accent-primary);"></i>
+                    <span><span data-lang-pt>Descriptografia WPA2 no Wireshark (Lab)</span><span data-lang-en>WPA2 Decryption in Wireshark (Lab)</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p>Em laboratórios de redes, o Wireshark permite descriptografar tráfego WPA2 capturado para fins de auditoria e diagnóstico.</p>
+                    <h4 style="margin: var(--space-3) 0 var(--space-2); color: var(--accent-primary);">Parâmetros Necessários:</h4>
+                    <ul style="margin: var(--space-2) 0; padding-left: var(--space-6);">
+                        <li><strong>SSID:</strong> O nome da rede sem fio (essencial para gerar o sal do hash).</li>
+                        <li><strong>Senha (WPA-pwd) ou PMK:</strong> A chave pré-compartilhada da rede.</li>
+                        <li><strong>Handshake de 4 vias (EAPOL):</strong> Os frames de conexão inicial do dispositivo alvo.</li>
+                    </ul>
+                    <h4 style="margin: var(--space-3) 0 var(--space-2); color: var(--accent-primary);">Como Funciona a Decodificação:</h4>
+                    <p>O Wireshark usa o SSID e a Senha para derivar a **PMK** (Pairwise Master Key). Em seguida, ele analisa o handshake EAPOL capturado para extrair o **ANonce** (do AP) e o **SNonce** (do cliente). Combinando estes parâmetros com os endereços MAC de ambos, ele reconstrói a chave temporária daquela conexão (**PTK**), permitindo a descriptografia de todos os pacotes de dados subsequentes.</p>
+                    <h4 style="margin: var(--space-3) 0 var(--space-2); color: var(--accent-primary);">Configuração no Wireshark:</h4>
+                    <p>1. Vá em <code>Edit</code> &rarr; <code>Preferences</code> &rarr; <code>Protocols</code> &rarr; <code>IEEE 802.11</code>.<br>
+                    2. Marque a opção <strong>"Enable decryption"</strong>.<br>
+                    3. Clique em <code>Decryption Keys (Edit)</code> e adicione uma chave do tipo <code>wpa-pwd</code> com o formato: <code>senha:SSID</code> (exemplo: <code>minhasenha123:RedeLaboratorio</code>).</p>
+                </span>
+                <span data-lang-en>
+                    <p>In networking labs, Wireshark allows decrypting captured WPA2 traffic for auditing and troubleshooting purposes.</p>
+                    <h4 style="margin: var(--space-3) 0 var(--space-2); color: var(--accent-primary);">Required Parameters:</h4>
+                    <ul style="margin: var(--space-2) 0; padding-left: var(--space-6);">
+                        <li><strong>SSID:</strong> The wireless network name (required for hashing salt).</li>
+                        <li><strong>Password (WPA-pwd) or PMK:</strong> The pre-shared key of the network.</li>
+                        <li><strong>4-Way Handshake (EAPOL):</strong> The initial connection frames of the target device.</li>
+                    </ul>
+                    <h4 style="margin: var(--space-3) 0 var(--space-2); color: var(--accent-primary);">How Decryption Works:</h4>
+                    <p>Wireshark uses the SSID and Password to derive the **PMK** (Pairwise Master Key). It then scans the EAPOL handshake to extract the **ANonce** (from the AP) and the **SNonce** (from the client). Combining these values with the MAC addresses, it reconstructs the session key (**PTK**), decrypting all subsequent data packets.</p>
+                    <h4 style="margin: var(--space-3) 0 var(--space-2); color: var(--accent-primary);">Configuration in Wireshark:</h4>
+                    <p>1. Open <code>Edit</code> &rarr; <code>Preferences</code> &rarr; <code>Protocols</code> &rarr; <code>IEEE 802.11</code>.<br>
+                    2. Check the <strong>"Enable decryption"</strong> box.<br>
+                    3. Click <code>Decryption Keys (Edit)</code> and add a key of type <code>wpa-pwd</code> using the format: <code>password:SSID</code> (example: <code>mypassword123:LabNetwork</code>).</p>
+                </span>
+            </div></div>
+        </div>
+
+        <!-- Defense -->
+        <div class="accordion-item reveal">
+            <button class="accordion-trigger">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-shield-halved" style="color: var(--accent-primary);"></i>
+                    <span><span data-lang-pt>Como se Proteger (Defesa)</span><span data-lang-en>How to Defend (Defense)</span></span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">
+                <span data-lang-pt>
+                    <p>Agora que você sabe atacar, saiba se defender:</p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6); line-height: 2;">
+                        <li>✅ Use <strong>WPA3</strong> se disponível, ou WPA2 com AES (nunca TKIP)</li>
+                        <li>✅ Senha forte: 12+ caracteres com letras, números e especiais</li>
+                        <li>✅ <strong>Desative WPS</strong> completamente no roteador</li>
+                        <li>✅ Use <strong>802.11w</strong> (Management Frame Protection) contra deauth</li>
+                        <li>✅ Monitore dispositivos conectados regularmente</li>
+                        <li>✅ Atualize o firmware do roteador</li>
+                        <li>✅ Use MAC filtering como camada extra (não como única defesa)</li>
+                        <li>✅ Considere usar RADIUS/Enterprise em ambientes corporativos</li>
+                        <li>✅ Implemente WIDS/WIPS (Kismet, Wireless IDS) para detectar ataques</li>
+                    </ul>
+                </span>
+                <span data-lang-en>
+                    <p>Now that you know how to attack, learn how to defend:</p>
+                    <ul style="margin: var(--space-3) 0; padding-left: var(--space-6); line-height: 2;">
+                        <li>✅ Use <strong>WPA3</strong> if available, or WPA2 with AES (never TKIP)</li>
+                        <li>✅ Strong password: 12+ characters with letters, numbers and specials</li>
+                        <li>✅ <strong>Disable WPS</strong> completely on the router</li>
+                        <li>✅ Use <strong>802.11w</strong> (Management Frame Protection) against deauth</li>
+                        <li>✅ Monitor connected devices regularly</li>
+                        <li>✅ Keep router firmware updated</li>
+                        <li>✅ Use MAC filtering as an extra layer (not as the only defense)</li>
+                        <li>✅ Consider using RADIUS/Enterprise in corporate environments</li>
+                        <li>✅ Implement WIDS/WIPS (Kismet, Wireless IDS) to detect attacks</li>
+                    </ul>
+                </span>
+            </div></div>
+        </div>
+
+    </div>
+</div>

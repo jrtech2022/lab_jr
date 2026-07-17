@@ -1,0 +1,158 @@
+<!-- TRILHA WIRESHARK — Captura e Descriptografia de Tráfego -->
+<div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
+
+    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
+        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
+        <span class="badge badge-intermediate"><span data-lang-pt>⭐⭐ Intermediário</span><span data-lang-en>⭐⭐ Intermediate</span></span>
+    </div>
+    <div style="margin-bottom: var(--space-10);">
+        <h1 style="margin-bottom: var(--space-3);"><i class="fa-solid fa-microscope" style="color: #00d4ff;"></i> <span data-lang-pt>Trilha Decodificação Wireshark</span><span data-lang-en>Wireshark Decryption Trail</span></h1>
+        <p class="text-muted" style="font-size: var(--fs-md); max-width: 650px;">
+            <span data-lang-pt>Esta trilha ensina os conceitos práticos de captura de pacotes de dados no ar, validação do Handshake de 4 vias (EAPOL) e a descriptografia de tráfego de rede Wi-Fi usando Wireshark GUI, airdecap-ng e tshark.</span>
+            <span data-lang-en>This trail teaches the practical concepts of capturing over-the-air data packets, validating the 4-Way Handshake (EAPOL), and decrypting Wi-Fi network traffic using Wireshark GUI, airdecap-ng, and tshark.</span>
+        </p>
+        <div style="margin-top: var(--space-4); max-width: 400px;">
+            <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
+                <span class="progress-label text-sm" style="color: #00d4ff;">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="wireshark" style="width: 0%; background: #00d4ff;"></div></div>
+        </div>
+    </div>
+
+    <!-- Inputs de Configuração -->
+    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
+        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: #00d4ff;"></i> <span data-lang-pt>Configuração do Laboratório</span><span data-lang-en>Lab Configuration</span></h3>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Interface Monitor</span><span data-lang-en>Monitor Interface</span></label>
+                <input type="text" id="ifaceMon" value="wlan0mon" data-cmd-input>
+            </div>
+            <div class="input-group">
+                <label>SSID (Nome do AP)</label>
+                <input type="text" id="essid" value="RedeLaboratorio" data-cmd-input>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="input-group">
+                <label>BSSID (MAC do AP)</label>
+                <input type="text" id="target" value="AA:BB:CC:DD:EE:11" data-cmd-input>
+            </div>
+            <div class="input-group">
+                <label><span data-lang-pt>Canal (Channel)</span><span data-lang-en>Channel</span></label>
+                <input type="text" id="channel" value="6" data-cmd-input>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Senha do Wi-Fi</span><span data-lang-en>Wi-Fi Password</span></label>
+                <input type="text" id="password" value="minhasenha123" data-cmd-input>
+            </div>
+        </div>
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: #00d4ff;">Fase 1</div>
+        <h2><i class="fa-solid fa-circle-dot"></i> <span data-lang-pt>Capturando o Tráfego no Ar</span><span data-lang-en>Capturing Over-the-Air Traffic</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Para decodificar o tráfego Wi-Fi, primeiro precisamos capturar os frames de dados brutos que viajam pelo ar em um arquivo do tipo <code>.cap</code> ou <code>.pcap</code>. O <code>airodump-ng</code> captura todo o tráfego da rede do canal e salva em disco, incluindo o handshake EAPOL necessário para a decodificação.</span>
+            <span data-lang-en>To decode Wi-Fi traffic, we first must capture raw data frames traveling through the air into a <code>.cap</code> or <code>.pcap</code> file. <code>airodump-ng</code> captures all channel traffic and saves it to disk, including the required EAPOL handshake.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comando de Captura</span><span data-lang-en>Capture Command</span></div>
+            <div class="command-box">
+                <code data-cmd="sudo airodump-ng -c {channel} --bssid {target} -w captura {ifaceMon}">sudo airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:11 -w captura wlan0mon</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-info">
+                <i class="fa-solid fa-circle-info"></i>
+                <span><span data-lang-pt>Deixe rodando até que ocorra um Handshake EAPOL (indicado no cabeçalho superior direito do terminal do airodump-ng).</span><span data-lang-en>Keep running until an EAPOL Handshake occurs (noted in the top right header of the airodump-ng screen).</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="1"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Captura realizada e arquivo salvo com sucesso</span><span data-lang-en>Capture completed and file saved successfully</span></span></label>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: #00d4ff;">Fase 2</div>
+        <h2><i class="fa-solid fa-sliders"></i> <span data-lang-pt>Configuração de Chaves no Wireshark (GUI)</span><span data-lang-en>Configuring Keys in Wireshark (GUI)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Por padrão, o Wireshark não consegue ler pacotes WPA2 criptografados. Ele exibirá apenas frames do tipo <code>802.11 Data</code> sem conteúdo de rede IP. Para revelar o conteúdo dos pacotes, configuramos a chave e o nome da rede nas preferências globais.</span>
+            <span data-lang-en>By default, Wireshark cannot read encrypted WPA2 packets. It will display only <code>802.11 Data</code> frames without IP network payloads. To reveal packet payloads, we configure the decryption key and SSID in global preferences.</span>
+        </p>
+        <div class="action-area text-muted" style="font-size: var(--fs-sm); line-height: 1.6;">
+            <p style="margin-bottom: var(--space-3);"><strong style="color: var(--accent-primary);"><span data-lang-pt>Instruções de Configuração no Analisador:</span><span data-lang-en>Configuration Steps in Analyzer:</span></strong></p>
+            <ol style="padding-left: var(--space-5);">
+                <li><span data-lang-pt>Abra o arquivo gerado (ex: <code>wireshark captura-01.cap</code>).</span><span data-lang-en>Open the generated file (e.g., <code>wireshark captura-01.cap</code>).</span></li>
+                <li><span data-lang-pt>Verifique se existe o handshake filtrando por: <code class="text-gradient">eapol</code>. Sem ele, a decodificação da sessão não será possível.</span><span data-lang-en>Check if a handshake is present by filtering: <code class="text-gradient">eapol</code>. Without it, session decryption is impossible.</span></li>
+                <li><span data-lang-pt>Acesse o menu: <code>Edit &rarr; Preferences &rarr; Protocols &rarr; IEEE 802.11</code>.</span><span data-lang-en>Go to: <code>Edit &rarr; Preferences &rarr; Protocols &rarr; IEEE 802.11</code>.</span></li>
+                <li><span data-lang-pt>Marque a caixa <strong>Enable decryption</strong>.</span><span data-lang-en>Check <strong>Enable decryption</strong>.</span></li>
+                <li><span data-lang-pt>Clique em <code>Decryption Keys (Edit) &rarr; Add</code>. Selecione o tipo <code style="color: var(--accent-secondary);">wpa-pwd</code> e insira o valor no formato: <code style="color: var(--accent-secondary);">{password}:{essid}</code> (exemplo: <code>minhasenha123:RedeLaboratorio</code>).</span><span data-lang-en>Click <code>Decryption Keys (Edit) &rarr; Add</code>. Select key type <code style="color: var(--accent-secondary);">wpa-pwd</code> and insert the key: <code style="color: var(--accent-secondary);">{password}:{essid}</code> (e.g., <code>minhasenha123:RedeLaboratorio</code>).</span></li>
+                <li><span data-lang-pt>Clique em <code>OK</code> e veja o tráfego 802.11 ser traduzido em pacotes TCP, UDP, DNS e HTTP comuns!</span><span data-lang-en>Click <code>OK</code> and watch 802.11 traffic be translated to standard TCP, UDP, DNS, and HTTP packets!</span></li>
+            </ol>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="2"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Chave inserida e decodificação ativada no Wireshark</span><span data-lang-en>Key configured and decryption active in Wireshark</span></span></label>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: #00d4ff;">Fase 3</div>
+        <h2><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Decodificação Automática via CLI (airdecap-ng)</span><span data-lang-en>Automated CLI Decryption (airdecap-ng)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Se quisermos descriptografar pacotes sem abrir a interface gráfica do Wireshark, podemos usar a ferramenta <code>airdecap-ng</code> do pacote Aircrack-ng. Ela lê o arquivo de captura criptografado, aplica a chave, e gera um novo arquivo <code>-dec.pcap</code> descriptografado e pronto para análise rápida.</span>
+            <span data-lang-en>If we want to decrypt packets without launching the Wireshark GUI, we can use <code>airdecap-ng</code> from the Aircrack-ng suite. It reads the encrypted capture file, applies the key, and writes a decrypted <code>-dec.pcap</code> file ready for analysis.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-gears"></i> <span data-lang-pt>Comando de Descriptografia</span><span data-lang-en>Decryption Command</span></div>
+            <div class="command-box">
+                <code data-cmd="airdecap-ng -e &quot;{essid}&quot; -p {password} captura-01.cap">airdecap-ng -e "RedeLaboratorio" -p minhasenha123 captura-01.cap</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-success">
+                <i class="fa-solid fa-check-circle"></i>
+                <span><span data-lang-pt>O resultado será um arquivo limpo chamado <code>captura-01-dec.cap</code> contendo os dados descriptografados.</span><span data-lang-en>The result will be a clean file named <code>captura-01-dec.cap</code> containing decrypted data.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="3"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Arquivo decodificado gerado via airdecap-ng</span><span data-lang-en>Decoded file generated via airdecap-ng</span></span></label>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: #00d4ff;">Fase 4</div>
+        <h2><i class="fa-solid fa-magnifying-glass"></i> <span data-lang-pt>Extração de Dados em Lote (tshark)</span><span data-lang-en>Bulk Data Extraction (tshark)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>O <code>tshark</code> é a versão por linha de comando do Wireshark. Com ele, podemos passar parâmetros de descriptografia diretamente e filtrar dados úteis do tráfego descriptografado, como requisições HTTP (caminhos, hosts visitados) ou consultas DNS em massa.</span>
+            <span data-lang-en><code>tshark</code> is the command-line version of Wireshark. It allows specifying decryption keys directly and filtering useful metadata from decrypted traffic, like HTTP requests or bulk DNS queries.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-terminal"></i> tshark CLI</div>
+            <span class="command-label"><span data-lang-pt>Filtro de consultas DNS no tráfego descriptografado:</span><span data-lang-en>Filter DNS queries in decrypted traffic:</span></span>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code data-cmd="tshark -r captura-01.cap -o &quot;wlan.enable_decryption:TRUE&quot; -o &quot;wlan.keys:wpa-pwd:{password}:{essid}&quot; -Y &quot;dns.flags.response == 0&quot; -T fields -e dns.qry.name">tshark -r captura-01.cap -o "wlan.enable_decryption:TRUE" -o "wlan.keys:wpa-pwd:minhasenha123:RedeLaboratorio" -Y "dns.flags.response == 0" -T fields -e dns.qry.name</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+
+            <span class="command-label"><span data-lang-pt>Filtro de URLs HTTP visitadas (caso usem HTTP sem TLS):</span><span data-lang-en>Filter HTTP URLs visited (for unencrypted HTTP traffic):</span></span>
+            <div class="command-box">
+                <code data-cmd="tshark -r captura-01.cap -o &quot;wlan.enable_decryption:TRUE&quot; -o &quot;wlan.keys:wpa-pwd:{password}:{essid}&quot; -Y &quot;http.request&quot; -T fields -e http.host -e http.request.uri">tshark -r captura-01.cap -o "wlan.enable_decryption:TRUE" -o "wlan.keys:wpa-pwd:minhasenha123:RedeLaboratorio" -Y "http.request" -T fields -e http.host -e http.request.uri</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="4"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Comandos tshark experimentados e compreendidos</span><span data-lang-en>tshark commands tried and understood</span></span></label>
+    </div>
+
+    <!-- Conclusão -->
+    <div class="card-flat reveal" style="text-align: center; padding: var(--space-10);">
+        <i class="fa-solid fa-trophy" style="font-size: 3rem; color: #00d4ff; margin-bottom: var(--space-4); display: block;"></i>
+        <h2><span data-lang-pt>Trilha Wireshark Concluída!</span><span data-lang-en>Wireshark Trail Complete!</span></h2>
+        <p class="text-muted" style="margin-top: var(--space-2); margin-bottom: var(--space-6);">
+            <span data-lang-pt>Incrível! Você dominou o fluxo de captação de frames brutos e a decodificação usando o analisador.</span>
+            <span data-lang-en>Amazing! You mastered raw frame capturing and packet decoding flow using the network analyzer.</span>
+        </p>
+        <div class="flex justify-center gap-4 flex-wrap">
+            <a href="#/home" class="btn btn-primary"><i class="fa-solid fa-house"></i> <span data-lang-pt>Voltar ao Início</span><span data-lang-en>Back to Home</span></a>
+            <a href="#/knowledge" class="btn btn-ghost"><i class="fa-solid fa-book-open"></i> <span data-lang-pt>Base de Conhecimento</span><span data-lang-en>Knowledge Base</span></a>
+        </div>
+    </div>
+</div>

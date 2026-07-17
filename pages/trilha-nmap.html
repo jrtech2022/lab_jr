@@ -1,0 +1,128 @@
+<!-- TRILHA NMAP — Network Scanning -->
+<div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
+
+    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
+        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
+        <span class="badge badge-beginner"><span data-lang-pt>⭐ Iniciante</span><span data-lang-en>⭐ Beginner</span></span>
+    </div>
+    <div style="margin-bottom: var(--space-10);">
+        <h1 style="margin-bottom: var(--space-3);"><i class="fa-solid fa-search" style="color: var(--accent-secondary);"></i> <span data-lang-pt>Trilha Network Scanning (Nmap)</span><span data-lang-en>Network Scanning Trail (Nmap)</span></h1>
+        <p class="text-muted" style="font-size: var(--fs-md); max-width: 650px;">
+            <span data-lang-pt>O escaneamento de rede é a primeira fase ativa de qualquer pentest. O Nmap permite mapear dispositivos ativos, descobrir portas abertas, identificar serviços, sistemas operacionais e até detectar vulnerabilidades conhecidas.</span>
+            <span data-lang-en>Network scanning is the first active phase of any pentest. Nmap allows you to map active devices, discover open ports, identify services, operating systems, and even detect known vulnerabilities.</span>
+        </p>
+        <div style="margin-top: var(--space-4); max-width: 400px;">
+            <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
+                <span class="progress-label text-sm" style="color: var(--accent-secondary);">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="nmap" style="width: 0%; background: var(--accent-secondary);"></div></div>
+        </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
+        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-secondary);"></i> <span data-lang-pt>Configuração do Escaneamento</span><span data-lang-en>Scan Configuration</span></h3>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>IP ou Subrede Alvo</span><span data-lang-en>Target IP or Subnet</span></label>
+                <input type="text" id="target" value="192.168.1.100" data-cmd-input>
+                <span class="input-hint"><span data-lang-pt>Ex: 192.168.1.100 ou 192.168.1.0/24</span><span data-lang-en>e.g., 192.168.1.100 or 192.168.1.0/24</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-secondary);">Fase 1</div>
+        <h2><i class="fa-solid fa-network-wired"></i> <span data-lang-pt>Host Discovery (Ping Sweep)</span><span data-lang-en>Host Discovery (Ping Sweep)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Antes de escanear portas, precisamos descobrir quais dispositivos estão ligados na rede local. O parâmetro <code>-sn</code> diz ao Nmap para apenas verificar se o host está ativo, sem escanear portas (muito mais rápido e silencioso).</span>
+            <span data-lang-en>Before scanning ports, we need to discover which devices are powered on in the local network. The <code>-sn</code> flag tells Nmap to only check if the host is up, without scanning ports (much faster and stealthier).</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
+            <div class="command-box">
+                <code data-cmd="nmap -sn {target}">nmap -sn 192.168.1.100</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-info">
+                <i class="fa-solid fa-circle-info"></i>
+                <span><span data-lang-pt>Se você passar uma subrede inteira (ex: <code>192.168.1.0/24</code>), o Nmap listará todos os IPs ativos na rede.</span><span data-lang-en>If you pass an entire subnet (e.g., <code>192.168.1.0/24</code>), Nmap will list all active IPs on the network.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="1"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Dispositivos ativos identificados</span><span data-lang-en>Active devices identified</span></span></label>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-secondary);">Fase 2</div>
+        <h2><i class="fa-solid fa-door-open"></i> <span data-lang-pt>Varredura Rápida de Portas</span><span data-lang-en>Fast Port Scanning</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Por padrão, o Nmap escaneia as 1000 portas mais comuns. Para poupar tempo em reconhecimento inicial, podemos usar <code>-F</code> (Fast) que escaneia apenas as 100 portas mais comuns.</span>
+            <span data-lang-en>By default, Nmap scans the 1000 most common ports. To save time during initial reconnaissance, we can use <code>-F</code> (Fast) which scans only the 100 most common ports.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-radar"></i> <span data-lang-pt>Scan de Portas Rápido</span><span data-lang-en>Fast Port Scan</span></div>
+            <div class="command-box">
+                <code data-cmd="nmap -F {target}">nmap -F 192.168.1.100</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="2"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Portas abertas mapeadas</span><span data-lang-en>Open ports mapped</span></span></label>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-secondary);">Fase 3</div>
+        <h2><i class="fa-solid fa-eye"></i> <span data-lang-pt>Detecção de Serviços e Sistema Operacional</span><span data-lang-en>Service & OS Detection</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Saber que uma porta está aberta não basta: precisamos saber o software exato (e sua versão) rodando nela para pesquisar exploits. Usamos <code>-sV</code> para detecção de versão e <code>-O</code> para tentar identificar o Sistema Operacional.</span>
+            <span data-lang-en>Knowing a port is open is not enough: we need to know the exact software (and version) running on it to search for exploits. We use <code>-sV</code> for version detection and <code>-O</code> to attempt OS identification.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-fingerprint"></i> OS & Services</div>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code data-cmd="sudo nmap -sS -sV -O {target}">sudo nmap -sS -sV -O 192.168.1.100</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-warning">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span><span data-lang-pt><strong>Nota:</strong> A detecção de Sistema Operacional (<code>-O</code>) exige privilégios de administrador (<code>sudo</code>) porque envia pacotes customizados de baixo nível.</span><span data-lang-en><strong>Note:</strong> OS detection (<code>-O</code>) requires administrator privileges (<code>sudo</code>) because it sends low-level custom packets.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="3"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Serviços e Sistema Operacional detectados</span><span data-lang-en>Services and OS detected</span></span></label>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-secondary);">Fase 4</div>
+        <h2><i class="fa-solid fa-bug"></i> <span data-lang-pt>Varredura de Vulnerabilidades (NSE Scripts)</span><span data-lang-en>Vulnerability Scan (NSE Scripts)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>O Nmap possui um motor de scripts (NSE) que estende seu poder. Podemos usar a categoria de scripts <code>vuln</code> para varrer automaticamente o alvo em busca de falhas conhecidas como EternalBlue, vulnerabilidades web comuns, etc.</span>
+            <span data-lang-en>Nmap has a powerful Scripting Engine (NSE). We can use the <code>vuln</code> category of scripts to automatically scan the target for known vulnerabilities like EternalBlue, web flaws, etc.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-shield-virus"></i> NSE Scan</div>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code data-cmd="nmap --script vuln {target}">nmap --script vuln 192.168.1.100</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="4"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Auditoria de vulnerabilidades concluída</span><span data-lang-en>Vulnerability audit completed</span></span></label>
+    </div>
+
+    <!-- Completion -->
+    <div class="card-flat reveal" style="text-align: center; padding: var(--space-10);">
+        <i class="fa-solid fa-trophy" style="font-size: 3rem; color: var(--accent-secondary); margin-bottom: var(--space-4); display: block;"></i>
+        <h2><span data-lang-pt>Trilha Nmap Completa!</span><span data-lang-en>Nmap Trail Complete!</span></h2>
+        <p class="text-muted" style="margin-top: var(--space-2); margin-bottom: var(--space-6);">
+            <span data-lang-pt>Excelente! Agora que você sabe encontrar as portas do alvo, vamos descobrir vulnerabilidades em aplicações web.</span>
+            <span data-lang-en>Excellent! Now that you know how to find target ports, let's discover web application vulnerabilities.</span>
+        </p>
+        <div class="flex justify-center gap-4 flex-wrap">
+            <a href="#/web" class="btn btn-primary"><i class="fa-solid fa-arrow-right"></i> <span data-lang-pt>Trilha Web Auditing</span><span data-lang-en>Web Auditing Trail</span></a>
+            <a href="#/home" class="btn btn-ghost"><i class="fa-solid fa-house"></i> <span data-lang-pt>Início</span><span data-lang-en>Home</span></a>
+        </div>
+    </div>
+</div>

