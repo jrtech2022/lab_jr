@@ -11,23 +11,15 @@
             <span data-lang-pt>O escaneamento de rede é a primeira fase ativa de qualquer pentest. O Nmap permite mapear dispositivos ativos, descobrir portas abertas, identificar serviços, sistemas operacionais e até detectar vulnerabilidades conhecidas.</span>
             <span data-lang-en>Network scanning is the first active phase of any pentest. Nmap allows you to map active devices, discover open ports, identify services, operating systems, and even detect known vulnerabilities.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-secondary);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="nmap" style="width: 0%; background: var(--accent-secondary);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-secondary);"></i> <span data-lang-pt>Configuração do Escaneamento</span><span data-lang-en>Scan Configuration</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>IP ou Subrede Alvo</span><span data-lang-en>Target IP or Subnet</span></label>
-                <input type="text" id="target" value="192.168.1.100" data-cmd-input>
-                <span class="input-hint"><span data-lang-pt>Ex: 192.168.1.100 ou 192.168.1.0/24</span><span data-lang-en>e.g., 192.168.1.100 or 192.168.1.0/24</span></span>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('Nmap_Recon')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -40,6 +32,16 @@
             <span data-lang-pt>Antes de escanear portas, precisamos descobrir quais dispositivos estão ligados na rede local. O parâmetro <code>-sn</code> diz ao Nmap para apenas verificar se o host está ativo, sem escanear portas (muito mais rápido e silencioso).</span>
             <span data-lang-en>Before scanning ports, we need to discover which devices are powered on in the local network. The <code>-sn</code> flag tells Nmap to only check if the host is up, without scanning ports (much faster and stealthier).</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-secondary);">
+            <div class="phase-inputs-title" style="color: var(--accent-secondary);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Defina o alvo</span><span data-lang-en>Define the target</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>IP ou Subrede Alvo</span><span data-lang-en>Target IP or Subnet</span></label>
+                    <input type="text" id="target" value="192.168.1.100" data-cmd-input>
+                    <span class="input-hint"><span data-lang-pt>Ex: 192.168.1.100 ou 192.168.1.0/24</span><span data-lang-en>e.g., 192.168.1.100 or 192.168.1.0/24</span></span>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
             <div class="command-box">

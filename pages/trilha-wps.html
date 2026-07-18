@@ -11,32 +11,15 @@
             <span data-lang-pt>O WPS (Wi-Fi Protected Setup) tem uma vulnerabilidade no PIN de 8 dígitos que pode ser explorada com brute force. Se o roteador não bloquear tentativas, a senha é revelada em horas.</span>
             <span data-lang-en>WPS (Wi-Fi Protected Setup) has a vulnerability in its 8-digit PIN that can be exploited with brute force. If the router doesn't lock out attempts, the password is revealed in hours.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-warning);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="wps" style="width: 0%; background: var(--accent-warning);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-warning);"></i> <span data-lang-pt>Configuração</span><span data-lang-en>Setup</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Interface</span><span data-lang-en>Interface</span></label>
-                <input type="text" id="iface" value="wlan0" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
-                <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
-                <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('WPS_Attack')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -49,6 +32,15 @@
             <span data-lang-pt>Mesma preparação da trilha WPA2 — ativar modo monitor na placa de rede.</span>
             <span data-lang-en>Same preparation as the WPA2 trail — enable monitor mode on the network card.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-warning);">
+            <div class="phase-inputs-title" style="color: var(--accent-warning);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Preencha antes de continuar</span><span data-lang-en>Fill in before continuing</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Interface</span><span data-lang-en>Interface</span></label>
+                    <input type="text" id="iface" value="wlan0" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
             <div class="command-box" style="margin-bottom: var(--space-4);">
@@ -93,6 +85,19 @@
             <span data-lang-pt><code>Reaver</code> automatiza o brute force do PIN WPS. Ele testa todas as combinações possíveis (11.000 tentativas máximo) e quando encontra o PIN correto, o roteador entrega a senha WPA.</span>
             <span data-lang-en><code>Reaver</code> automates WPS PIN brute force. It tests all possible combinations (11,000 max attempts) and when the correct PIN is found, the router reveals the WPA password.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-warning);">
+            <div class="phase-inputs-title" style="color: var(--accent-warning);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Dados da rede alvo (do wash)</span><span data-lang-en>Target network data (from wash)</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
+                    <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
+                </div>
+                <div class="input-group">
+                    <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
+                    <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-hammer"></i> Reaver</div>
             <div class="command-box" style="margin-bottom: var(--space-4);">

@@ -11,36 +11,15 @@
             <span data-lang-pt>O ataque PMKID é revolucionário: <strong>não precisa de nenhum cliente conectado</strong>. Capturamos o PMKID diretamente do primeiro frame de associação do roteador. Mais rápido e silencioso que o handshake tradicional.</span>
             <span data-lang-en>The PMKID attack is revolutionary: <strong>no connected client needed</strong>. We capture PMKID directly from the router's first association frame. Faster and stealthier than traditional handshake.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-purple);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="pmkid" style="width: 0%; background: var(--accent-purple);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-purple);"></i> <span data-lang-pt>Configuração</span><span data-lang-en>Setup</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Interface</span><span data-lang-en>Interface</span></label>
-                <input type="text" id="iface" value="wlan0" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
-                <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
-                <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label><span data-lang-pt>Caminho da Wordlist</span><span data-lang-en>Wordlist Path</span></label>
-                <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('PMKID_Capture')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -53,6 +32,15 @@
             <span data-lang-pt>Ative o modo monitor. O <code>hcxdumptool</code> precisa da interface em modo monitor.</span>
             <span data-lang-en>Enable monitor mode. <code>hcxdumptool</code> requires the interface in monitor mode.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-purple);">
+            <div class="phase-inputs-title" style="color: var(--accent-purple);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Preencha antes de continuar</span><span data-lang-en>Fill in before continuing</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Interface</span><span data-lang-en>Interface</span></label>
+                    <input type="text" id="iface" value="wlan0" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
             <div class="command-box" style="margin-bottom: var(--space-4);">
@@ -75,6 +63,19 @@
             <span data-lang-pt>O <code>hcxdumptool</code> envia solicitações de associação ao roteador alvo. Se o roteador suportar PMKID (a maioria dos modernos), ele responde com o PMKID no primeiro frame — <strong>sem precisar de nenhum cliente</strong>.</span>
             <span data-lang-en><code>hcxdumptool</code> sends association requests to the target router. If the router supports PMKID (most modern ones do), it responds with PMKID in the first frame — <strong>without needing any client</strong>.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-purple);">
+            <div class="phase-inputs-title" style="color: var(--accent-purple);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>MAC do roteador alvo</span><span data-lang-en>Target router MAC</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
+                    <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
+                </div>
+                <div class="input-group">
+                    <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
+                    <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-download"></i> <span data-lang-pt>Captura PMKID</span><span data-lang-en>PMKID Capture</span></div>
             <span class="command-label"><span data-lang-pt>1. Criar arquivo com o MAC alvo (filtro):</span><span data-lang-en>1. Create file with target MAC (filter):</span></span>
@@ -125,6 +126,15 @@
             <span data-lang-pt>Agora use o <code>hashcat</code> com a GPU para quebrar o PMKID. O modo <code>-m 22000</code> suporta tanto PMKID quanto handshake EAPOL.</span>
             <span data-lang-en>Now use <code>hashcat</code> with GPU to crack the PMKID. Mode <code>-m 22000</code> supports both PMKID and EAPOL handshake.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-purple);">
+            <div class="phase-inputs-title" style="color: var(--accent-purple);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Caminho da wordlist</span><span data-lang-en>Wordlist path</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Caminho da Wordlist</span><span data-lang-en>Wordlist Path</span></label>
+                    <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-fire"></i> <span data-lang-pt>Ataque com Dicionário</span><span data-lang-en>Dictionary Attack</span></div>
             <div class="command-box" style="margin-bottom: var(--space-4);">

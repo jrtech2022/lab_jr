@@ -12,49 +12,15 @@
             <span data-lang-pt>Aprenda a capturar o handshake de 4 vias e quebre a senha com ataque offline.</span>
             <span data-lang-en>Learn to capture the 4-way handshake and crack the password with an offline attack.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-primary);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="wpa2" style="width: 0%;"></div></div>
-        </div>
-    </div>
-
-    <!-- Shared Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);">
-            <i class="fa-solid fa-sliders" style="color: var(--accent-primary);"></i>
-            <span data-lang-pt>Configuração do Ambiente</span><span data-lang-en>Environment Setup</span>
-        </h3>
-        <p class="text-muted text-sm" style="margin-bottom: var(--space-5);">
-            <span data-lang-pt>Preencha com os dados do seu lab. Os comandos serão atualizados automaticamente.</span>
-            <span data-lang-en>Fill in your lab data. Commands will update automatically.</span>
-        </p>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Interface de Rede</span><span data-lang-en>Network Interface</span></label>
-                <input type="text" id="iface" value="wlan0" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
-                <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span> (CH)</label>
-                <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>STATION (<span data-lang-pt>MAC do Cliente</span><span data-lang-en>Client MAC</span>)</label>
-                <input type="text" id="client" value="AA:BB:CC:DD:EE:FF" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Caminho da Wordlist</span><span data-lang-en>Wordlist Path</span></label>
-                <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('WPA2_Handshake')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -67,6 +33,15 @@
             <span data-lang-pt>Placas de rede normais operam em <strong>Modo Gerenciado</strong>, ouvindo apenas pacotes destinados a elas. Para pentest, ativamos o <strong>Modo Monitor</strong> para escutar todo o tráfego de rádio. Antes, matamos processos que podem interferir.</span>
             <span data-lang-en>Normal network cards operate in <strong>Managed Mode</strong>, only listening to packets addressed to them. For pentesting, we enable <strong>Monitor Mode</strong> to listen to all radio traffic. First, we kill interfering processes.</span>
         </p>
+        <div class="phase-inputs">
+            <div class="phase-inputs-title"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Preencha antes de continuar</span><span data-lang-en>Fill in before continuing</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Interface de Rede</span><span data-lang-en>Network Interface</span></label>
+                    <input type="text" id="iface" value="wlan0" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
             <span class="command-label"><span data-lang-pt>1. Matar processos conflitantes:</span><span data-lang-en>1. Kill interfering processes:</span></span>
@@ -99,6 +74,19 @@
             <span data-lang-pt>Use <code>airodump-ng</code> para escanear todas as redes. Quando encontrar o alvo, pare (<kbd>Ctrl+C</kbd>) e inicie um escaneamento focado, salvando a captura em arquivo.</span>
             <span data-lang-en>Use <code>airodump-ng</code> to scan all networks. When you find the target, stop (<kbd>Ctrl+C</kbd>) and start a focused scan, saving the capture to a file.</span>
         </p>
+        <div class="phase-inputs">
+            <div class="phase-inputs-title"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Dados encontrados no scan</span><span data-lang-en>Data found in the scan</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>BSSID (<span data-lang-pt>MAC do Roteador</span><span data-lang-en>Router MAC</span>)</label>
+                    <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
+                </div>
+                <div class="input-group">
+                    <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span> (CH)</label>
+                    <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-radar"></i> <span data-lang-pt>Escaneamento Geral</span><span data-lang-en>General Scan</span></div>
             <div class="command-box" style="margin-bottom: var(--space-6);">
@@ -130,6 +118,15 @@
             <span data-lang-pt>Precisamos capturar o <strong>Handshake de 4 vias</strong> — quando um dispositivo se autentica. Usamos <code>aireplay-ng</code> para forçar a desconexão de um cliente. Ao reconectar, o handshake é capturado no terminal da Fase 2.</span>
             <span data-lang-en>We need to capture the <strong>4-way Handshake</strong> — when a device authenticates. We use <code>aireplay-ng</code> to force a client disconnect. On reconnect, the handshake is captured in the Phase 2 terminal.</span>
         </p>
+        <div class="phase-inputs">
+            <div class="phase-inputs-title"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>MAC do cliente (visto no airodump)</span><span data-lang-en>Client MAC (seen in airodump)</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>STATION (<span data-lang-pt>MAC do Cliente</span><span data-lang-en>Client MAC</span>)</label>
+                    <input type="text" id="client" value="AA:BB:CC:DD:EE:FF" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-bolt"></i> <span data-lang-pt>Pacotes Deauth</span><span data-lang-en>Deauth Packets</span></div>
             <div class="command-box">
@@ -156,6 +153,15 @@
             <span data-lang-pt>Agora o ataque é <strong>100% offline</strong>. O <code>aircrack-ng</code> testa cada senha da wordlist contra o handshake. Simples mas mais lento que GPU.</span>
             <span data-lang-en>Now the attack is <strong>100% offline</strong>. <code>aircrack-ng</code> tests each password from the wordlist against the handshake. Simple but slower than GPU.</span>
         </p>
+        <div class="phase-inputs">
+            <div class="phase-inputs-title"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Caminho da wordlist</span><span data-lang-en>Wordlist path</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Caminho da Wordlist</span><span data-lang-en>Wordlist Path</span></label>
+                    <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-key"></i> <span data-lang-pt>Quebrando a Senha</span><span data-lang-en>Cracking the Password</span></div>
             <div class="command-box">

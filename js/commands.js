@@ -174,9 +174,96 @@ const Commands = (() => {
         });
     }
 
+    function copyAllTrailCommands() {
+        const cmdNodes = document.querySelectorAll('[data-cmd]');
+        if (!cmdNodes.length) {
+            Components.toast('Nenhum comando encontrado nesta página.', 'info');
+            return;
+        }
+
+        const lines = [];
+        let index = 1;
+        cmdNodes.forEach(el => {
+            const txt = el.textContent.trim();
+            if (txt) {
+                lines.push(`# Passo ${index++}`);
+                lines.push(txt);
+                lines.push('');
+            }
+        });
+
+        const fullScript = lines.join('\n');
+        if (fullScript.includes('<BSSID>') || fullScript.includes('<CLIENT_MAC>')) {
+            Components.toast('Preencha os campos obrigatorios antes de copiar.', 'warning');
+        }
+
+        navigator.clipboard.writeText(fullScript).then(() => {
+            Components.toast('Todos os comandos copiados!', 'success');
+        }).catch(() => {
+            const textarea = document.createElement('textarea');
+            textarea.value = fullScript;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            Components.toast('Todos os comandos copiados!', 'success');
+        });
+    }
+
+    function downloadTrailScript(trailName = 'script_lab') {
+        const cmdNodes = document.querySelectorAll('[data-cmd]');
+        if (!cmdNodes.length) {
+            Components.toast('Nenhum comando encontrado para exportar.', 'info');
+            return;
+        }
+
+        const scriptHeader = [
+            '#!/usr/bin/env bash',
+            '# =========================================================',
+            `# Lab Pentest Wi-Fi - Script de Automação (${trailName})`,
+            '# Gerado automaticamente pelo Laboratório Aircrack-ng',
+            '# =========================================================',
+            '',
+            'set -e',
+            'echo "[+] Iniciando execução dos comandos do laboratório..."',
+            ''
+        ];
+
+        const lines = [...scriptHeader];
+        let step = 1;
+        cmdNodes.forEach(el => {
+            const txt = el.textContent.trim();
+            if (txt) {
+                lines.push(`echo -e "\\n\\e[1;34m[>] Passo ${step}: ${txt}\\e[0m"`);
+                lines.push(txt);
+                step++;
+            }
+        });
+
+        lines.push('');
+        lines.push('echo -e "\\n\\e[1;32m[✓] Execução do script finalizada com sucesso!\\e[0m"');
+
+        const content = lines.join('\n');
+        const blob = new Blob([content], { type: 'text/x-shellscript;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        const filename = `${trailName.toLowerCase().replace(/[^a-z0-9]/g, '_')}_script.sh`;
+        link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        Components.toast(`Script ${filename} baixado!`, 'success');
+    }
+
     function getState() {
         return { ...state };
     }
 
-    return { init, updateAllCommands, getState, copyCommand };
+    return { init, updateAllCommands, getState, copyCommand, copyAllTrailCommands, downloadTrailScript };
 })();
+

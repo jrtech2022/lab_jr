@@ -11,29 +11,15 @@
             <span data-lang-pt>Aplicações web são os principais vetores de entrada em corporações. Nesta trilha, aprenderemos a mapear caminhos ocultos em um servidor e a extrair o banco de dados via vulnerabilidade de SQL Injection.</span>
             <span data-lang-en>Web applications are major entry vectors in enterprise networks. In this trail, we'll learn to map hidden paths on a server and extract database contents via SQL Injection vulnerabilities.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-pink);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="web" style="width: 0%; background: var(--accent-pink);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-pink);"></i> <span data-lang-pt>Configuração Web</span><span data-lang-en>Web Setup</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>URL Alvo</span><span data-lang-en>Target URL</span></label>
-                <input type="text" id="targetUrl" value="http://192.168.1.100/index.php?id=1" data-cmd-input>
-                <span class="input-hint"><span data-lang-pt>URL para testar SQL Injection (precisa do parâmetro vulnerável)</span><span data-lang-en>URL to test SQL Injection (requires query parameter)</span></span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Wordlist de Diretórios</span><span data-lang-en>Directory Wordlist</span></label>
-                <input type="text" id="wordlist" value="/usr/share/wordlists/dirb/common.txt" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('Web_Auditing')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -46,6 +32,22 @@
             <span data-lang-pt>Desenvolvedores frequentemente deixam arquivos ou painéis administrativos ocultos. Usamos o <code>gobuster</code> com uma wordlist para testar milhares de caminhos web comuns e localizar páginas de login ou diretórios ocultos.</span>
             <span data-lang-en>Developers often leave hidden files or administrative portals. We use <code>gobuster</code> with a wordlist to test thousands of common web paths and locate hidden login pages or directories.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-pink);">
+            <div class="phase-inputs-title" style="color: var(--accent-pink);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Configure o alvo web</span><span data-lang-en>Configure the web target</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>URL Alvo</span><span data-lang-en>Target URL</span></label>
+                    <input type="text" id="targetUrl" value="http://192.168.1.100/index.php?id=1" data-cmd-input>
+                    <span class="input-hint"><span data-lang-pt>URL para testar SQL Injection (precisa do parâmetro vulnerável)</span><span data-lang-en>URL to test SQL Injection (requires query parameter)</span></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Wordlist de Diretórios</span><span data-lang-en>Directory Wordlist</span></label>
+                    <input type="text" id="wordlist" value="/usr/share/wordlists/dirb/common.txt" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comando de Reconhecimento</span><span data-lang-en>Scan Command</span></div>
             <div class="command-box">

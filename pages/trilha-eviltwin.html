@@ -11,36 +11,15 @@
             <span data-lang-pt>Crie um ponto de acesso falso que imita uma rede legítima. Quando a vítima se conectar ao seu AP, você pode interceptar credenciais com um captive portal falso.</span>
             <span data-lang-en>Create a fake access point that mimics a legitimate network. When the victim connects to your AP, you can intercept credentials with a fake captive portal.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-danger);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="eviltwin" style="width: 0%; background: var(--accent-danger);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-danger);"></i> <span data-lang-pt>Configuração</span><span data-lang-en>Setup</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Interface Monitor</span><span data-lang-en>Monitor Interface</span></label>
-                <input type="text" id="iface" value="wlan0" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>BSSID (<span data-lang-pt>MAC do Roteador Alvo</span><span data-lang-en>Target Router MAC</span>)</label>
-                <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
-                <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>ESSID (<span data-lang-pt>Nome da Rede Alvo</span><span data-lang-en>Target Network Name</span>)</label>
-                <input type="text" id="essid" value="LabPentest_5G" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('EvilTwin_Attack')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -58,6 +37,15 @@
             <span data-lang-pt>Primeiro, ative o modo monitor e escaneie as redes para identificar o alvo.</span>
             <span data-lang-en>First, enable monitor mode and scan networks to identify the target.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-danger);">
+            <div class="phase-inputs-title" style="color: var(--accent-danger);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Preencha antes de continuar</span><span data-lang-en>Fill in before continuing</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Interface Monitor</span><span data-lang-en>Monitor Interface</span></label>
+                    <input type="text" id="iface" value="wlan0" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comandos</span><span data-lang-en>Commands</span></div>
             <div class="command-box" style="margin-bottom: var(--space-4);">
@@ -80,6 +68,19 @@
             <span data-lang-pt>Use <code>airbase-ng</code> para criar um ponto de acesso falso com o <strong>mesmo nome (ESSID)</strong> da rede alvo. Isso cria uma interface virtual <code>at0</code> que será a "porta" para os clientes.</span>
             <span data-lang-en>Use <code>airbase-ng</code> to create a fake access point with the <strong>same name (ESSID)</strong> as the target network. This creates a virtual interface <code>at0</code> that will be the "gateway" for clients.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-danger);">
+            <div class="phase-inputs-title" style="color: var(--accent-danger);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Dados da rede alvo (do airodump)</span><span data-lang-en>Target network data (from airodump)</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>ESSID (<span data-lang-pt>Nome da Rede Alvo</span><span data-lang-en>Target Network Name</span>)</label>
+                    <input type="text" id="essid" value="LabPentest_5G" data-cmd-input>
+                </div>
+                <div class="input-group">
+                    <label><span data-lang-pt>Canal</span><span data-lang-en>Channel</span></label>
+                    <input type="number" id="channel" value="6" min="1" max="14" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-ghost"></i> <span data-lang-pt>Iniciar AP Falso</span><span data-lang-en>Start Fake AP</span></div>
             <div class="command-box">
@@ -159,6 +160,15 @@
             <span data-lang-pt>Agora, use <code>aireplay-ng</code> para desautenticar todos os clientes do AP <strong>real</strong>. Sem conexão, os dispositivos vão procurar o ESSID novamente e encontrarão nosso AP falso (que terá sinal mais forte se estivermos perto).</span>
             <span data-lang-en>Now, use <code>aireplay-ng</code> to deauthenticate all clients from the <strong>real</strong> AP. Without a connection, devices will search for the ESSID again and find our fake AP (which will have a stronger signal if we're nearby).</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-danger);">
+            <div class="phase-inputs-title" style="color: var(--accent-danger);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>MAC do roteador real (para deauth)</span><span data-lang-en>Real router MAC (for deauth)</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>BSSID (<span data-lang-pt>MAC do Roteador Alvo</span><span data-lang-en>Target Router MAC</span>)</label>
+                    <input type="text" id="bssid" value="00:11:22:33:44:55" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-bolt"></i> <span data-lang-pt>Deauth em massa (broadcast)</span><span data-lang-en>Mass deauth (broadcast)</span></div>
             <div class="command-box">

@@ -311,6 +311,43 @@
     background: var(--border-default);
     margin-left: var(--space-2);
 }
+/* ---- Phase Inline Inputs ---- */
+.phase-inputs {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(var(--accent-primary-rgb), 0.15);
+    border-left: 3px solid var(--accent-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-5);
+    position: relative;
+}
+.phase-inputs::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(var(--accent-primary-rgb), 0.03) 0%, transparent 60%);
+    pointer-events: none;
+}
+.phase-inputs .phase-inputs-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--accent-primary);
+    margin-bottom: var(--space-4);
+    letter-spacing: 0.3px;
+}
+.phase-inputs .phase-inputs-title i {
+    font-size: var(--fs-xs);
+}
+.phase-inputs .form-row {
+    margin-bottom: var(--space-4);
+}
+.phase-inputs .form-row:last-child {
+    margin-bottom: 0;
+}
 
 /* ---- Form Inputs ---- */
 .form-row {

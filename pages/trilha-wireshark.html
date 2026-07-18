@@ -11,42 +11,15 @@
             <span data-lang-pt>Esta trilha ensina os conceitos práticos de captura de pacotes de dados no ar, validação do Handshake de 4 vias (EAPOL) e a descriptografia de tráfego de rede Wi-Fi usando Wireshark GUI, airdecap-ng e tshark.</span>
             <span data-lang-en>This trail teaches the practical concepts of capturing over-the-air data packets, validating the 4-Way Handshake (EAPOL), and decrypting Wi-Fi network traffic using Wireshark GUI, airdecap-ng, and tshark.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: #00d4ff;">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="wireshark" style="width: 0%; background: #00d4ff;"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs de Configuração -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: #00d4ff;"></i> <span data-lang-pt>Configuração do Laboratório</span><span data-lang-en>Lab Configuration</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Interface Monitor</span><span data-lang-en>Monitor Interface</span></label>
-                <input type="text" id="ifaceMon" value="wlan0mon" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label>SSID (Nome do AP)</label>
-                <input type="text" id="essid" value="RedeLaboratorio" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label>BSSID (MAC do AP)</label>
-                <input type="text" id="target" value="AA:BB:CC:DD:EE:11" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label><span data-lang-pt>Canal (Channel)</span><span data-lang-en>Channel</span></label>
-                <input type="text" id="channel" value="6" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Senha do Wi-Fi</span><span data-lang-en>Wi-Fi Password</span></label>
-                <input type="text" id="password" value="minhasenha123" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('Wireshark_Decrypt')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -59,6 +32,25 @@
             <span data-lang-pt>Para decodificar o tráfego Wi-Fi, primeiro precisamos capturar os frames de dados brutos que viajam pelo ar em um arquivo do tipo <code>.cap</code> ou <code>.pcap</code>. O <code>airodump-ng</code> captura todo o tráfego da rede do canal e salva em disco, incluindo o handshake EAPOL necessário para a decodificação.</span>
             <span data-lang-en>To decode Wi-Fi traffic, we first must capture raw data frames traveling through the air into a <code>.cap</code> or <code>.pcap</code> file. <code>airodump-ng</code> captures all channel traffic and saves it to disk, including the required EAPOL handshake.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: #00d4ff;">
+            <div class="phase-inputs-title" style="color: #00d4ff;"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Dados para a captura</span><span data-lang-en>Capture settings</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Interface Monitor</span><span data-lang-en>Monitor Interface</span></label>
+                    <input type="text" id="ifaceMon" value="wlan0mon" data-cmd-input>
+                </div>
+                <div class="input-group">
+                    <label>BSSID (MAC do AP)</label>
+                    <input type="text" id="target" value="AA:BB:CC:DD:EE:11" data-cmd-input>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Canal (Channel)</span><span data-lang-en>Channel</span></label>
+                    <input type="text" id="channel" value="6" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Comando de Captura</span><span data-lang-en>Capture Command</span></div>
             <div class="command-box">
@@ -81,6 +73,19 @@
             <span data-lang-pt>Por padrão, o Wireshark não consegue ler pacotes WPA2 criptografados. Ele exibirá apenas frames do tipo <code>802.11 Data</code> sem conteúdo de rede IP. Para revelar o conteúdo dos pacotes, configuramos a chave e o nome da rede nas preferências globais.</span>
             <span data-lang-en>By default, Wireshark cannot read encrypted WPA2 packets. It will display only <code>802.11 Data</code> frames without IP network payloads. To reveal packet payloads, we configure the decryption key and SSID in global preferences.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: #00d4ff;">
+            <div class="phase-inputs-title" style="color: #00d4ff;"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Credenciais da rede (já conhecidas)</span><span data-lang-en>Network credentials (already known)</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>SSID (Nome do AP)</label>
+                    <input type="text" id="essid" value="RedeLaboratorio" data-cmd-input>
+                </div>
+                <div class="input-group">
+                    <label><span data-lang-pt>Senha do Wi-Fi</span><span data-lang-en>Wi-Fi Password</span></label>
+                    <input type="text" id="password" value="minhasenha123" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area text-muted" style="font-size: var(--fs-sm); line-height: 1.6;">
             <p style="margin-bottom: var(--space-3);"><strong style="color: var(--accent-primary);"><span data-lang-pt>Instruções de Configuração no Analisador:</span><span data-lang-en>Configuration Steps in Analyzer:</span></strong></p>
             <ol style="padding-left: var(--space-5);">

@@ -11,33 +11,15 @@
             <span data-lang-pt>O Metasploit Framework é a plataforma de exploração mais utilizada no mundo. Com ele, podemos testar exploits públicos contra sistemas vulneráveis, gerenciar payloads e obter acesso remoto via sessões interativas do Meterpreter.</span>
             <span data-lang-en>The Metasploit Framework is the world's most widely used exploitation platform. It allows testers to deploy exploits, manage payloads, and gain interactive remote access via Meterpreter sessions.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-danger);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="metasploit" style="width: 0%; background: var(--accent-danger);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-danger);"></i> <span data-lang-pt>Configuração da Exploração</span><span data-lang-en>Exploitation Setup</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>IP do Alvo (RHOSTS)</span><span data-lang-en>Target IP (RHOSTS)</span></label>
-                <input type="text" id="target" value="192.168.1.100" data-cmd-input>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Seu IP (LHOST)</span><span data-lang-en>Your IP (LHOST)</span></label>
-                <input type="text" id="lhost" value="10.10.14.5" data-cmd-input>
-                <span class="input-hint"><span data-lang-pt>IP da sua máquina Kali Linux para receber o shell reverso</span><span data-lang-en>Your Kali Linux IP address to receive the reverse shell connection</span></span>
-            </div>
-            <div class="input-group">
-                <label><span data-lang-pt>Porta Local (LPORT)</span><span data-lang-en>Local Port (LPORT)</span></label>
-                <input type="text" id="lport" value="4444" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('Metasploit_Exploitation')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -50,6 +32,20 @@
             <span data-lang-pt>O <code>msfvenom</code> é a ferramenta usada para gerar payloads em diversos formatos (Windows exe, Linux elf, PHP, ASPX). Geraremos um executável reverso do Meterpreter que se conectará de volta à nossa máquina Kali.</span>
             <span data-lang-en><code>msfvenom</code> is used to build payloads in multiple formats (Windows exe, Linux elf, PHP, ASPX). We will generate a reverse Meterpreter executable that connects back to our Kali machine.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-danger);">
+            <div class="phase-inputs-title" style="color: var(--accent-danger);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Seu IP e porta para o shell reverso</span><span data-lang-en>Your IP and port for the reverse shell</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Seu IP (LHOST)</span><span data-lang-en>Your IP (LHOST)</span></label>
+                    <input type="text" id="lhost" value="10.10.14.5" data-cmd-input>
+                    <span class="input-hint"><span data-lang-pt>IP da sua máquina Kali Linux para receber o shell reverso</span><span data-lang-en>Your Kali Linux IP address to receive the reverse shell connection</span></span>
+                </div>
+                <div class="input-group">
+                    <label><span data-lang-pt>Porta Local (LPORT)</span><span data-lang-en>Local Port (LPORT)</span></label>
+                    <input type="text" id="lport" value="4444" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Criar Executável</span><span data-lang-en>Create Executable</span></div>
             <div class="command-box">
@@ -68,6 +64,15 @@
             <span data-lang-pt>Precisamos abrir uma porta no Kali para aguardar a conexão do payload. Usamos o módulo <code>exploit/multi/handler</code> no console do Metasploit.</span>
             <span data-lang-en>We need to open a listening port on Kali to wait for the payload connection. We use the <code>exploit/multi/handler</code> module in the Metasploit console.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-danger);">
+            <div class="phase-inputs-title" style="color: var(--accent-danger);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>IP do alvo (máquina que executará o payload)</span><span data-lang-en>Target IP (machine that will run the payload)</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>IP do Alvo (RHOSTS)</span><span data-lang-en>Target IP (RHOSTS)</span></label>
+                    <input type="text" id="target" value="192.168.1.100" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> msfconsole</div>
             <span class="command-label"><span data-lang-pt>1. Iniciar console do Metasploit:</span><span data-lang-en>1. Start Metasploit console:</span></span>

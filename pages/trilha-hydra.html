@@ -11,33 +11,15 @@
             <span data-lang-pt>Quando não temos vulnerabilidades lógicas para explorar, testamos a força das credenciais de serviços expostos. O THC-Hydra é a ferramenta mais rápida do mercado para ataques de brute force online contra mais de 50 protocolos.</span>
             <span data-lang-en>When logical vulnerabilities are absent, we test credential strength of exposed services. THC-Hydra is the fastest online brute force tool supporting over 50 network protocols.</span>
         </p>
-        <div style="margin-top: var(--space-4); max-width: 400px;">
+        <div style="margin-top: var(--space-4); max-width: 500px;">
             <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
                 <span class="text-sm text-muted"><span data-lang-pt>Progresso</span><span data-lang-en>Progress</span></span>
                 <span class="progress-label text-sm" style="color: var(--accent-warning);">0%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar-fill" data-trail-progress="hydra" style="width: 0%; background: var(--accent-warning);"></div></div>
-        </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="card-flat" style="margin-bottom: var(--space-8); padding: var(--space-6);">
-        <h3 style="margin-bottom: var(--space-4); font-size: var(--fs-base);"><i class="fa-solid fa-sliders" style="color: var(--accent-warning);"></i> <span data-lang-pt>Configuração do Alvo</span><span data-lang-en>Target Configuration</span></h3>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>IP Alvo</span><span data-lang-en>Target IP</span></label>
-                <input type="text" id="target" value="192.168.1.100" data-cmd-input>
-            </div>
-            <div class="input-group">
-                <label><span data-lang-pt>Nome de Usuário</span><span data-lang-en>Username</span></label>
-                <input type="text" id="user" value="admin" data-cmd-input>
-                <span class="input-hint"><span data-lang-pt>Login para tentar quebrar (ex: admin, root)</span><span data-lang-en>Login to target (e.g., admin, root)</span></span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-group">
-                <label><span data-lang-pt>Dicionário de Senhas</span><span data-lang-en>Password Wordlist</span></label>
-                <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+            <div class="flex gap-2 flex-wrap" style="margin-top: var(--space-4);">
+                <button class="btn btn-outline btn-sm" onclick="Commands.copyAllTrailCommands()"><i class="fa-regular fa-copy"></i> <span data-lang-pt>Copiar Todos</span><span data-lang-en>Copy All</span></button>
+                <button class="btn btn-outline btn-sm" onclick="Commands.downloadTrailScript('Hydra_Brute')"><i class="fa-solid fa-download"></i> <span data-lang-pt>Baixar Script (.sh)</span><span data-lang-en>Download Script (.sh)</span></button>
             </div>
         </div>
     </div>
@@ -50,6 +32,15 @@
             <span data-lang-pt>Ataques de brute force online geram muito ruído de rede e logs no sistema. Só realizamos o ataque após confirmar que o serviço (ex: SSH na porta 22, FTP na 21) está ativo usando o Nmap.</span>
             <span data-lang-en>Online brute force attacks generate network noise and log entries. We only launch the attack after verifying the targeted service (e.g., SSH on port 22, FTP on 21) is active using Nmap.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-warning);">
+            <div class="phase-inputs-title" style="color: var(--accent-warning);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Defina o alvo</span><span data-lang-en>Define the target</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>IP Alvo</span><span data-lang-en>Target IP</span></label>
+                    <input type="text" id="target" value="192.168.1.100" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-terminal"></i> <span data-lang-pt>Confirmar porta SSH</span><span data-lang-en>Verify SSH Port</span></div>
             <div class="command-box">
@@ -68,6 +59,20 @@
             <span data-lang-pt>Se suspeitamos de um usuário específico (ex: <code>root</code>), usamos a flag <code>-l</code> (minúsculo) para fixar o login e <code>-P</code> (maiúsculo) para a lista de senhas.</span>
             <span data-lang-en>If we target a specific user (e.g., <code>root</code>), we use the <code>-l</code> flag (lowercase) to fix the login, and <code>-P</code> (uppercase) for the password wordlist.</span>
         </p>
+        <div class="phase-inputs" style="border-left-color: var(--accent-warning);">
+            <div class="phase-inputs-title" style="color: var(--accent-warning);"><i class="fa-solid fa-pen-to-square"></i> <span data-lang-pt>Credenciais para o ataque</span><span data-lang-en>Attack credentials</span></div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label><span data-lang-pt>Nome de Usuário</span><span data-lang-en>Username</span></label>
+                    <input type="text" id="user" value="admin" data-cmd-input>
+                    <span class="input-hint"><span data-lang-pt>Login para tentar quebrar (ex: admin, root)</span><span data-lang-en>Login to target (e.g., admin, root)</span></span>
+                </div>
+                <div class="input-group">
+                    <label><span data-lang-pt>Dicionário de Senhas</span><span data-lang-en>Password Wordlist</span></label>
+                    <input type="text" id="wordlist" value="/usr/share/wordlists/rockyou.txt" data-cmd-input>
+                </div>
+            </div>
+        </div>
         <div class="action-area">
             <div class="action-title"><i class="fa-solid fa-hammer"></i> Hydra SSH</div>
             <div class="command-box">
